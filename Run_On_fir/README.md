@@ -18,16 +18,7 @@ Original GLUE source files are kept in the repo root and original folders.
 - `evaluation/run_glue_250_b1_array.sh`: short partition-specific evaluation array for size-250 targets.
 - `r/setup_packrat_r.sh`: R/packrat setup attempt.
 
-## Do not commit
 
-Do not commit large/generated folders:
-
-- `conda/`
-- `data/dataset/`
-- `results/`
-- `evaluation/results/`
-- `logs/`
-- `r-lib/`
 
 ## Extra files
 
