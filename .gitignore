@@ -58,3 +58,16 @@ Temp
 tmp
 tools
 dist
+
+# Local Fir GLUE run artifacts
+/conda/
+/logs/
+/r-lib/
+/results/
+/data/dataset/
+/evaluation/results/
+*.out
+*.err
+*.log
+__pycache__/
+.ipynb_checkpoints/
