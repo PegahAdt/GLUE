@@ -1,0 +1,20 @@
+avg_silhouette_width: 0.5074049381916077
+avg_silhouette_width_batch: 0.9232533567849548
+cmd: workflow/scripts/run_GLUE.py --input-rna results/raw/10x-Multiome-Pbmc10k/subsample_size:250-subsample_seed:0/rna.h5ad
+  --input-atac results/raw/10x-Multiome-Pbmc10k/subsample_size:250-subsample_seed:0/atac.h5ad
+  -p results/raw/10x-Multiome-Pbmc10k/subsample_size:250-subsample_seed:0/gene_region:combined-extend_range:0-corrupt_rate:0.0-corrupt_seed:0/sub.graphml.gz
+  -d 50 --alt-dim 100 --hidden-depth 2 --hidden-dim 256 --dropout 0.2 --lam-graph
+  0.02 --lam-align 0.05 --neg-samples 10 -s 0 --train-dir results/raw/10x-Multiome-Pbmc10k/subsample_size:250-subsample_seed:0/gene_region:combined-extend_range:0-corrupt_rate:0.0-corrupt_seed:0/GLUE/dim:50-alt_dim:100-hidden_depth:2-hidden_dim:256-dropout:0.2-lam_graph:0.02-lam_align:0.05-neg_samples:10/seed:0
+  --random-sleep --require-converge --output-rna results/raw/10x-Multiome-Pbmc10k/subsample_size:250-subsample_seed:0/gene_region:combined-extend_range:0-corrupt_rate:0.0-corrupt_seed:0/GLUE/dim:50-alt_dim:100-hidden_depth:2-hidden_dim:256-dropout:0.2-lam_graph:0.02-lam_align:0.05-neg_samples:10/seed:0/rna_latent.csv
+  --output-atac results/raw/10x-Multiome-Pbmc10k/subsample_size:250-subsample_seed:0/gene_region:combined-extend_range:0-corrupt_rate:0.0-corrupt_seed:0/GLUE/dim:50-alt_dim:100-hidden_depth:2-hidden_dim:256-dropout:0.2-lam_graph:0.02-lam_align:0.05-neg_samples:10/seed:0/atac_latent.csv
+  --output-feature results/raw/10x-Multiome-Pbmc10k/subsample_size:250-subsample_seed:0/gene_region:combined-extend_range:0-corrupt_rate:0.0-corrupt_seed:0/GLUE/dim:50-alt_dim:100-hidden_depth:2-hidden_dim:256-dropout:0.2-lam_graph:0.02-lam_align:0.05-neg_samples:10/seed:0/feature_latent.csv
+  --run-info results/raw/10x-Multiome-Pbmc10k/subsample_size:250-subsample_seed:0/gene_region:combined-extend_range:0-corrupt_rate:0.0-corrupt_seed:0/GLUE/dim:50-alt_dim:100-hidden_depth:2-hidden_dim:256-dropout:0.2-lam_graph:0.02-lam_align:0.05-neg_samples:10/seed:0/run_info.yaml
+feature_consistency: 0.4365229308605194
+foscttm: 0.20715999999999998
+graph_connectivity: 0.9208910034602077
+mean_average_precision: 0.7446111111111111
+n_cells: 500
+neighbor_conservation: 0.13854761904761906
+normalized_mutual_info: 0.6778580765108407
+seurat_alignment_score: 1.0
+time: 2863.872383117676
