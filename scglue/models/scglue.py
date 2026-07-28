@@ -657,7 +657,12 @@ class SCGLUETrainer(GLUETrainer):
         else:
             sup_loss = torch.tensor(0.0, device=self.net.device)
 
-        v = net.g2v(self.eidx, self.enorm, self.esgn)
+        v = net.g2v(
+            self.eidx,
+            self.enorm,
+            self.esgn,
+            ewt=self.ewt
+        )
         vsamp = v.rsample()
 
         g_nll = -net.v2g(vsamp, eidx, esgn).log_prob(ewt)
@@ -779,7 +784,12 @@ class IndSCGLUETrainer(SCGLUETrainer):
         else:
             sup_loss = torch.tensor(0.0, device=self.net.device)
 
-        v = net.g2v(self.eidx, self.enorm, self.esgn)
+        v = net.g2v(
+            self.eidx,
+            self.enorm,
+            self.esgn,
+            ewt=self.ewt
+        )
         vsamp = v.rsample()
 
         g_nll = -net.v2g(vsamp, eidx, esgn).log_prob(ewt)
@@ -1001,7 +1011,12 @@ class PairedSCGLUETrainer(SCGLUETrainer):
         if dsc_only:
             return {"dsc_loss": self.lam_align * dsc_loss}
 
-        v = net.g2v(self.eidx, self.enorm, self.esgn)
+        v = net.g2v(
+            self.eidx,
+            self.enorm,
+            self.esgn,
+            ewt=self.ewt
+        )
         vsamp = v.rsample()
 
         if net.u2c:
@@ -1261,13 +1276,35 @@ class SCGLUEModel(Model):
             vertices: List[str], latent_dim: int = 50,
             h_depth: int = 2, h_dim: int = 256,
             dropout: float = 0.2, shared_batches: bool = False,
-            random_seed: int = 0
+            random_seed: int = 0,
+            graph_encoder: str = "gcn",
+            gat_negative_slope: float = 0.2
     ) -> None:
         self.vertices = pd.Index(vertices)
         self.random_seed = random_seed
+
+        if graph_encoder not in ("gcn", "gat"):
+            raise ValueError(
+                "`graph_encoder` must be either "
+                "'gcn' or 'gat'!"
+            )
+
+        self.graph_encoder = graph_encoder
+        self.gat_negative_slope = gat_negative_slope
+
         torch.manual_seed(self.random_seed)
 
-        g2v = sc.GraphEncoder(self.vertices.size, latent_dim)
+        if self.graph_encoder == "gcn":
+            g2v = sc.GraphEncoder(
+                self.vertices.size,
+                latent_dim
+            )
+        else:
+            g2v = sc.GATGraphEncoder(
+                self.vertices.size,
+                latent_dim,
+                negative_slope=self.gat_negative_slope
+            )
         v2g = sc.GraphDecoder()
         self.domains, idx, x2u, u2x, all_ct = {}, {}, {}, {}, set()
         for k, adata in adatas.items():
@@ -1609,7 +1646,16 @@ class SCGLUEModel(Model):
         esgn = torch.as_tensor(graph.esgn, device=self.net.device)
         eidx = torch.as_tensor(graph.eidx, device=self.net.device)
 
-        v = self.net.g2v(eidx, enorm, esgn)
+        ewt = torch.as_tensor(
+            graph.ewt,
+            device=self.net.device
+        )
+        v = self.net.g2v(
+            eidx,
+            enorm,
+            esgn,
+            ewt=ewt
+        )
         if n_sample:
             return torch.cat([
                 v.sample((1, )).cpu() for _ in range(n_sample)

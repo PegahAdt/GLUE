@@ -12,7 +12,7 @@ import torch.nn.functional as F
 
 from ..num import EPS
 from . import glue
-from .nn import GraphConv
+from .nn import GraphConv, SignedPriorGraphAttention
 from .prob import ZILN, ZIN, ZINB
 
 
@@ -40,15 +40,130 @@ class GraphEncoder(glue.GraphEncoder):
         self.loc = torch.nn.Linear(out_features, out_features)
         self.std_lin = torch.nn.Linear(out_features, out_features)
 
+
     def forward(
-            self, eidx: torch.Tensor, enorm: torch.Tensor, esgn: torch.Tensor
+            self,
+            eidx: torch.Tensor,
+            enorm: torch.Tensor,
+            esgn: torch.Tensor,
+            *,
+            ewt: Optional[torch.Tensor] = None
     ) -> D.Normal:
-        ptr = self.conv(self.vrepr, eidx, enorm, esgn)
+
+        # The original GCN uses normalized weights,
+        # not raw prior weights
+        del ewt
+
+        ptr = self.conv(
+            self.vrepr,
+            eidx,
+            enorm,
+            esgn
+        )
+
         loc = self.loc(ptr)
-        std = F.softplus(self.std_lin(ptr)) + EPS
-        return D.Normal(loc, std)
 
+        std = (
+            F.softplus(
+                self.std_lin(ptr)
+            )
+            + EPS
+        )
 
+        return D.Normal(
+            loc,
+            std
+        )
+class GATGraphEncoder(glue.GraphEncoder):
+    r"""
+    Signed, prior-weighted graph attention encoder.
+
+    Parameters
+    ----------
+    vnum
+        Number of graph vertices
+    out_features
+        Latent dimensionality of each graph vertex
+    negative_slope
+        Negative slope used by LeakyReLU in attention scoring
+    """
+
+    def __init__(
+            self,
+            vnum: int,
+            out_features: int,
+            negative_slope: float = 0.2
+    ) -> None:
+        super().__init__()
+
+        # Trainable representation r_i for every graph vertex
+        self.vrepr = torch.nn.Parameter(
+            torch.zeros(
+                vnum,
+                out_features
+            )
+        )
+
+        # Signed, prior-weighted GAT propagation layer
+        self.conv = SignedPriorGraphAttention(
+            in_features=out_features,
+            out_features=out_features,
+            negative_slope=negative_slope
+        )
+
+        # Produces the posterior mean mu_i
+        self.loc = torch.nn.Linear(
+            out_features,
+            out_features
+        )
+
+        # Produces the value used for posterior standard deviation
+        self.std_lin = torch.nn.Linear(
+            out_features,
+            out_features
+        )
+
+    def forward(
+            self,
+            eidx: torch.Tensor,
+            enorm: torch.Tensor,
+            esgn: torch.Tensor,
+            *,
+            ewt: Optional[torch.Tensor] = None
+    ) -> D.Normal:
+
+        # The GAT uses raw prior weights instead of
+        # the normalized GCN weights
+        del enorm
+
+        if ewt is None:
+            raise ValueError(
+                "`ewt` is required by GATGraphEncoder!"
+            )
+
+        # Signed, prior-weighted attention propagation
+        ptr = self.conv(
+            input=self.vrepr,
+            eidx=eidx,
+            ewt=ewt,
+            esgn=esgn
+        )
+
+        # Posterior mean
+        loc = self.loc(ptr)
+
+        # Posterior standard deviation must be positive
+        std = (
+            F.softplus(
+                self.std_lin(ptr)
+            )
+            + EPS
+        )
+
+        return D.Normal(
+            loc,
+            std
+        )
 class GraphDecoder(glue.GraphDecoder):
 
     r"""

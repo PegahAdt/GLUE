@@ -125,6 +125,302 @@ class GraphAttent(torch.nn.Module):  # pragma: no cover
         return res_dict["pos"] + res_dict["neg"]
 
 
+
+
+def _incoming_edge_softmax(
+        logits: torch.Tensor,
+        tidx: torch.Tensor
+) -> torch.Tensor:
+    r"""
+    Apply softmax separately to the incoming edges of each target node.
+
+    Parameters
+    ----------
+    logits
+        One attention logit per edge
+    tidx
+        Target-node index of each edge
+
+    Returns
+    -------
+    alpha
+        One normalized attention coefficient per edge
+    """
+
+    if logits.numel() == 0:
+        return logits
+
+    # Put edges with the same target next to one another
+    order = torch.argsort(tidx)
+
+    sorted_tidx = tidx[order]
+    sorted_logits = logits[order]
+
+    # Count how many incoming edges each represented target has
+    _, counts = torch.unique_consecutive(
+        sorted_tidx,
+        return_counts=True
+    )
+
+    # Split the logits into one tensor per target node
+    logit_groups = torch.split(
+        sorted_logits,
+        counts.detach().cpu().tolist()
+    )
+
+    # Apply an independent softmax to each target's incoming edges
+    sorted_alpha = torch.cat(
+        [
+            torch.softmax(group, dim=0)
+            for group in logit_groups
+        ],
+        dim=0
+    )
+
+    # Restore the original edge order
+    inverse_order = torch.argsort(order)
+
+    return sorted_alpha[inverse_order]
+
+
+class SignedPriorGraphAttention(torch.nn.Module):
+    r"""
+    Single-head signed, prior-weighted graph attention.
+
+    For each directed edge j -> i:
+
+        h_i = W r_i
+
+        e_ji = LeakyReLU(
+            a^T [h_i || h_j]
+        )
+
+        alpha_ji = softmax over incoming edges of
+                   (e_ji + log w_ji)
+
+        p_i = sum_j s_ji alpha_ji h_j
+
+    Parameters
+    ----------
+    in_features
+        Input node-vector dimensionality
+    out_features
+        Transformed node-vector dimensionality
+    negative_slope
+        Negative slope used by LeakyReLU
+    """
+
+    def __init__(
+            self,
+            in_features: int,
+            out_features: int,
+            negative_slope: float = 0.2
+    ) -> None:
+        super().__init__()
+
+        self.in_features = in_features
+        self.out_features = out_features
+        self.negative_slope = negative_slope
+
+        # W from the GAT equations
+        self.weight = torch.nn.Parameter(
+            torch.Tensor(
+                out_features,
+                in_features
+            )
+        )
+
+        # a from the GAT equations
+        self.head = torch.nn.Parameter(
+            torch.zeros(
+                2 * out_features
+            )
+        )
+
+        # Initialize W using the same general style as torch Linear layers
+        torch.nn.init.kaiming_uniform_(
+            self.weight,
+            sqrt(5)
+        )
+
+    def forward(
+            self,
+            input: torch.Tensor,
+            eidx: torch.Tensor,
+            ewt: torch.Tensor,
+            esgn: torch.Tensor
+    ) -> torch.Tensor:
+        r"""
+        Perform signed, prior-weighted attention propagation.
+
+        Parameters
+        ----------
+        input
+            Trainable node representations
+            with shape (n_vertices, in_features)
+        eidx
+            Edge source and target indices
+            with shape (2, n_edges)
+        ewt
+            Raw positive prior edge weights
+            with shape (n_edges,)
+        esgn
+            Fixed edge signs, either +1 or -1,
+            with shape (n_edges,)
+
+        Returns
+        -------
+        result
+            Propagated node representations
+            with shape (n_vertices, out_features)
+        """
+
+        # Check the edge-index shape
+        if eidx.ndim != 2 or eidx.shape[0] != 2:
+            raise ValueError(
+                "`eidx` must have shape (2, n_edges)!"
+            )
+
+        # Check that weights and signs are vectors
+        if ewt.ndim != 1:
+            raise ValueError(
+                "`ewt` must be one-dimensional!"
+            )
+
+        if esgn.ndim != 1:
+            raise ValueError(
+                "`esgn` must be one-dimensional!"
+            )
+
+        # Check that all edge arrays describe the same number of edges
+        if (
+                eidx.shape[1] != ewt.numel()
+                or ewt.numel() != esgn.numel()
+        ):
+            raise ValueError(
+                "Edge indices, weights and signs "
+                "must contain the same number of edges!"
+            )
+
+        # If the graph has no edges, return zero vectors
+        if ewt.numel() == 0:
+            return torch.zeros(
+                input.shape[0],
+                self.out_features,
+                dtype=input.dtype,
+                device=input.device
+            )
+
+        # The attention equation contains log(w_ji),
+        # so every real prior weight must be positive
+        if torch.any(ewt <= 0).item():
+            raise ValueError(
+                "GAT prior edge weights must be positive!"
+            )
+
+        # GLUE signs must be +1 or -1
+        valid_signs = torch.logical_or(
+            esgn == 1,
+            esgn == -1
+        )
+
+        if not torch.all(valid_signs).item():
+            raise ValueError(
+                "GAT edge signs must be either +1 or -1!"
+            )
+
+        # For an edge j -> i:
+        # sidx contains source node j
+        # tidx contains target node i
+        sidx, tidx = eidx
+
+        # h_i = W r_i
+        #
+        # input shape:
+        #     (n_vertices, in_features)
+        #
+        # self.weight.T shape:
+        #     (in_features, out_features)
+        #
+        # h shape:
+        #     (n_vertices, out_features)
+        h = input @ self.weight.T
+
+        # Match fixed edge values to h's floating-point type
+        ewt = ewt.to(dtype=h.dtype)
+        esgn = esgn.to(dtype=h.dtype)
+
+        # For every edge j -> i, construct:
+        #
+        # [h_i || h_j]
+        #
+        # target first, source second
+        endpoint_repr = torch.cat(
+            [
+                h[tidx],
+                h[sidx]
+            ],
+            dim=1
+        )
+
+        # a^T [h_i || h_j]
+        score = endpoint_repr @ self.head
+
+        # e_ji = LeakyReLU(a^T [h_i || h_j])
+        score = F.leaky_relu(
+            score,
+            negative_slope=self.negative_slope
+        )
+
+        # Add the fixed prior-weight bias:
+        #
+        # e_ji + log(w_ji)
+        attention_logits = (
+            score
+            + torch.log(ewt)
+        )
+
+        # Normalize separately over all incoming edges
+        # of each target node
+        alpha = _incoming_edge_softmax(
+            attention_logits,
+            tidx
+        )
+
+        # Signed message:
+        #
+        # m_{j -> i} =
+        #     s_ji * alpha_ji * h_j
+        message = h[sidx] * (
+            esgn * alpha
+        ).unsqueeze(1)
+
+        # Prepare one output vector for every graph node
+        result = torch.zeros_like(h)
+
+        # Repeat each target index across all vector coordinates
+        expanded_tidx = tidx.unsqueeze(1).expand_as(
+            message
+        )
+
+        # Add all incoming messages to their target nodes
+        result.scatter_add_(
+            0,
+            expanded_tidx,
+            message
+        )
+
+        return result
+
+
+
+
+
+
+
+
+
+
 #----------------------------- Utility functions -------------------------------
 
 def freeze_running_stats(m: torch.nn.Module) -> None:

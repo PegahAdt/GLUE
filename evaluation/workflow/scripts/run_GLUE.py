@@ -61,6 +61,16 @@ def parse_args() -> argparse.Namespace:
         help="Dropout rate"
     )
     parser.add_argument(
+        "--graph-encoder", dest="graph_encoder",
+        choices=["gcn", "gat"], default="gcn",
+        help="Graph encoder architecture"
+    )
+    parser.add_argument(
+        "--gat-negative-slope", dest="gat_negative_slope",
+        type=float, default=0.2,
+        help="Negative slope used by GAT LeakyReLU"
+    )
+    parser.add_argument(
         "--lam-graph", dest="lam_graph", type=float, default=0.02,
         help="Graph weight"
     )
@@ -172,7 +182,9 @@ def main(args: argparse.Namespace) -> None:
     glue = scglue.models.SCGLUEModel(
         {"rna": rna, "atac": atac}, vertices,
         latent_dim=args.dim, h_depth=args.hidden_depth, h_dim=args.hidden_dim,
-        dropout=args.dropout, random_seed=args.random_seed
+        dropout=args.dropout, random_seed=args.random_seed,
+        graph_encoder=args.graph_encoder,
+        gat_negative_slope=args.gat_negative_slope
     )
     glue.compile(lam_graph=args.lam_graph, lam_align=args.lam_align, lr=args.lr)
     glue.fit(
@@ -204,7 +216,9 @@ def main(args: argparse.Namespace) -> None:
     glue = scglue.models.SCGLUEModel(
         {"rna": rna, "atac": atac}, vertices,
         latent_dim=args.dim, h_depth=args.hidden_depth, h_dim=args.hidden_dim,
-        dropout=args.dropout, random_seed=args.random_seed
+        dropout=args.dropout, random_seed=args.random_seed,
+        graph_encoder=args.graph_encoder,
+        gat_negative_slope=args.gat_negative_slope
     )
     glue.adopt_pretrained_model(scglue.models.load_model(
         args.train_dir / "pretrain" / "final.dill"

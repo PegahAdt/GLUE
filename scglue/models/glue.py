@@ -27,10 +27,14 @@ class GraphEncoder(torch.nn.Module):
     r"""
     Abstract graph encoder
     """
-
     @abstractmethod
     def forward(
-            self, eidx: torch.Tensor, enorm: torch.Tensor, esgn: torch.Tensor
+            self,
+            eidx: torch.Tensor,
+            enorm: torch.Tensor,
+            esgn: torch.Tensor,
+            *,
+            ewt: Optional[torch.Tensor] = None
     ) -> D.Distribution:
         r"""
         Encode graph to vertex latent distribution
@@ -43,7 +47,9 @@ class GraphEncoder(torch.nn.Module):
             Normalized weight of edges (:math:`n_{edges}`)
         esgn
             Sign of edges (:math:`n_{edges}`)
-
+        ewt
+            Raw prior weight of edges
+            (:math:`n_{edges}`)
         Returns
         -------
         v
@@ -332,6 +338,7 @@ class GLUETrainer(Trainer):
 
         self.align_burnin: Optional[int] = None
         self.eidx: Optional[torch.Tensor] = None  # Full graph used by the graph encoder
+        self.ewt: Optional[torch.Tensor] = None
         self.enorm: Optional[torch.Tensor] = None  # Full graph used by the graph encoder
         self.esgn: Optional[torch.Tensor] = None  # Full graph used by the graph encoder
 
@@ -373,7 +380,12 @@ class GLUETrainer(Trainer):
         if dsc_only:
             return {"dsc_loss": self.lam_align * dsc_loss}
 
-        v = net.g2v(self.eidx, self.enorm, self.esgn)
+        v = net.g2v(
+            self.eidx,
+            self.enorm,
+            self.esgn,
+            ewt=self.ewt
+        )
         vsamp = v.rsample()
 
         g_nll = -net.v2g(vsamp, eidx, esgn).log_prob(ewt)
@@ -540,6 +552,11 @@ class GLUETrainer(Trainer):
         self.enorm = torch.as_tensor(
             normalize_edges(graph.eidx, graph.ewt),
             device=self.net.device
+
+        )
+        self.ewt = torch.as_tensor(
+            graph.ewt,
+            device=self.net.device
         )
         self.esgn = torch.as_tensor(graph.esgn, device=self.net.device)
         self.eidx = torch.as_tensor(graph.eidx, device=self.net.device)
@@ -617,6 +634,7 @@ class GLUETrainer(Trainer):
             graph.clean()
             self.align_burnin = None
             self.eidx = None
+            self.ewt = None
             self.enorm = None
             self.esgn = None
 
@@ -632,6 +650,10 @@ class GLUETrainer(Trainer):
 
         self.enorm = torch.as_tensor(
             normalize_edges(graph.eidx, graph.ewt),
+            device=self.net.device
+        )
+        self.ewt = torch.as_tensor(
+            graph.ewt,
             device=self.net.device
         )
         self.esgn = torch.as_tensor(graph.esgn, device=self.net.device)
@@ -664,6 +686,7 @@ class GLUETrainer(Trainer):
             data.clean()
             graph.clean()
             self.eidx = None
+            self.ewt = None
             self.enorm = None
             self.esgn = None
 
