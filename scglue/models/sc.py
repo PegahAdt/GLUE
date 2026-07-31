@@ -76,7 +76,7 @@ class GraphEncoder(glue.GraphEncoder):
         )
 class GATGraphEncoder(glue.GraphEncoder):
     r"""
-    Signed, prior-weighted graph attention encoder.
+    Signed graph attention encoder using normalized prior weights.
 
     Parameters
     ----------
@@ -104,7 +104,7 @@ class GATGraphEncoder(glue.GraphEncoder):
             )
         )
 
-        # Signed, prior-weighted GAT propagation layer
+        # Signed GAT propagation layer using normalized prior weights
         self.conv = SignedPriorGraphAttention(
             in_features=out_features,
             out_features=out_features,
@@ -132,20 +132,17 @@ class GATGraphEncoder(glue.GraphEncoder):
             ewt: Optional[torch.Tensor] = None
     ) -> D.Normal:
 
-        # The GAT uses raw prior weights instead of
-        # the normalized GCN weights
-        del enorm
+        # Use the normalized edge weights produced by GLUE.
+        # Raw ewt remains in the signature only for compatibility
+        # with the shared graph-encoder interface.
+        del ewt
 
-        if ewt is None:
-            raise ValueError(
-                "`ewt` is required by GATGraphEncoder!"
-            )
 
-        # Signed, prior-weighted attention propagation
+        # Signed attention propagation using normalized prior weights
         ptr = self.conv(
             input=self.vrepr,
             eidx=eidx,
-            ewt=ewt,
+            ewt=enorm,
             esgn=esgn
         )
 

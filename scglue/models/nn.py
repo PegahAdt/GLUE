@@ -262,7 +262,7 @@ class SignedPriorGraphAttention(torch.nn.Module):
             Edge source and target indices
             with shape (2, n_edges)
         ewt
-            Raw positive prior edge weights
+            Positive edge weights supplied as the attention prior
             with shape (n_edges,)
         esgn
             Fixed edge signs, either +1 or -1,
@@ -312,10 +312,10 @@ class SignedPriorGraphAttention(torch.nn.Module):
             )
 
         # The attention equation contains log(w_ji),
-        # so every real prior weight must be positive
+        # so every supplied edge weight must be positive
         if torch.any(ewt <= 0).item():
             raise ValueError(
-                "GAT prior edge weights must be positive!"
+                "GAT attention-prior edge weights must be positive!"
             )
 
         # GLUE signs must be +1 or -1
