@@ -3,6 +3,7 @@ Generic framework of graph-linked unified embedding (GLUE)
 """
 
 import itertools
+import math
 import os
 from abc import abstractmethod
 from typing import Any, List, Mapping, NoReturn, Optional, Tuple
@@ -316,6 +317,8 @@ class GLUETrainer(Trainer):
         self.lam_kl = lam_kl
         self.lam_graph = lam_graph
         self.lam_align = lam_align
+        if not math.isfinite(lam_keep) or lam_keep < 0:
+            raise ValueError("`lam_keep` must be finite and non-negative!")
         self.lam_keep = lam_keep
         if min(domain_weight.values()) < 0:
             raise ValueError("Domain weight must be non-negative!")

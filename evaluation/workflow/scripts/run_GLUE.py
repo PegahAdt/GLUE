@@ -39,6 +39,14 @@ def gate_probability(value: str) -> float:
     return result
 
 
+def nonnegative_float(value: str) -> float:
+    """Parse a finite nonnegative command-line float."""
+    result = finite_float(value)
+    if result < 0:
+        raise argparse.ArgumentTypeError("value must be nonnegative")
+    return result
+
+
 def parse_args() -> argparse.Namespace:
     r"""
     Parse command line arguments
@@ -93,7 +101,7 @@ def parse_args() -> argparse.Namespace:
         help="Initial activated probability for each non-self-loop gated edge"
     )
     parser.add_argument(
-        "--lam-keep", type=finite_float, default=0.0,
+        "--lam-keep", type=nonnegative_float, default=0.0,
         help="Penalty weight discouraging gated edges from moving away from gate value 1"
     )
     parser.add_argument(

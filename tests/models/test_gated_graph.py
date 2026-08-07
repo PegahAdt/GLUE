@@ -145,6 +145,8 @@ def test_model_selection_lifecycle_optimizer_adoption_and_save(
     with pytest.raises(RuntimeError, match="configure_graph_encoder"):
         source.compile()
     source.configure_graph_encoder(prior)
+    with pytest.raises(ValueError, match="lam_keep"):
+        source.compile(lam_keep=-0.1)
     source.compile(lam_keep=0.5)
     optimizer_params = {
         id(parameter)
@@ -229,4 +231,7 @@ def test_evaluation_cli_gated_options(monkeypatch):
     )
     with pytest.raises(SystemExit):
         monkeypatch.setattr(sys, "argv", required + ["--gate-init", "nan"])
+        module.parse_args()
+    with pytest.raises(SystemExit):
+        monkeypatch.setattr(sys, "argv", required + ["--lam-keep", "-0.1"])
         module.parse_args()
