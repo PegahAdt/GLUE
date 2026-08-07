@@ -82,6 +82,7 @@ def fit_SCGLUE(
             os.path.join(pretrain_fit_kws["directory"], "pretrain")
 
     pretrain = model(adatas, sorted(graph.nodes), **pretrain_init_kws)
+    pretrain.configure_graph_encoder(graph)
     pretrain.compile(**compile_kws)
     pretrain.fit(adatas, graph, **pretrain_fit_kws)
     if "directory" in pretrain_fit_kws:
@@ -113,6 +114,7 @@ def fit_SCGLUE(
             os.path.join(finetune_fit_kws["directory"], "fine-tune")
 
     finetune = model(adatas, sorted(graph.nodes), **init_kws)
+    finetune.configure_graph_encoder(graph)
     finetune.adopt_pretrained_model(pretrain)
     finetune.compile(**compile_kws)
     finetune.fit(adatas, graph, **finetune_fit_kws)

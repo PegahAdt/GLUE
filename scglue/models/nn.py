@@ -54,6 +54,39 @@ class GraphConv(torch.nn.Module):
         return res
 
 
+class EdgeGatedGraphConv(torch.nn.Module):
+
+    r"""Signed graph propagation with independent static edge gates.
+
+    The caller supplies gates aligned with ``eidx``.  Normalized edge weights
+    are multiplied by gates directly and are never renormalized.
+    """
+
+    def forward(
+            self, input: torch.Tensor, eidx: torch.Tensor,
+            enorm: torch.Tensor, esgn: torch.Tensor,
+            gate: torch.Tensor
+    ) -> torch.Tensor:
+        r"""Propagate ``input`` using ``esgn * enorm * gate`` messages."""
+        if eidx.ndim != 2 or eidx.shape[0] != 2:
+            raise ValueError("`eidx` must have shape (2, n_edges)!")
+        n_edges = eidx.shape[1]
+        if any(item.ndim != 1 or item.numel() != n_edges
+               for item in (enorm, esgn, gate)):
+            raise ValueError("`enorm`, `esgn` and `gate` must match `eidx` edges!")
+        if not torch.isfinite(enorm).all() or not torch.isfinite(esgn).all():
+            raise ValueError("Graph weights and signs must be finite!")
+        if not torch.isfinite(gate).all():
+            raise ValueError("Edge gates must be finite!")
+        if (gate <= 0).any() or (gate > 1).any():
+            raise ValueError("Edge gates must be in (0, 1]!")
+        sidx, tidx = eidx
+        message = input[sidx] * (esgn * enorm * gate).unsqueeze(1)
+        result = torch.zeros_like(input)
+        result.scatter_add_(0, tidx.unsqueeze(1).expand_as(message), message)
+        return result
+
+
 class GraphAttent(torch.nn.Module):  # pragma: no cover
 
     r"""

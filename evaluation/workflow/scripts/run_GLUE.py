@@ -23,6 +23,22 @@ import scglue
 scglue.log.console_log_level = logging.DEBUG
 
 
+def finite_float(value: str) -> float:
+    """Parse a finite command-line float."""
+    result = float(value)
+    if not np.isfinite(result):
+        raise argparse.ArgumentTypeError("value must be finite")
+    return result
+
+
+def gate_probability(value: str) -> float:
+    """Parse a finite probability strictly between zero and one."""
+    result = finite_float(value)
+    if not 0 < result < 1:
+        raise argparse.ArgumentTypeError("gate probability must be in (0, 1)")
+    return result
+
+
 def parse_args() -> argparse.Namespace:
     r"""
     Parse command line arguments
@@ -67,6 +83,18 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--lam-align", dest="lam_align", type=float, default=0.02,
         help="Adversarial alignment weight"
+    )
+    parser.add_argument(
+        "--graph-encoder", choices=("gcn", "gated"), default="gcn",
+        help="Graph encoder; gated uses independent sigmoid edge-retention multipliers"
+    )
+    parser.add_argument(
+        "--gate-init", type=gate_probability, default=0.95,
+        help="Initial activated probability for each non-self-loop gated edge"
+    )
+    parser.add_argument(
+        "--lam-keep", type=finite_float, default=0.0,
+        help="Penalty weight discouraging gated edges from moving away from gate value 1"
     )
     parser.add_argument(
         "--lr", dest="lr", type=float, default=2e-3,
@@ -172,9 +200,14 @@ def main(args: argparse.Namespace) -> None:
     glue = scglue.models.SCGLUEModel(
         {"rna": rna, "atac": atac}, vertices,
         latent_dim=args.dim, h_depth=args.hidden_depth, h_dim=args.hidden_dim,
-        dropout=args.dropout, random_seed=args.random_seed
+        dropout=args.dropout, graph_encoder=args.graph_encoder,
+        gate_init=args.gate_init, random_seed=args.random_seed
     )
-    glue.compile(lam_graph=args.lam_graph, lam_align=args.lam_align, lr=args.lr)
+    glue.configure_graph_encoder(graph, "weight", "sign")
+    glue.compile(
+        lam_graph=args.lam_graph, lam_align=args.lam_align,
+        lam_keep=args.lam_keep, lr=args.lr
+    )
     glue.fit(
         {"rna": rna, "atac": atac},
         graph, edge_weight="weight", edge_sign="sign",
@@ -204,12 +237,17 @@ def main(args: argparse.Namespace) -> None:
     glue = scglue.models.SCGLUEModel(
         {"rna": rna, "atac": atac}, vertices,
         latent_dim=args.dim, h_depth=args.hidden_depth, h_dim=args.hidden_dim,
-        dropout=args.dropout, random_seed=args.random_seed
+        dropout=args.dropout, graph_encoder=args.graph_encoder,
+        gate_init=args.gate_init, random_seed=args.random_seed
     )
+    glue.configure_graph_encoder(graph, "weight", "sign")
     glue.adopt_pretrained_model(scglue.models.load_model(
         args.train_dir / "pretrain" / "final.dill"
     ))
-    glue.compile(lam_graph=args.lam_graph, lam_align=args.lam_align, lr=args.lr)
+    glue.compile(
+        lam_graph=args.lam_graph, lam_align=args.lam_align,
+        lam_keep=args.lam_keep, lr=args.lr
+    )
     glue.fit(
         {"rna": rna, "atac": atac},
         graph, edge_weight="weight", edge_sign="sign",

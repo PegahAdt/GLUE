@@ -277,6 +277,8 @@ class GLUETrainer(Trainer):
         Graph weight
     lam_align
         Adversarial alignment weight
+    lam_keep
+        Weight of the gated-edge retain-prior penalty
     domain_weight
         Relative domain weight (indexed by domain name)
     optim
@@ -290,6 +292,7 @@ class GLUETrainer(Trainer):
     def __init__(
             self, net: GLUE, lam_data: float = None, lam_kl: float = None,
             lam_graph: float = None, lam_align: float = None,
+            lam_keep: float = 0.0,
             domain_weight: Mapping[str, float] = None,
             optim: str = None, lr: float = None, **kwargs
     ) -> None:
@@ -306,12 +309,14 @@ class GLUETrainer(Trainer):
         for k in self.net.keys:
             self.required_losses += [f"x_{k}_nll", f"x_{k}_kl", f"x_{k}_elbo"]
         self.required_losses += ["dsc_loss", "vae_loss", "gen_loss"]
+        self.required_losses += ["gate_keep_loss"]
         self.earlystop_loss = "vae_loss"
 
         self.lam_data = lam_data
         self.lam_kl = lam_kl
         self.lam_graph = lam_graph
         self.lam_align = lam_align
+        self.lam_keep = lam_keep
         if min(domain_weight.values()) < 0:
             raise ValueError("Domain weight must be non-negative!")
         normalizer = sum(domain_weight.values()) / len(domain_weight)
@@ -334,6 +339,12 @@ class GLUETrainer(Trainer):
         self.eidx: Optional[torch.Tensor] = None  # Full graph used by the graph encoder
         self.enorm: Optional[torch.Tensor] = None  # Full graph used by the graph encoder
         self.esgn: Optional[torch.Tensor] = None  # Full graph used by the graph encoder
+
+    def gate_keep_loss(self) -> torch.Tensor:
+        """Return the raw gated-edge retain-prior penalty, or zero for GCN."""
+        if hasattr(self.net.g2v, "gate_keep_loss"):
+            return self.net.g2v.gate_keep_loss()
+        return torch.zeros((), device=self.net.device)
 
     def compute_losses(
             self, data: DataTensors, epoch: int, dsc_only: bool = False
@@ -405,13 +416,16 @@ class GLUETrainer(Trainer):
         }
         x_elbo_sum = sum(self.domain_weight[k] * x_elbo[k] for k in net.keys)
 
+        gate_keep_loss = self.gate_keep_loss()
         vae_loss = self.lam_data * x_elbo_sum \
-            + self.lam_graph * len(net.keys) * g_elbo
+            + self.lam_graph * len(net.keys) * g_elbo \
+            + self.lam_keep * gate_keep_loss
         gen_loss = vae_loss - self.lam_align * dsc_loss
 
         losses = {
             "dsc_loss": dsc_loss, "vae_loss": vae_loss, "gen_loss": gen_loss,
-            "g_nll": g_nll, "g_kl": g_kl, "g_elbo": g_elbo
+            "g_nll": g_nll, "g_kl": g_kl, "g_elbo": g_elbo,
+            "gate_keep_loss": gate_keep_loss
         }
         for k in net.keys:
             losses.update({

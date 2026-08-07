@@ -522,6 +522,8 @@ class SCGLUETrainer(GLUETrainer):
         Graph weight
     lam_align
         Adversarial alignment weight
+    lam_keep
+        Weight of the gated-edge retain-prior penalty
     lam_sup
         Cell type supervision weight
     normalize_u
@@ -541,13 +543,14 @@ class SCGLUETrainer(GLUETrainer):
     def __init__(
             self, net: SCGLUE, lam_data: float = None, lam_kl: float = None,
             lam_graph: float = None, lam_align: float = None,
-            lam_sup: float = None, normalize_u: bool = None,
+            lam_sup: float = None, lam_keep: float = 0.0,
+            normalize_u: bool = None,
             domain_weight: Mapping[str, float] = None,
             optim: str = None, lr: float = None, **kwargs
     ) -> None:
         super().__init__(
             net, lam_data=lam_data, lam_kl=lam_kl, lam_graph=lam_graph,
-            lam_align=lam_align, domain_weight=domain_weight,
+            lam_align=lam_align, lam_keep=lam_keep, domain_weight=domain_weight,
             optim=optim, lr=lr, **kwargs
         )
         required_kwargs = ("lam_sup", "normalize_u")
@@ -689,14 +692,17 @@ class SCGLUETrainer(GLUETrainer):
         }
         x_elbo_sum = sum(self.domain_weight[k] * x_elbo[k] for k in net.keys)
 
+        gate_keep_loss = self.gate_keep_loss()
         vae_loss = self.lam_data * x_elbo_sum \
             + self.lam_graph * len(net.keys) * g_elbo \
-            + self.lam_sup * sup_loss
+            + self.lam_sup * sup_loss \
+            + self.lam_keep * gate_keep_loss
         gen_loss = vae_loss - self.lam_align * dsc_loss
 
         losses = {
             "dsc_loss": dsc_loss, "vae_loss": vae_loss, "gen_loss": gen_loss,
-            "g_nll": g_nll, "g_kl": g_kl, "g_elbo": g_elbo
+            "g_nll": g_nll, "g_kl": g_kl, "g_elbo": g_elbo,
+            "gate_keep_loss": gate_keep_loss
         }
         for k in net.keys:
             losses.update({
@@ -811,14 +817,17 @@ class IndSCGLUETrainer(SCGLUETrainer):
         }
         x_elbo_sum = sum(self.domain_weight[k] * x_elbo[k] for k in net.keys)
 
+        gate_keep_loss = self.gate_keep_loss()
         vae_loss = self.lam_data * x_elbo_sum \
             + self.lam_graph * len(net.keys) * g_elbo \
-            + self.lam_sup * sup_loss
+            + self.lam_sup * sup_loss \
+            + self.lam_keep * gate_keep_loss
         gen_loss = vae_loss - self.lam_align * dsc_loss
 
         losses = {
             "dsc_loss": dsc_loss, "vae_loss": vae_loss, "gen_loss": gen_loss,
-            "g_nll": g_nll, "g_kl": g_kl, "g_elbo": g_elbo
+            "g_nll": g_nll, "g_kl": g_kl, "g_elbo": g_elbo,
+            "gate_keep_loss": gate_keep_loss
         }
         for k in net.keys:
             losses.update({
@@ -883,6 +892,8 @@ class PairedSCGLUETrainer(SCGLUETrainer):
         Adversarial alignment weight
     lam_sup
         Cell type supervision weight
+    lam_keep
+        Weight of the gated-edge retain-prior penalty
     lam_joint_cross
         Joint cross-prediction weight
     lam_real_cross
@@ -904,6 +915,7 @@ class PairedSCGLUETrainer(SCGLUETrainer):
     def __init__(
             self, net: SCGLUE, lam_data: float = None, lam_kl: float = None,
             lam_graph: float = None, lam_align: float = None, lam_sup: float = None,
+            lam_keep: float = 0.0,
             lam_joint_cross: float = None, lam_real_cross: float = None,
             lam_cos: float = None, normalize_u: bool = None,
             domain_weight: Mapping[str, float] = None,
@@ -912,7 +924,7 @@ class PairedSCGLUETrainer(SCGLUETrainer):
         super().__init__(
             net, lam_data=lam_data, lam_kl=lam_kl,
             lam_graph=lam_graph, lam_align=lam_align,
-            lam_sup=lam_sup, normalize_u=normalize_u,
+            lam_sup=lam_sup, lam_keep=lam_keep, normalize_u=normalize_u,
             domain_weight=domain_weight,
             optim=optim, lr=lr, **kwargs
         )
@@ -1086,12 +1098,14 @@ class PairedSCGLUETrainer(SCGLUETrainer):
         else:
             cos_loss = torch.as_tensor(0.0, device=net.device)
 
+        gate_keep_loss = self.gate_keep_loss()
         vae_loss = self.lam_data * x_elbo_sum \
             + self.lam_graph * len(net.keys) * g_elbo \
             + self.lam_sup * sup_loss \
             + self.lam_joint_cross * joint_cross_loss \
             + self.lam_real_cross * real_cross_loss \
-            + self.lam_cos * cos_loss
+            + self.lam_cos * cos_loss \
+            + self.lam_keep * gate_keep_loss
         gen_loss = vae_loss - self.lam_align * dsc_loss
 
         losses = {
@@ -1099,7 +1113,8 @@ class PairedSCGLUETrainer(SCGLUETrainer):
             "g_nll": g_nll, "g_kl": g_kl, "g_elbo": g_elbo,
             "joint_cross_loss": joint_cross_loss,
             "real_cross_loss": real_cross_loss,
-            "cos_loss": cos_loss
+            "cos_loss": cos_loss,
+            "gate_keep_loss": gate_keep_loss
         }
         for k in net.keys:
             losses.update({
@@ -1241,6 +1256,10 @@ class SCGLUEModel(Model):
         Hidden layer dimensionality for encoder and discriminator
     dropout
         Dropout rate
+    graph_encoder
+        Graph encoder architecture, either ``"gcn"`` (default) or ``"gated"``
+    gate_init
+        Initial activated gate probability for non-self-loop edges
     shared_batches
         Whether the same batches are shared across domains
     random_seed
@@ -1261,13 +1280,25 @@ class SCGLUEModel(Model):
             vertices: List[str], latent_dim: int = 50,
             h_depth: int = 2, h_dim: int = 256,
             dropout: float = 0.2, shared_batches: bool = False,
+            graph_encoder: str = "gcn", gate_init: float = 0.95,
             random_seed: int = 0
     ) -> None:
         self.vertices = pd.Index(vertices)
         self.random_seed = random_seed
         torch.manual_seed(self.random_seed)
 
-        g2v = sc.GraphEncoder(self.vertices.size, latent_dim)
+        if graph_encoder == "gcn":
+            g2v = sc.GraphEncoder(self.vertices.size, latent_dim)
+        elif graph_encoder == "gated":
+            g2v = sc.GatedGraphEncoder(
+                self.vertices.size, latent_dim, gate_init=gate_init
+            )
+        else:
+            raise ValueError(
+                f"Unknown graph encoder {graph_encoder!r}; expected 'gcn' or 'gated'."
+            )
+        self.graph_encoder = graph_encoder
+        self.gate_init = gate_init
         v2g = sc.GraphDecoder()
         self.domains, idx, x2u, u2x, all_ct = {}, {}, {}, {}, set()
         for k, adata in adatas.items():
@@ -1323,6 +1354,35 @@ class SCGLUEModel(Model):
             u2c=None if all_ct.empty else sc.Classifier(latent_dim, all_ct.size)
         )
 
+    def configure_graph_encoder(
+            self, graph: nx.Graph,
+            edge_weight: str = "weight", edge_sign: str = "sign"
+    ) -> None:
+        r"""Configure the full directed topology for a gated graph encoder.
+
+        This must be called before :meth:`compile`.  GCN models require no
+        configuration and this method is therefore a no-op for them.
+        """
+        if self.graph_encoder == "gcn":
+            return
+        if self._trainer is not None and not self.net.g2v.is_configured:
+            raise RuntimeError(
+                "Configure a gated graph encoder before compiling its optimizer!"
+            )
+        graph_data = GraphDataset(
+            graph, self.vertices, edge_weight, edge_sign,
+            neg_samples=0, weighted_sampling=False, deemphasize_loops=False
+        )
+        self.net.g2v.configure_edges(torch.as_tensor(
+            graph_data.eidx, dtype=torch.int64, device=self.net.device
+        ))
+
+    def get_graph_gates(self):
+        """Return detached learned-gate information aligned to configured edges."""
+        if self.graph_encoder != "gated":
+            raise RuntimeError("GCN models do not have edge gates!")
+        return self.net.g2v.get_gate_info()
+
     def freeze_cells(self) -> None:
         r"""
         Freeze cell embeddings
@@ -1348,11 +1408,34 @@ class SCGLUEModel(Model):
         submodule
             Only adopt a specific submodule (e.g., ``"x2u"``)
         """
+        if submodule is None:
+            source_graph_encoder = getattr(source, "graph_encoder", "gcn")
+            if source_graph_encoder != self.graph_encoder:
+                raise ValueError(
+                    "Cannot adopt across different graph encoder architectures: "
+                    f"{source_graph_encoder!r} -> {self.graph_encoder!r}."
+                )
+            if self.graph_encoder == "gated":
+                if not source.net.g2v.is_configured or not self.net.g2v.is_configured:
+                    raise RuntimeError(
+                        "Both gated models must be graph-configured before adoption!"
+                    )
+                try:
+                    source_gate_permutation = source.net.g2v._edge_permutation(
+                        self.net.g2v.configured_eidx
+                    )
+                except ValueError as exc:
+                    raise ValueError("Gated model edge topology mismatch!") from exc
+                source_gate_logits = source.net.g2v.get_gate_info()["logit"]
+                source_gate_logits = source_gate_logits[source_gate_permutation]
         source, target = source.net, self.net
         if submodule:
             source = get_chained_attr(source, submodule)
             target = get_chained_attr(target, submodule)
         for k, t in chain(target.named_parameters(), target.named_buffers()):
+            if submodule is None and self.graph_encoder == "gated" and k in {
+                    "g2v.gate_logits", "g2v.configured_eidx", "g2v.nonself_mask"}:
+                continue
             try:
                 s = get_chained_attr(source, k)
             except AttributeError:
@@ -1368,12 +1451,21 @@ class SCGLUEModel(Model):
             s = s.to(device=t.device, dtype=t.dtype)
             t.copy_(s)
             self.logger.debug("Copied: %s", k)
+        if submodule is None and self.graph_encoder == "gated":
+            with torch.no_grad():
+                self.net.g2v.gate_logits.copy_(source_gate_logits[
+                    self.net.g2v.nonself_mask
+                ].to(
+                    device=self.net.g2v.gate_logits.device,
+                    dtype=self.net.g2v.gate_logits.dtype
+                ))
 
     def compile(  # pylint: disable=arguments-differ
             self, lam_data: float = 1.0,
             lam_kl: float = 1.0,
             lam_graph: float = 0.02,
             lam_align: float = 0.05,
+            lam_keep: float = 0.0,
             lam_sup: float = 0.02,
             normalize_u: bool = False,
             domain_weight: Optional[Mapping[str, float]] = None,
@@ -1392,6 +1484,8 @@ class SCGLUEModel(Model):
             Graph weight
         lam_align
             Adversarial alignment weight
+        lam_keep
+            Weight of the non-self-loop gate retain-prior penalty
         lam_sup
             Cell type supervision weight
         normalize_u
@@ -1403,11 +1497,16 @@ class SCGLUEModel(Model):
         **kwargs
             Additional keyword arguments passed to trainer
         """
+        if self.graph_encoder == "gated" and not self.net.g2v.is_configured:
+            raise RuntimeError(
+                "Call `configure_graph_encoder` before compiling a gated model!"
+            )
         if domain_weight is None:
             domain_weight = {k: 1.0 for k in self.net.keys}
         super().compile(
             lam_data=lam_data, lam_kl=lam_kl,
             lam_graph=lam_graph, lam_align=lam_align, lam_sup=lam_sup,
+            lam_keep=lam_keep,
             normalize_u=normalize_u, domain_weight=domain_weight,
             optim="RMSprop", lr=lr, **kwargs
         )
@@ -1475,6 +1574,10 @@ class SCGLUEModel(Model):
             weighted_sampling=True,
             deemphasize_loops=True
         )
+        if self.graph_encoder == "gated":
+            self.net.g2v._validate_edges(torch.as_tensor(
+                graph.eidx, dtype=torch.int64, device=self.net.device
+            ))
 
         batch_per_epoch = data.size * (1 - val_split) / data_batch_size
         if graph_batch_size == AUTO:
@@ -1561,6 +1664,10 @@ class SCGLUEModel(Model):
             weighted_sampling=True,
             deemphasize_loops=True
         )
+        if self.graph_encoder == "gated":
+            self.net.g2v._validate_edges(torch.as_tensor(
+                graph.eidx, dtype=torch.int64, device=self.net.device
+            ))
         if graph_batch_size == AUTO:
             graph_batch_size = ceil(graph.size / self.GRAPH_BATCHES)
             self.logger.info("Setting `graph_batch_size` = %d", graph_batch_size)
@@ -1608,6 +1715,9 @@ class SCGLUEModel(Model):
         )
         esgn = torch.as_tensor(graph.esgn, device=self.net.device)
         eidx = torch.as_tensor(graph.eidx, device=self.net.device)
+
+        if self.graph_encoder == "gated":
+            self.net.g2v._validate_edges(eidx)
 
         v = self.net.g2v(eidx, enorm, esgn)
         if n_sample:
@@ -1838,6 +1948,7 @@ class PairedSCGLUEModel(SCGLUEModel):
             lam_kl: float = 1.0,
             lam_graph: float = 0.02,
             lam_align: float = 0.05,
+            lam_keep: float = 0.0,
             lam_sup: float = 0.02,
             lam_joint_cross: float = 0.02,
             lam_real_cross: float = 0.02,
@@ -1859,6 +1970,8 @@ class PairedSCGLUEModel(SCGLUEModel):
             Graph weight
         lam_align
             Adversarial alignment weight
+        lam_keep
+            Weight of the non-self-loop gate retain-prior penalty
         lam_sup
             Cell type supervision weight
         lam_joint_cross
@@ -1877,6 +1990,7 @@ class PairedSCGLUEModel(SCGLUEModel):
         super().compile(
             lam_data=lam_data, lam_kl=lam_kl,
             lam_graph=lam_graph, lam_align=lam_align, lam_sup=lam_sup,
+            lam_keep=lam_keep,
             lam_joint_cross=lam_joint_cross, lam_real_cross=lam_real_cross,
             lam_cos=lam_cos, normalize_u=normalize_u, domain_weight=domain_weight,
             lr=lr, **kwargs
