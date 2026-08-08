@@ -74,10 +74,16 @@ rna = ad.read_h5ad(rna_path)
 atac = ad.read_h5ad(atac_path)
 guidance = nx.read_graphml(graph_path)
 
-# The prepared files were written after an earlier smoke run.  Restore the
-# ordinary pretraining configuration before estimating fresh balancing weights.
-for dataset in (rna, atac):
-    dataset.uns[config.ANNDATA_KEY]["use_dsc_weight"] = None
+# Recreate the canonical GLUE data configuration rather than reusing the
+# serialized configuration from the earlier smoke run.
+scglue.models.configure_dataset(
+    rna, "NB", use_highly_variable=True,
+    use_layer="counts", use_rep="X_pca"
+)
+scglue.models.configure_dataset(
+    atac, "NB", use_highly_variable=True,
+    use_layer="counts", use_rep="X_lsi"
+)
 
 graph_edges = guidance.number_of_edges()
 self_loops = nx.number_of_selfloops(guidance)
@@ -159,8 +165,17 @@ scglue.data.estimate_balancing_weight(
     rna, atac, use_rep=tmp_rep, key_added="balancing_weight"
 )
 for dataset in (rna, atac):
-    dataset.uns[config.ANNDATA_KEY]["use_dsc_weight"] = "balancing_weight"
     del dataset.obsm[tmp_rep]
+scglue.models.configure_dataset(
+    rna, "NB", use_highly_variable=True,
+    use_layer="counts", use_rep="X_pca",
+    use_dsc_weight="balancing_weight"
+)
+scglue.models.configure_dataset(
+    atac, "NB", use_highly_variable=True,
+    use_layer="counts", use_rep="X_lsi",
+    use_dsc_weight="balancing_weight"
+)
 
 print("Constructing and configuring gated fine-tuning model...")
 finetune = scglue.models.SCGLUEModel(
