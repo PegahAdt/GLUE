@@ -212,6 +212,11 @@ def main(args: argparse.Namespace) -> None:
         gate_init=args.gate_init, random_seed=args.random_seed
     )
     glue.configure_graph_encoder(graph, "weight", "sign")
+    initial_gate_logits = None
+    if args.graph_encoder == "gated":
+        initial_gate_logits = (
+            glue.net.g2v.gate_logits.detach().cpu().numpy().copy()
+        )
     glue.compile(
         lam_graph=args.lam_graph, lam_align=args.lam_align,
         lam_keep=args.lam_keep, lr=args.lr
@@ -266,6 +271,26 @@ def main(args: argparse.Namespace) -> None:
     )
     glue.save(args.train_dir / "fine-tune" / "final.dill")
 
+    gate_diagnostics = None
+    if args.graph_encoder == "gated":
+        gate_info = glue.get_graph_gates()
+        gates = gate_info["gate"].detach().cpu().numpy()
+        is_self_loop = gate_info["is_self_loop"].detach().cpu().numpy()
+        trainable_gates = gates[~is_self_loop]
+        final_gate_logits = (
+            glue.net.g2v.gate_logits.detach().cpu().numpy().copy()
+        )
+        gate_diagnostics = {
+            "number_of_trainable_gates": int(final_gate_logits.size),
+            "initial_gate_mean": float(args.gate_init),
+            "final_gate_min": float(trainable_gates.min()),
+            "final_gate_mean": float(trainable_gates.mean()),
+            "final_gate_max": float(trainable_gates.max()),
+            "maximum_absolute_gate_logit_change": float(
+                abs(final_gate_logits - initial_gate_logits).max()
+            ),
+        }
+
     rna.obsm["X_glue"] = glue.encode_data("rna", rna)
     atac.obsm["X_glue"] = glue.encode_data("atac", atac)
     elapsed_time = time.time() - start_time
@@ -286,6 +311,9 @@ def main(args: argparse.Namespace) -> None:
             "time": elapsed_time,
             "n_cells": atac.shape[0] + rna.shape[0]
         }, f)
+    if gate_diagnostics is not None:
+        with (args.train_dir / "gate_diagnostics.yaml").open("w") as f:
+            yaml.safe_dump(gate_diagnostics, f, sort_keys=True)
     glue.save(args.train_dir / "final.dill")
 
 
