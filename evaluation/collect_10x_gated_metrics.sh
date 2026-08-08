@@ -7,15 +7,12 @@ cd "$REPO/evaluation"
 
 bash make_10x_gated_targets.sh
 
-# Feature consistency requires a fixed full-data feature reference. Reuse the
-# completed matched-GCN reference so this benchmark remains exactly nine new
-# training runs (and does not train an additional full-data GATED model).
 REFERENCE_REL="10x-Multiome-Pbmc10k/original/gene_region:combined-extend_range:0-corrupt_rate:0.0-corrupt_seed:0/GLUE/dim:50-alt_dim:100-hidden_depth:2-hidden_dim:256-dropout:0.2-lam_graph:0.02-lam_align:0.05-neg_samples:10/seed:0/feature_latent.csv"
-REFERENCE_SOURCE="$OLD/results_gcn_h100/raw/$REFERENCE_REL"
-REFERENCE_TARGET="results_gated/raw/$REFERENCE_REL"
-test -s "$REFERENCE_SOURCE"
-mkdir -p "$(dirname "$REFERENCE_TARGET")"
-ln -sfn "$REFERENCE_SOURCE" "$REFERENCE_TARGET"
+GATED_REFERENCE="results_gated/raw/$REFERENCE_REL"
+test "$(cat gated_10x_reference_target.txt)" = "$GATED_REFERENCE"
+test -s "$GATED_REFERENCE"
+test ! -L "$GATED_REFERENCE"
+echo "Using genuine full GATED feature reference: $GATED_REFERENCE"
 
 while IFS= read -r target; do
     snakemake -s workflow/Snakefile --configfile config/config.yaml -j1 \
