@@ -75,3 +75,7 @@ __pycache__/
 *.log
 evaluation/gate_init_sensitivity/logs/
 *.toc
+
+# Generated experiment reports
+evaluation/dimension_sweep/dimension_model_comparison_*.tex
+evaluation/gcn_gat_gated_metric_comparisons.tex
