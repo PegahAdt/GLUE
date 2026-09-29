@@ -1,0 +1,572 @@
+\documentclass[10pt]{article}
+\usepackage[margin=0.68in]{geometry}
+\usepackage{booktabs,array,float,longtable,pdflscape,graphicx,hyperref,microtype}
+\usepackage[table]{xcolor}\usepackage[T1]{fontenc}\usepackage{lmodern}
+\hypersetup{colorlinks=true,linkcolor=blue!45!black,urlcolor=blue!45!black}
+\setlength{\parindent}{0pt}\setlength{\parskip}{5pt}\renewcommand{\arraystretch}{1.10}
+\title{\textbf{GCN vs GAT vs GATED GLUE Across Latent Embedding Dimensions}\\[5pt]
+\large Comparison at 2,000 and 8,000 cells --- 10x Multiome PBMC}
+\author{Dimension-sweep reporting summary}\date{12 August 2026}
+\begin{document}\maketitle\tableofcontents\newpage
+\section{Executive summary}
+GCN, GAT, and GATED GLUE are compared at latent dimensions 16, 32, 50, 64, and 100 using 2,000 and 8,000 cells. The primary comparison is exactly matched on subsample seed 0 and model seed 0; every primary value is therefore one observed run ($n=1$). Existing 8,000-cell dimension-50 results across subsample seeds 0--2 are retained in a separate mean $\pm$ SD table and are never mixed into the matched primary tables.
+
+MAP, NMI, ASW, Batch ASW, graph connectivity, FOSCTTM, neighbor consistency, Seurat alignment, and runtime are available for all 30 primary configurations. Feature Consistency is available only at dimension 50 because no dimension-matched full-data references exist for dimensions 16, 32, 64, or 100. Missing values are shown explicitly. FOSCTTM and runtime are lower-is-better; runtime is an efficiency measure, not a biological-quality metric. With single-run primary results, this report uses ``best observed'' wording and does not claim an optimal dimension or statistical significance.
+
+\section{Core architecture tables by dimension}
+Bold values identify the best valid architecture within a row. $^{\dagger}$NA means a dimension-matched Feature Consistency reference is unavailable.
+\subsection{Dimension 16}
+\begin{table}[H]\centering\small
+\caption{Dimension 16, 2,000 cells (subsample seed 0; model seed 0; $n=1$).}
+\rowcolors{2}{gray!8}{white}\begin{tabular}{@{}lrrrl@{}}\toprule
+Metric & GCN & GAT & GATED & Best model \\\midrule
+MAP $\uparrow$ & \textbf{0.8641} & 0.8518 & 0.8638 & GCN \\
+NMI $\uparrow$ & 0.8059 & 0.7920 & \textbf{0.8135} & GATED \\
+ASW $\uparrow$ & 0.6261 & \textbf{0.6560} & 0.6341 & GAT \\
+Batch ASW $\uparrow$ & \textbf{0.8912} & 0.8734 & 0.8825 & GCN \\
+Graph connectivity $\uparrow$ & 0.9806 & 0.9621 & \textbf{0.9819} & GATED \\
+FOSCTTM $\downarrow$ & \textbf{0.0465} & 0.0466 & 0.0518 & GCN \\
+Neighbor consistency $\uparrow$ & 0.2309 & 0.2123 & \textbf{0.2352} & GATED \\
+Feature consistency $\uparrow$ & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} & NA \\
+Seurat alignment $\uparrow$ & \textbf{0.9864} & 0.9576 & 0.9680 & GCN \\
+Runtime $\downarrow$ & 0.620 & 1.961 & \textbf{0.452} & GATED \\
+\bottomrule\end{tabular}
+\end{table}
+\begin{table}[H]\centering\small
+\caption{Dimension 16, 8,000 cells (subsample seed 0; model seed 0; $n=1$).}
+\rowcolors{2}{gray!8}{white}\begin{tabular}{@{}lrrrl@{}}\toprule
+Metric & GCN & GAT & GATED & Best model \\\midrule
+MAP $\uparrow$ & 0.8565 & 0.8524 & \textbf{0.8573} & GATED \\
+NMI $\uparrow$ & \textbf{0.8179} & 0.7847 & 0.8170 & GCN \\
+ASW $\uparrow$ & 0.6190 & \textbf{0.6364} & 0.6167 & GAT \\
+Batch ASW $\uparrow$ & \textbf{0.8902} & 0.8331 & 0.8706 & GCN \\
+Graph connectivity $\uparrow$ & \textbf{0.9864} & 0.9583 & 0.9593 & GCN \\
+FOSCTTM $\downarrow$ & 0.0582 & \textbf{0.0437} & 0.0624 & GAT \\
+Neighbor consistency $\uparrow$ & 0.2718 & 0.2440 & \textbf{0.2724} & GATED \\
+Feature consistency $\uparrow$ & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} & NA \\
+Seurat alignment $\uparrow$ & \textbf{0.9285} & 0.8362 & 0.9172 & GCN \\
+Runtime $\downarrow$ & 0.462 & 1.810 & \textbf{0.423} & GATED \\
+\bottomrule\end{tabular}
+\end{table}
+\subsection{Dimension 32}
+\begin{table}[H]\centering\small
+\caption{Dimension 32, 2,000 cells (subsample seed 0; model seed 0; $n=1$).}
+\rowcolors{2}{gray!8}{white}\begin{tabular}{@{}lrrrl@{}}\toprule
+Metric & GCN & GAT & GATED & Best model \\\midrule
+MAP $\uparrow$ & \textbf{0.8772} & 0.8615 & 0.8734 & GCN \\
+NMI $\uparrow$ & 0.8106 & \textbf{0.8283} & 0.8273 & GAT \\
+ASW $\uparrow$ & 0.6085 & \textbf{0.6210} & 0.6126 & GAT \\
+Batch ASW $\uparrow$ & 0.9065 & 0.8846 & \textbf{0.9133} & GATED \\
+Graph connectivity $\uparrow$ & \textbf{0.9878} & 0.9685 & 0.9759 & GCN \\
+FOSCTTM $\downarrow$ & 0.0421 & \textbf{0.0415} & 0.0426 & GAT \\
+Neighbor consistency $\uparrow$ & \textbf{0.2534} & 0.2279 & 0.2463 & GCN \\
+Feature consistency $\uparrow$ & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} & NA \\
+Seurat alignment $\uparrow$ & \textbf{0.9832} & 0.9590 & 0.9812 & GCN \\
+Runtime $\downarrow$ & 0.430 & 1.621 & \textbf{0.372} & GATED \\
+\bottomrule\end{tabular}
+\end{table}
+\begin{table}[H]\centering\small
+\caption{Dimension 32, 8,000 cells (subsample seed 0; model seed 0; $n=1$).}
+\rowcolors{2}{gray!8}{white}\begin{tabular}{@{}lrrrl@{}}\toprule
+Metric & GCN & GAT & GATED & Best model \\\midrule
+MAP $\uparrow$ & \textbf{0.8675} & 0.8601 & 0.8668 & GCN \\
+NMI $\uparrow$ & 0.8098 & 0.8019 & \textbf{0.8344} & GATED \\
+ASW $\uparrow$ & 0.6116 & \textbf{0.6293} & 0.6112 & GAT \\
+Batch ASW $\uparrow$ & 0.8892 & 0.8966 & \textbf{0.9176} & GATED \\
+Graph connectivity $\uparrow$ & 0.9623 & 0.9793 & \textbf{0.9888} & GATED \\
+FOSCTTM $\downarrow$ & \textbf{0.0368} & 0.0383 & 0.0395 & GCN \\
+Neighbor consistency $\uparrow$ & 0.2839 & 0.2723 & \textbf{0.2873} & GATED \\
+Feature consistency $\uparrow$ & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} & NA \\
+Seurat alignment $\uparrow$ & 0.9051 & 0.8941 & \textbf{0.9313} & GATED \\
+Runtime $\downarrow$ & \textbf{0.394} & 1.777 & 0.426 & GCN \\
+\bottomrule\end{tabular}
+\end{table}
+\subsection{Dimension 50}
+\begin{table}[H]\centering\small
+\caption{Dimension 50, 2,000 cells (subsample seed 0; model seed 0; $n=1$).}
+\rowcolors{2}{gray!8}{white}\begin{tabular}{@{}lrrrl@{}}\toprule
+Metric & GCN & GAT & GATED & Best model \\\midrule
+MAP $\uparrow$ & \textbf{0.8757} & 0.8637 & 0.8699 & GCN \\
+NMI $\uparrow$ & 0.8336 & 0.8258 & \textbf{0.8348} & GATED \\
+ASW $\uparrow$ & 0.5956 & \textbf{0.6115} & 0.5948 & GAT \\
+Batch ASW $\uparrow$ & \textbf{0.9425} & 0.8960 & 0.9149 & GCN \\
+Graph connectivity $\uparrow$ & 0.9856 & 0.9454 & \textbf{0.9879} & GATED \\
+FOSCTTM $\downarrow$ & 0.0513 & \textbf{0.0449} & 0.0497 & GAT \\
+Neighbor consistency $\uparrow$ & \textbf{0.2606} & 0.2393 & 0.2541 & GCN \\
+Feature consistency $\uparrow$ & \textbf{0.8362} & 0.8257 & 0.8217 & GCN \\
+Seurat alignment $\uparrow$ & 0.9828 & \textbf{0.9839} & 0.9554 & GAT \\
+Runtime $\downarrow$ & \textbf{0.363} & 1.613 & 0.422 & GCN \\
+\bottomrule\end{tabular}
+\end{table}
+\begin{table}[H]\centering\small
+\caption{Dimension 50, 8,000 cells (subsample seed 0; model seed 0; $n=1$).}
+\rowcolors{2}{gray!8}{white}\begin{tabular}{@{}lrrrl@{}}\toprule
+Metric & GCN & GAT & GATED & Best model \\\midrule
+MAP $\uparrow$ & 0.8699 & 0.8658 & \textbf{0.8743} & GATED \\
+NMI $\uparrow$ & 0.8283 & \textbf{0.8339} & 0.8314 & GAT \\
+ASW $\uparrow$ & 0.6122 & \textbf{0.6200} & 0.6182 & GAT \\
+Batch ASW $\uparrow$ & \textbf{0.8802} & 0.8787 & 0.8774 & GCN \\
+Graph connectivity $\uparrow$ & 0.9616 & 0.9600 & \textbf{0.9642} & GATED \\
+FOSCTTM $\downarrow$ & 0.0386 & \textbf{0.0361} & 0.0373 & GAT \\
+Neighbor consistency $\uparrow$ & 0.2958 & 0.2845 & \textbf{0.2977} & GATED \\
+Feature consistency $\uparrow$ & \textbf{0.9501} & 0.9438 & 0.9469 & GCN \\
+Seurat alignment $\uparrow$ & 0.9017 & 0.9041 & \textbf{0.9104} & GATED \\
+Runtime $\downarrow$ & \textbf{0.433} & 1.644 & 0.495 & GCN \\
+\bottomrule\end{tabular}
+\end{table}
+\subsection{Dimension 64}
+\begin{table}[H]\centering\small
+\caption{Dimension 64, 2,000 cells (subsample seed 0; model seed 0; $n=1$).}
+\rowcolors{2}{gray!8}{white}\begin{tabular}{@{}lrrrl@{}}\toprule
+Metric & GCN & GAT & GATED & Best model \\\midrule
+MAP $\uparrow$ & \textbf{0.8847} & 0.8629 & 0.8782 & GCN \\
+NMI $\uparrow$ & \textbf{0.8458} & 0.8216 & 0.8435 & GCN \\
+ASW $\uparrow$ & 0.5958 & \textbf{0.6041} & 0.5917 & GAT \\
+Batch ASW $\uparrow$ & \textbf{0.9413} & 0.8892 & 0.9272 & GCN \\
+Graph connectivity $\uparrow$ & 0.9835 & 0.9814 & \textbf{0.9931} & GATED \\
+FOSCTTM $\downarrow$ & \textbf{0.0451} & 0.0467 & 0.0476 & GCN \\
+Neighbor consistency $\uparrow$ & \textbf{0.2653} & 0.2453 & 0.2639 & GCN \\
+Feature consistency $\uparrow$ & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} & NA \\
+Seurat alignment $\uparrow$ & \textbf{1.0000} & 0.9668 & 0.9824 & GCN \\
+Runtime $\downarrow$ & 0.445 & 1.626 & \textbf{0.415} & GATED \\
+\bottomrule\end{tabular}
+\end{table}
+\begin{table}[H]\centering\small
+\caption{Dimension 64, 8,000 cells (subsample seed 0; model seed 0; $n=1$).}
+\rowcolors{2}{gray!8}{white}\begin{tabular}{@{}lrrrl@{}}\toprule
+Metric & GCN & GAT & GATED & Best model \\\midrule
+MAP $\uparrow$ & \textbf{0.8772} & 0.8636 & 0.8763 & GCN \\
+NMI $\uparrow$ & \textbf{0.8461} & 0.8279 & 0.8287 & GCN \\
+ASW $\uparrow$ & 0.6137 & \textbf{0.6224} & 0.6212 & GAT \\
+Batch ASW $\uparrow$ & 0.8761 & \textbf{0.9078} & 0.9056 & GAT \\
+Graph connectivity $\uparrow$ & 0.9649 & 0.9839 & \textbf{0.9916} & GATED \\
+FOSCTTM $\downarrow$ & 0.0457 & \textbf{0.0373} & 0.0394 & GAT \\
+Neighbor consistency $\uparrow$ & 0.2996 & 0.2849 & \textbf{0.3007} & GATED \\
+Feature consistency $\uparrow$ & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} & NA \\
+Seurat alignment $\uparrow$ & \textbf{0.9047} & 0.8933 & 0.8942 & GCN \\
+Runtime $\downarrow$ & \textbf{0.394} & 1.618 & 0.420 & GCN \\
+\bottomrule\end{tabular}
+\end{table}
+\subsection{Dimension 100}
+\begin{table}[H]\centering\small
+\caption{Dimension 100, 2,000 cells (subsample seed 0; model seed 0; $n=1$).}
+\rowcolors{2}{gray!8}{white}\begin{tabular}{@{}lrrrl@{}}\toprule
+Metric & GCN & GAT & GATED & Best model \\\midrule
+MAP $\uparrow$ & \textbf{0.8773} & 0.8753 & 0.8690 & GCN \\
+NMI $\uparrow$ & \textbf{0.8389} & 0.8344 & 0.8388 & GCN \\
+ASW $\uparrow$ & 0.5797 & \textbf{0.6071} & 0.5757 & GAT \\
+Batch ASW $\uparrow$ & \textbf{0.9452} & 0.9109 & 0.8875 & GCN \\
+Graph connectivity $\uparrow$ & 0.9790 & \textbf{0.9902} & 0.9667 & GAT \\
+FOSCTTM $\downarrow$ & 0.0525 & \textbf{0.0432} & 0.0560 & GAT \\
+Neighbor consistency $\uparrow$ & \textbf{0.2689} & 0.2555 & 0.2649 & GCN \\
+Feature consistency $\uparrow$ & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} & NA \\
+Seurat alignment $\uparrow$ & 0.9759 & 0.9697 & \textbf{0.9869} & GATED \\
+Runtime $\downarrow$ & \textbf{0.399} & 1.692 & 0.403 & GCN \\
+\bottomrule\end{tabular}
+\end{table}
+\begin{table}[H]\centering\small
+\caption{Dimension 100, 8,000 cells (subsample seed 0; model seed 0; $n=1$).}
+\rowcolors{2}{gray!8}{white}\begin{tabular}{@{}lrrrl@{}}\toprule
+Metric & GCN & GAT & GATED & Best model \\\midrule
+MAP $\uparrow$ & \textbf{0.8800} & 0.8683 & 0.8798 & GCN \\
+NMI $\uparrow$ & 0.8368 & 0.8292 & \textbf{0.8389} & GATED \\
+ASW $\uparrow$ & \textbf{0.6172} & 0.6171 & 0.6134 & GCN \\
+Batch ASW $\uparrow$ & 0.8498 & 0.8622 & \textbf{0.8961} & GATED \\
+Graph connectivity $\uparrow$ & 0.9646 & 0.9646 & \textbf{0.9669} & GATED \\
+FOSCTTM $\downarrow$ & 0.0374 & 0.0373 & \textbf{0.0364} & GATED \\
+Neighbor consistency $\uparrow$ & 0.3087 & 0.2967 & \textbf{0.3113} & GATED \\
+Feature consistency $\uparrow$ & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} & NA \\
+Seurat alignment $\uparrow$ & 0.8877 & 0.8676 & \textbf{0.9084} & GATED \\
+Runtime $\downarrow$ & \textbf{0.404} & 1.810 & 0.429 & GCN \\
+\bottomrule\end{tabular}
+\end{table}
+\section{Matched cell-count comparisons by architecture}
+Changes are $8{,}000-2{,}000$ for quality metrics. Runtime change is the ratio $t_{8000}/t_{2000}$. FOSCTTM differences remain ordinary signed differences; lower is better. No change is labeled statistically significant.
+\subsection{GCN}
+\begin{landscape}\begin{longtable}{@{}llrrr@{}}
+\caption{GCN: matched 2,000- versus 8,000-cell observations.}\\
+\toprule Metric & Dim & 2,000 & 8,000 & Change \\\midrule\endfirsthead
+\toprule Metric & Dim & 2,000 & 8,000 & Change \\\midrule\endhead
+MAP $\uparrow$ & 16 & 0.8641 & 0.8565 & -0.0075 \\
+MAP $\uparrow$ & 32 & 0.8772 & 0.8675 & -0.0097 \\
+MAP $\uparrow$ & 50 & 0.8757 & 0.8699 & -0.0058 \\
+MAP $\uparrow$ & 64 & 0.8847 & 0.8772 & -0.0075 \\
+MAP $\uparrow$ & 100 & 0.8773 & 0.8800 & +0.0027 \\
+\addlinespace
+NMI $\uparrow$ & 16 & 0.8059 & 0.8179 & +0.0121 \\
+NMI $\uparrow$ & 32 & 0.8106 & 0.8098 & -0.0008 \\
+NMI $\uparrow$ & 50 & 0.8336 & 0.8283 & -0.0053 \\
+NMI $\uparrow$ & 64 & 0.8458 & 0.8461 & +0.0003 \\
+NMI $\uparrow$ & 100 & 0.8389 & 0.8368 & -0.0022 \\
+\addlinespace
+ASW $\uparrow$ & 16 & 0.6261 & 0.6190 & -0.0071 \\
+ASW $\uparrow$ & 32 & 0.6085 & 0.6116 & +0.0032 \\
+ASW $\uparrow$ & 50 & 0.5956 & 0.6122 & +0.0167 \\
+ASW $\uparrow$ & 64 & 0.5958 & 0.6137 & +0.0179 \\
+ASW $\uparrow$ & 100 & 0.5797 & 0.6172 & +0.0375 \\
+\addlinespace
+Batch ASW $\uparrow$ & 16 & 0.8912 & 0.8902 & -0.0010 \\
+Batch ASW $\uparrow$ & 32 & 0.9065 & 0.8892 & -0.0173 \\
+Batch ASW $\uparrow$ & 50 & 0.9425 & 0.8802 & -0.0623 \\
+Batch ASW $\uparrow$ & 64 & 0.9413 & 0.8761 & -0.0651 \\
+Batch ASW $\uparrow$ & 100 & 0.9452 & 0.8498 & -0.0954 \\
+\addlinespace
+Graph connectivity $\uparrow$ & 16 & 0.9806 & 0.9864 & +0.0058 \\
+Graph connectivity $\uparrow$ & 32 & 0.9878 & 0.9623 & -0.0255 \\
+Graph connectivity $\uparrow$ & 50 & 0.9856 & 0.9616 & -0.0240 \\
+Graph connectivity $\uparrow$ & 64 & 0.9835 & 0.9649 & -0.0186 \\
+Graph connectivity $\uparrow$ & 100 & 0.9790 & 0.9646 & -0.0144 \\
+\addlinespace
+FOSCTTM $\downarrow$ & 16 & 0.0465 & 0.0582 & +0.0117 \\
+FOSCTTM $\downarrow$ & 32 & 0.0421 & 0.0368 & -0.0053 \\
+FOSCTTM $\downarrow$ & 50 & 0.0513 & 0.0386 & -0.0128 \\
+FOSCTTM $\downarrow$ & 64 & 0.0451 & 0.0457 & +0.0006 \\
+FOSCTTM $\downarrow$ & 100 & 0.0525 & 0.0374 & -0.0151 \\
+\addlinespace
+Neighbor consistency $\uparrow$ & 16 & 0.2309 & 0.2718 & +0.0409 \\
+Neighbor consistency $\uparrow$ & 32 & 0.2534 & 0.2839 & +0.0305 \\
+Neighbor consistency $\uparrow$ & 50 & 0.2606 & 0.2958 & +0.0352 \\
+Neighbor consistency $\uparrow$ & 64 & 0.2653 & 0.2996 & +0.0343 \\
+Neighbor consistency $\uparrow$ & 100 & 0.2689 & 0.3087 & +0.0398 \\
+\addlinespace
+Feature consistency $\uparrow$ & 16 & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} \\
+Feature consistency $\uparrow$ & 32 & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} \\
+Feature consistency $\uparrow$ & 50 & 0.8362 & 0.9501 & +0.1139 \\
+Feature consistency $\uparrow$ & 64 & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} \\
+Feature consistency $\uparrow$ & 100 & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} \\
+\addlinespace
+Seurat alignment $\uparrow$ & 16 & 0.9864 & 0.9285 & -0.0579 \\
+Seurat alignment $\uparrow$ & 32 & 0.9832 & 0.9051 & -0.0781 \\
+Seurat alignment $\uparrow$ & 50 & 0.9828 & 0.9017 & -0.0811 \\
+Seurat alignment $\uparrow$ & 64 & 1.0000 & 0.9047 & -0.0953 \\
+Seurat alignment $\uparrow$ & 100 & 0.9759 & 0.8877 & -0.0882 \\
+\addlinespace
+Runtime $\downarrow$ & 16 & 0.620 & 0.462 & 0.75$	imes$ \\
+Runtime $\downarrow$ & 32 & 0.430 & 0.394 & 0.92$	imes$ \\
+Runtime $\downarrow$ & 50 & 0.363 & 0.433 & 1.19$	imes$ \\
+Runtime $\downarrow$ & 64 & 0.445 & 0.394 & 0.88$	imes$ \\
+Runtime $\downarrow$ & 100 & 0.399 & 0.404 & 1.01$	imes$ \\
+\addlinespace
+\bottomrule\end{longtable}\end{landscape}
+\subsection{GAT}
+\begin{landscape}\begin{longtable}{@{}llrrr@{}}
+\caption{GAT: matched 2,000- versus 8,000-cell observations.}\\
+\toprule Metric & Dim & 2,000 & 8,000 & Change \\\midrule\endfirsthead
+\toprule Metric & Dim & 2,000 & 8,000 & Change \\\midrule\endhead
+MAP $\uparrow$ & 16 & 0.8518 & 0.8524 & +0.0005 \\
+MAP $\uparrow$ & 32 & 0.8615 & 0.8601 & -0.0014 \\
+MAP $\uparrow$ & 50 & 0.8637 & 0.8658 & +0.0021 \\
+MAP $\uparrow$ & 64 & 0.8629 & 0.8636 & +0.0007 \\
+MAP $\uparrow$ & 100 & 0.8753 & 0.8683 & -0.0070 \\
+\addlinespace
+NMI $\uparrow$ & 16 & 0.7920 & 0.7847 & -0.0073 \\
+NMI $\uparrow$ & 32 & 0.8283 & 0.8019 & -0.0264 \\
+NMI $\uparrow$ & 50 & 0.8258 & 0.8339 & +0.0081 \\
+NMI $\uparrow$ & 64 & 0.8216 & 0.8279 & +0.0063 \\
+NMI $\uparrow$ & 100 & 0.8344 & 0.8292 & -0.0053 \\
+\addlinespace
+ASW $\uparrow$ & 16 & 0.6560 & 0.6364 & -0.0197 \\
+ASW $\uparrow$ & 32 & 0.6210 & 0.6293 & +0.0083 \\
+ASW $\uparrow$ & 50 & 0.6115 & 0.6200 & +0.0085 \\
+ASW $\uparrow$ & 64 & 0.6041 & 0.6224 & +0.0183 \\
+ASW $\uparrow$ & 100 & 0.6071 & 0.6171 & +0.0100 \\
+\addlinespace
+Batch ASW $\uparrow$ & 16 & 0.8734 & 0.8331 & -0.0403 \\
+Batch ASW $\uparrow$ & 32 & 0.8846 & 0.8966 & +0.0120 \\
+Batch ASW $\uparrow$ & 50 & 0.8960 & 0.8787 & -0.0173 \\
+Batch ASW $\uparrow$ & 64 & 0.8892 & 0.9078 & +0.0186 \\
+Batch ASW $\uparrow$ & 100 & 0.9109 & 0.8622 & -0.0488 \\
+\addlinespace
+Graph connectivity $\uparrow$ & 16 & 0.9621 & 0.9583 & -0.0038 \\
+Graph connectivity $\uparrow$ & 32 & 0.9685 & 0.9793 & +0.0108 \\
+Graph connectivity $\uparrow$ & 50 & 0.9454 & 0.9600 & +0.0146 \\
+Graph connectivity $\uparrow$ & 64 & 0.9814 & 0.9839 & +0.0025 \\
+Graph connectivity $\uparrow$ & 100 & 0.9902 & 0.9646 & -0.0256 \\
+\addlinespace
+FOSCTTM $\downarrow$ & 16 & 0.0466 & 0.0437 & -0.0030 \\
+FOSCTTM $\downarrow$ & 32 & 0.0415 & 0.0383 & -0.0032 \\
+FOSCTTM $\downarrow$ & 50 & 0.0449 & 0.0361 & -0.0087 \\
+FOSCTTM $\downarrow$ & 64 & 0.0467 & 0.0373 & -0.0095 \\
+FOSCTTM $\downarrow$ & 100 & 0.0432 & 0.0373 & -0.0059 \\
+\addlinespace
+Neighbor consistency $\uparrow$ & 16 & 0.2123 & 0.2440 & +0.0317 \\
+Neighbor consistency $\uparrow$ & 32 & 0.2279 & 0.2723 & +0.0444 \\
+Neighbor consistency $\uparrow$ & 50 & 0.2393 & 0.2845 & +0.0452 \\
+Neighbor consistency $\uparrow$ & 64 & 0.2453 & 0.2849 & +0.0396 \\
+Neighbor consistency $\uparrow$ & 100 & 0.2555 & 0.2967 & +0.0411 \\
+\addlinespace
+Feature consistency $\uparrow$ & 16 & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} \\
+Feature consistency $\uparrow$ & 32 & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} \\
+Feature consistency $\uparrow$ & 50 & 0.8257 & 0.9438 & +0.1182 \\
+Feature consistency $\uparrow$ & 64 & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} \\
+Feature consistency $\uparrow$ & 100 & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} \\
+\addlinespace
+Seurat alignment $\uparrow$ & 16 & 0.9576 & 0.8362 & -0.1214 \\
+Seurat alignment $\uparrow$ & 32 & 0.9590 & 0.8941 & -0.0649 \\
+Seurat alignment $\uparrow$ & 50 & 0.9839 & 0.9041 & -0.0798 \\
+Seurat alignment $\uparrow$ & 64 & 0.9668 & 0.8933 & -0.0735 \\
+Seurat alignment $\uparrow$ & 100 & 0.9697 & 0.8676 & -0.1021 \\
+\addlinespace
+Runtime $\downarrow$ & 16 & 1.961 & 1.810 & 0.92$	imes$ \\
+Runtime $\downarrow$ & 32 & 1.621 & 1.777 & 1.10$	imes$ \\
+Runtime $\downarrow$ & 50 & 1.613 & 1.644 & 1.02$	imes$ \\
+Runtime $\downarrow$ & 64 & 1.626 & 1.618 & 1.00$	imes$ \\
+Runtime $\downarrow$ & 100 & 1.692 & 1.810 & 1.07$	imes$ \\
+\addlinespace
+\bottomrule\end{longtable}\end{landscape}
+\subsection{GATED}
+\begin{landscape}\begin{longtable}{@{}llrrr@{}}
+\caption{GATED: matched 2,000- versus 8,000-cell observations.}\\
+\toprule Metric & Dim & 2,000 & 8,000 & Change \\\midrule\endfirsthead
+\toprule Metric & Dim & 2,000 & 8,000 & Change \\\midrule\endhead
+MAP $\uparrow$ & 16 & 0.8638 & 0.8573 & -0.0065 \\
+MAP $\uparrow$ & 32 & 0.8734 & 0.8668 & -0.0066 \\
+MAP $\uparrow$ & 50 & 0.8699 & 0.8743 & +0.0044 \\
+MAP $\uparrow$ & 64 & 0.8782 & 0.8763 & -0.0019 \\
+MAP $\uparrow$ & 100 & 0.8690 & 0.8798 & +0.0108 \\
+\addlinespace
+NMI $\uparrow$ & 16 & 0.8135 & 0.8170 & +0.0035 \\
+NMI $\uparrow$ & 32 & 0.8273 & 0.8344 & +0.0071 \\
+NMI $\uparrow$ & 50 & 0.8348 & 0.8314 & -0.0034 \\
+NMI $\uparrow$ & 64 & 0.8435 & 0.8287 & -0.0148 \\
+NMI $\uparrow$ & 100 & 0.8388 & 0.8389 & +0.0001 \\
+\addlinespace
+ASW $\uparrow$ & 16 & 0.6341 & 0.6167 & -0.0174 \\
+ASW $\uparrow$ & 32 & 0.6126 & 0.6112 & -0.0014 \\
+ASW $\uparrow$ & 50 & 0.5948 & 0.6182 & +0.0234 \\
+ASW $\uparrow$ & 64 & 0.5917 & 0.6212 & +0.0295 \\
+ASW $\uparrow$ & 100 & 0.5757 & 0.6134 & +0.0377 \\
+\addlinespace
+Batch ASW $\uparrow$ & 16 & 0.8825 & 0.8706 & -0.0118 \\
+Batch ASW $\uparrow$ & 32 & 0.9133 & 0.9176 & +0.0043 \\
+Batch ASW $\uparrow$ & 50 & 0.9149 & 0.8774 & -0.0375 \\
+Batch ASW $\uparrow$ & 64 & 0.9272 & 0.9056 & -0.0216 \\
+Batch ASW $\uparrow$ & 100 & 0.8875 & 0.8961 & +0.0086 \\
+\addlinespace
+Graph connectivity $\uparrow$ & 16 & 0.9819 & 0.9593 & -0.0227 \\
+Graph connectivity $\uparrow$ & 32 & 0.9759 & 0.9888 & +0.0130 \\
+Graph connectivity $\uparrow$ & 50 & 0.9879 & 0.9642 & -0.0237 \\
+Graph connectivity $\uparrow$ & 64 & 0.9931 & 0.9916 & -0.0015 \\
+Graph connectivity $\uparrow$ & 100 & 0.9667 & 0.9669 & +0.0002 \\
+\addlinespace
+FOSCTTM $\downarrow$ & 16 & 0.0518 & 0.0624 & +0.0107 \\
+FOSCTTM $\downarrow$ & 32 & 0.0426 & 0.0395 & -0.0031 \\
+FOSCTTM $\downarrow$ & 50 & 0.0497 & 0.0373 & -0.0123 \\
+FOSCTTM $\downarrow$ & 64 & 0.0476 & 0.0394 & -0.0082 \\
+FOSCTTM $\downarrow$ & 100 & 0.0560 & 0.0364 & -0.0195 \\
+\addlinespace
+Neighbor consistency $\uparrow$ & 16 & 0.2352 & 0.2724 & +0.0372 \\
+Neighbor consistency $\uparrow$ & 32 & 0.2463 & 0.2873 & +0.0409 \\
+Neighbor consistency $\uparrow$ & 50 & 0.2541 & 0.2977 & +0.0436 \\
+Neighbor consistency $\uparrow$ & 64 & 0.2639 & 0.3007 & +0.0368 \\
+Neighbor consistency $\uparrow$ & 100 & 0.2649 & 0.3113 & +0.0464 \\
+\addlinespace
+Feature consistency $\uparrow$ & 16 & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} \\
+Feature consistency $\uparrow$ & 32 & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} \\
+Feature consistency $\uparrow$ & 50 & 0.8217 & 0.9469 & +0.1252 \\
+Feature consistency $\uparrow$ & 64 & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} \\
+Feature consistency $\uparrow$ & 100 & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} \\
+\addlinespace
+Seurat alignment $\uparrow$ & 16 & 0.9680 & 0.9172 & -0.0508 \\
+Seurat alignment $\uparrow$ & 32 & 0.9812 & 0.9313 & -0.0500 \\
+Seurat alignment $\uparrow$ & 50 & 0.9554 & 0.9104 & -0.0450 \\
+Seurat alignment $\uparrow$ & 64 & 0.9824 & 0.8942 & -0.0881 \\
+Seurat alignment $\uparrow$ & 100 & 0.9869 & 0.9084 & -0.0785 \\
+\addlinespace
+Runtime $\downarrow$ & 16 & 0.452 & 0.423 & 0.94$	imes$ \\
+Runtime $\downarrow$ & 32 & 0.372 & 0.426 & 1.15$	imes$ \\
+Runtime $\downarrow$ & 50 & 0.422 & 0.495 & 1.17$	imes$ \\
+Runtime $\downarrow$ & 64 & 0.415 & 0.420 & 1.01$	imes$ \\
+Runtime $\downarrow$ & 100 & 0.403 & 0.429 & 1.06$	imes$ \\
+\addlinespace
+\bottomrule\end{longtable}\end{landscape}
+\section{Cross-dimension tables: 2,000 cells}
+\begin{table}[H]\centering\scriptsize
+\caption{GCN across dimensions at 2,000 cells.}
+\rowcolors{2}{gray!8}{white}\begin{tabular}{@{}lrrrrr@{}}\toprule
+Metric & 16 & 32 & 50 & 64 & 100 \\\midrule
+MAP $\uparrow$ & 0.8641 & 0.8772 & 0.8757 & \textbf{0.8847} & 0.8773 \\
+NMI $\uparrow$ & 0.8059 & 0.8106 & 0.8336 & \textbf{0.8458} & 0.8389 \\
+ASW $\uparrow$ & \textbf{0.6261} & 0.6085 & 0.5956 & 0.5958 & 0.5797 \\
+Batch ASW $\uparrow$ & 0.8912 & 0.9065 & 0.9425 & 0.9413 & \textbf{0.9452} \\
+Graph connectivity $\uparrow$ & 0.9806 & \textbf{0.9878} & 0.9856 & 0.9835 & 0.9790 \\
+FOSCTTM $\downarrow$ & 0.0465 & \textbf{0.0421} & 0.0513 & 0.0451 & 0.0525 \\
+Neighbor consistency $\uparrow$ & 0.2309 & 0.2534 & 0.2606 & 0.2653 & \textbf{0.2689} \\
+Feature consistency $\uparrow$ & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} & 0.8362 & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} \\
+Seurat alignment $\uparrow$ & 0.9864 & 0.9832 & 0.9828 & \textbf{1.0000} & 0.9759 \\
+Runtime $\downarrow$ & 0.620 & 0.430 & \textbf{0.363} & 0.445 & 0.399 \\
+\bottomrule\end{tabular}\end{table}
+\begin{table}[H]\centering\scriptsize
+\caption{GAT across dimensions at 2,000 cells.}
+\rowcolors{2}{gray!8}{white}\begin{tabular}{@{}lrrrrr@{}}\toprule
+Metric & 16 & 32 & 50 & 64 & 100 \\\midrule
+MAP $\uparrow$ & 0.8518 & 0.8615 & 0.8637 & 0.8629 & \textbf{0.8753} \\
+NMI $\uparrow$ & 0.7920 & 0.8283 & 0.8258 & 0.8216 & \textbf{0.8344} \\
+ASW $\uparrow$ & \textbf{0.6560} & 0.6210 & 0.6115 & 0.6041 & 0.6071 \\
+Batch ASW $\uparrow$ & 0.8734 & 0.8846 & 0.8960 & 0.8892 & \textbf{0.9109} \\
+Graph connectivity $\uparrow$ & 0.9621 & 0.9685 & 0.9454 & 0.9814 & \textbf{0.9902} \\
+FOSCTTM $\downarrow$ & 0.0466 & \textbf{0.0415} & 0.0449 & 0.0467 & 0.0432 \\
+Neighbor consistency $\uparrow$ & 0.2123 & 0.2279 & 0.2393 & 0.2453 & \textbf{0.2555} \\
+Feature consistency $\uparrow$ & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} & 0.8257 & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} \\
+Seurat alignment $\uparrow$ & 0.9576 & 0.9590 & \textbf{0.9839} & 0.9668 & 0.9697 \\
+Runtime $\downarrow$ & 1.961 & 1.621 & \textbf{1.613} & 1.626 & 1.692 \\
+\bottomrule\end{tabular}\end{table}
+\begin{table}[H]\centering\scriptsize
+\caption{GATED across dimensions at 2,000 cells.}
+\rowcolors{2}{gray!8}{white}\begin{tabular}{@{}lrrrrr@{}}\toprule
+Metric & 16 & 32 & 50 & 64 & 100 \\\midrule
+MAP $\uparrow$ & 0.8638 & 0.8734 & 0.8699 & \textbf{0.8782} & 0.8690 \\
+NMI $\uparrow$ & 0.8135 & 0.8273 & 0.8348 & \textbf{0.8435} & 0.8388 \\
+ASW $\uparrow$ & \textbf{0.6341} & 0.6126 & 0.5948 & 0.5917 & 0.5757 \\
+Batch ASW $\uparrow$ & 0.8825 & 0.9133 & 0.9149 & \textbf{0.9272} & 0.8875 \\
+Graph connectivity $\uparrow$ & 0.9819 & 0.9759 & 0.9879 & \textbf{0.9931} & 0.9667 \\
+FOSCTTM $\downarrow$ & 0.0518 & \textbf{0.0426} & 0.0497 & 0.0476 & 0.0560 \\
+Neighbor consistency $\uparrow$ & 0.2352 & 0.2463 & 0.2541 & 0.2639 & \textbf{0.2649} \\
+Feature consistency $\uparrow$ & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} & 0.8217 & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} \\
+Seurat alignment $\uparrow$ & 0.9680 & 0.9812 & 0.9554 & 0.9824 & \textbf{0.9869} \\
+Runtime $\downarrow$ & 0.452 & \textbf{0.372} & 0.422 & 0.415 & 0.403 \\
+\bottomrule\end{tabular}\end{table}
+\section{Cross-dimension tables: 8,000 cells}
+\begin{table}[H]\centering\scriptsize
+\caption{GCN across dimensions at 8,000 cells.}
+\rowcolors{2}{gray!8}{white}\begin{tabular}{@{}lrrrrr@{}}\toprule
+Metric & 16 & 32 & 50 & 64 & 100 \\\midrule
+MAP $\uparrow$ & 0.8565 & 0.8675 & 0.8699 & 0.8772 & \textbf{0.8800} \\
+NMI $\uparrow$ & 0.8179 & 0.8098 & 0.8283 & \textbf{0.8461} & 0.8368 \\
+ASW $\uparrow$ & \textbf{0.6190} & 0.6116 & 0.6122 & 0.6137 & 0.6172 \\
+Batch ASW $\uparrow$ & \textbf{0.8902} & 0.8892 & 0.8802 & 0.8761 & 0.8498 \\
+Graph connectivity $\uparrow$ & \textbf{0.9864} & 0.9623 & 0.9616 & 0.9649 & 0.9646 \\
+FOSCTTM $\downarrow$ & 0.0582 & \textbf{0.0368} & 0.0386 & 0.0457 & 0.0374 \\
+Neighbor consistency $\uparrow$ & 0.2718 & 0.2839 & 0.2958 & 0.2996 & \textbf{0.3087} \\
+Feature consistency $\uparrow$ & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} & 0.9501 & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} \\
+Seurat alignment $\uparrow$ & \textbf{0.9285} & 0.9051 & 0.9017 & 0.9047 & 0.8877 \\
+Runtime $\downarrow$ & 0.462 & 0.394 & 0.433 & \textbf{0.394} & 0.404 \\
+\bottomrule\end{tabular}\end{table}
+\begin{table}[H]\centering\scriptsize
+\caption{GAT across dimensions at 8,000 cells.}
+\rowcolors{2}{gray!8}{white}\begin{tabular}{@{}lrrrrr@{}}\toprule
+Metric & 16 & 32 & 50 & 64 & 100 \\\midrule
+MAP $\uparrow$ & 0.8524 & 0.8601 & 0.8658 & 0.8636 & \textbf{0.8683} \\
+NMI $\uparrow$ & 0.7847 & 0.8019 & \textbf{0.8339} & 0.8279 & 0.8292 \\
+ASW $\uparrow$ & \textbf{0.6364} & 0.6293 & 0.6200 & 0.6224 & 0.6171 \\
+Batch ASW $\uparrow$ & 0.8331 & 0.8966 & 0.8787 & \textbf{0.9078} & 0.8622 \\
+Graph connectivity $\uparrow$ & 0.9583 & 0.9793 & 0.9600 & \textbf{0.9839} & 0.9646 \\
+FOSCTTM $\downarrow$ & 0.0437 & 0.0383 & \textbf{0.0361} & 0.0373 & 0.0373 \\
+Neighbor consistency $\uparrow$ & 0.2440 & 0.2723 & 0.2845 & 0.2849 & \textbf{0.2967} \\
+Feature consistency $\uparrow$ & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} & 0.9438 & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} \\
+Seurat alignment $\uparrow$ & 0.8362 & 0.8941 & \textbf{0.9041} & 0.8933 & 0.8676 \\
+Runtime $\downarrow$ & 1.810 & 1.777 & 1.644 & \textbf{1.618} & 1.810 \\
+\bottomrule\end{tabular}\end{table}
+\begin{table}[H]\centering\scriptsize
+\caption{GATED across dimensions at 8,000 cells.}
+\rowcolors{2}{gray!8}{white}\begin{tabular}{@{}lrrrrr@{}}\toprule
+Metric & 16 & 32 & 50 & 64 & 100 \\\midrule
+MAP $\uparrow$ & 0.8573 & 0.8668 & 0.8743 & 0.8763 & \textbf{0.8798} \\
+NMI $\uparrow$ & 0.8170 & 0.8344 & 0.8314 & 0.8287 & \textbf{0.8389} \\
+ASW $\uparrow$ & 0.6167 & 0.6112 & 0.6182 & \textbf{0.6212} & 0.6134 \\
+Batch ASW $\uparrow$ & 0.8706 & \textbf{0.9176} & 0.8774 & 0.9056 & 0.8961 \\
+Graph connectivity $\uparrow$ & 0.9593 & 0.9888 & 0.9642 & \textbf{0.9916} & 0.9669 \\
+FOSCTTM $\downarrow$ & 0.0624 & 0.0395 & 0.0373 & 0.0394 & \textbf{0.0364} \\
+Neighbor consistency $\uparrow$ & 0.2724 & 0.2873 & 0.2977 & 0.3007 & \textbf{0.3113} \\
+Feature consistency $\uparrow$ & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} & 0.9469 & \textcolor{gray}{NA$^{\dagger}$} & \textcolor{gray}{NA$^{\dagger}$} \\
+Seurat alignment $\uparrow$ & 0.9172 & \textbf{0.9313} & 0.9104 & 0.8942 & 0.9084 \\
+Runtime $\downarrow$ & 0.423 & 0.426 & 0.495 & \textbf{0.420} & 0.429 \\
+\bottomrule\end{tabular}\end{table}
+\section{Best observed architecture at each dimension}
+\begin{landscape}\begin{table}[H]\centering\scriptsize
+\caption{Best observed architecture by metric, cell count, and dimension.}
+\begin{tabular}{@{}rrlllllllllll@{}}\toprule
+Cells & Dim & MAP & NMI & ASW & Batch ASW & Graph Conn. & FOSCTTM & Neighbor & Feature & Seurat & Fastest \\\midrule
+2,000 & 16 & GCN & GATED & GAT & GCN & GATED & GCN & GATED & NA & GCN & GATED \\
+2,000 & 32 & GCN & GAT & GAT & GATED & GCN & GAT & GCN & NA & GCN & GATED \\
+2,000 & 50 & GCN & GATED & GAT & GCN & GATED & GAT & GCN & GCN & GAT & GCN \\
+2,000 & 64 & GCN & GCN & GAT & GCN & GATED & GCN & GCN & NA & GCN & GATED \\
+2,000 & 100 & GCN & GCN & GAT & GCN & GAT & GAT & GCN & NA & GATED & GCN \\
+\addlinespace
+8,000 & 16 & GATED & GCN & GAT & GCN & GCN & GAT & GATED & NA & GCN & GATED \\
+8,000 & 32 & GCN & GATED & GAT & GATED & GATED & GCN & GATED & NA & GATED & GCN \\
+8,000 & 50 & GATED & GAT & GAT & GCN & GATED & GAT & GATED & GCN & GATED & GCN \\
+8,000 & 64 & GCN & GCN & GAT & GAT & GATED & GAT & GATED & NA & GCN & GCN \\
+8,000 & 100 & GCN & GATED & GCN & GATED & GATED & GATED & GATED & NA & GATED & GCN \\
+\addlinespace
+\bottomrule\end{tabular}\end{table}\end{landscape}
+\section{Best observed dimension within each model}
+\begin{table}[H]\centering\small
+\caption{Best observed dimension within each model at 2,000 cells.}
+\begin{tabular}{@{}lrrr@{}}\toprule
+Metric & GCN best dim & GAT best dim & GATED best dim \\\midrule
+MAP $\uparrow$ & 64 & 100 & 64 \\
+NMI $\uparrow$ & 64 & 100 & 64 \\
+ASW $\uparrow$ & 16 & 16 & 16 \\
+Batch ASW $\uparrow$ & 100 & 100 & 64 \\
+Graph connectivity $\uparrow$ & 32 & 100 & 64 \\
+FOSCTTM $\downarrow$ & 32 & 32 & 32 \\
+Neighbor consistency $\uparrow$ & 100 & 100 & 100 \\
+Feature consistency $\uparrow$ & \multicolumn{1}{c}{not comparable} & \multicolumn{1}{c}{not comparable} & \multicolumn{1}{c}{not comparable} \\
+Seurat alignment $\uparrow$ & 64 & 50 & 100 \\
+Runtime $\downarrow$ & 50 & 50 & 32 \\
+\bottomrule\end{tabular}\end{table}
+\begin{table}[H]\centering\small
+\caption{Best observed dimension within each model at 8,000 cells.}
+\begin{tabular}{@{}lrrr@{}}\toprule
+Metric & GCN best dim & GAT best dim & GATED best dim \\\midrule
+MAP $\uparrow$ & 100 & 100 & 100 \\
+NMI $\uparrow$ & 64 & 50 & 100 \\
+ASW $\uparrow$ & 16 & 16 & 64 \\
+Batch ASW $\uparrow$ & 16 & 64 & 32 \\
+Graph connectivity $\uparrow$ & 16 & 64 & 64 \\
+FOSCTTM $\downarrow$ & 32 & 50 & 100 \\
+Neighbor consistency $\uparrow$ & 100 & 100 & 100 \\
+Feature consistency $\uparrow$ & \multicolumn{1}{c}{not comparable} & \multicolumn{1}{c}{not comparable} & \multicolumn{1}{c}{not comparable} \\
+Seurat alignment $\uparrow$ & 16 & 50 & 32 \\
+Runtime $\downarrow$ & 64 & 64 & 64 \\
+\bottomrule\end{tabular}\end{table}
+\section{Existing replicated dimension-50 results}
+\begin{table}[H]\centering\scriptsize
+\caption{Existing replicated 8,000-cell dimension-50 benchmark (mean $\pm$ SD across subsample seeds 0--2; model seed 0).}
+\begin{tabular}{@{}lrrr@{}}\toprule Metric & GCN & GAT & GATED \\\midrule
+MAP $\uparrow$ & 0.8749 $\pm$ 0.0053 & 0.8631 $\pm$ 0.0056 & 0.8754 $\pm$ 0.0012 \\
+NMI $\uparrow$ & 0.8323 $\pm$ 0.0086 & 0.8178 $\pm$ 0.0187 & 0.8274 $\pm$ 0.0089 \\
+ASW $\uparrow$ & 0.6087 $\pm$ 0.0033 & 0.6195 $\pm$ 0.0022 & 0.6160 $\pm$ 0.0040 \\
+Batch ASW $\uparrow$ & 0.8976 $\pm$ 0.0208 & 0.8705 $\pm$ 0.0071 & 0.8978 $\pm$ 0.0205 \\
+Graph connectivity $\uparrow$ & 0.9722 $\pm$ 0.0181 & 0.9584 $\pm$ 0.0017 & 0.9734 $\pm$ 0.0152 \\
+FOSCTTM $\downarrow$ & 0.0364 $\pm$ 0.0023 & 0.0378 $\pm$ 0.0029 & 0.0372 $\pm$ 0.0037 \\
+Neighbor consistency $\uparrow$ & 0.3011 $\pm$ 0.0063 & 0.2835 $\pm$ 0.0018 & 0.3003 $\pm$ 0.0036 \\
+Feature consistency $\uparrow$ & 0.9450 $\pm$ 0.0072 & 0.9484 $\pm$ 0.0039 & 0.9486 $\pm$ 0.0097 \\
+Seurat alignment $\uparrow$ & 0.9254 $\pm$ 0.0223 & 0.9115 $\pm$ 0.0141 & 0.9269 $\pm$ 0.0180 \\
+Runtime $\downarrow$ & 0.473 $\pm$ 0.054 & 2.170 $\pm$ 0.486 & 0.509 $\pm$ 0.019 \\
+\bottomrule\end{tabular}\end{table}
+\section{Dimension-sensitivity plots}
+The panels separate sample sizes to avoid six-line clutter. Lines connect only observed values; Feature Consistency is omitted because one valid dimension cannot define a curve.
+\begin{figure}[H]\centering\includegraphics[width=.94\linewidth]{plots_2000_8000/mean_average_precision.pdf}\caption{MAP versus latent dimension.}\end{figure}
+\begin{figure}[H]\centering\includegraphics[width=.94\linewidth]{plots_2000_8000/normalized_mutual_info.pdf}\caption{NMI versus latent dimension.}\end{figure}
+\begin{figure}[H]\centering\includegraphics[width=.94\linewidth]{plots_2000_8000/avg_silhouette_width.pdf}\caption{ASW versus latent dimension.}\end{figure}
+\begin{figure}[H]\centering\includegraphics[width=.94\linewidth]{plots_2000_8000/avg_silhouette_width_batch.pdf}\caption{Batch ASW versus latent dimension.}\end{figure}
+\begin{figure}[H]\centering\includegraphics[width=.94\linewidth]{plots_2000_8000/graph_connectivity.pdf}\caption{Graph connectivity versus latent dimension.}\end{figure}
+\begin{figure}[H]\centering\includegraphics[width=.94\linewidth]{plots_2000_8000/foscttm.pdf}\caption{FOSCTTM versus latent dimension.}\end{figure}
+\begin{figure}[H]\centering\includegraphics[width=.94\linewidth]{plots_2000_8000/neighbor_conservation.pdf}\caption{Neighbor consistency versus latent dimension.}\end{figure}
+\begin{figure}[H]\centering\includegraphics[width=.94\linewidth]{plots_2000_8000/seurat_alignment_score.pdf}\caption{Seurat alignment versus latent dimension.}\end{figure}
+\begin{figure}[H]\centering\includegraphics[width=.94\linewidth]{plots_2000_8000/runtime.pdf}\caption{Runtime versus latent dimension.}\end{figure}
+
+\section{Scientific interpretation}
+\begin{enumerate}
+\item \textbf{Does increasing embedding size generally improve performance?} No uniform monotonic improvement is observed. MAP, NMI, mixing, pairing, and neighborhood metrics often favor different dimensions within the same architecture.
+\item \textbf{Do improvements plateau?} Several curves flatten or reverse after 50--64 dimensions. This suggests metric-specific plateaus rather than a universal saturation point.
+\item \textbf{Does the preferred dimension change with sample size?} Yes for several architecture--metric pairs; the best-observed dimension tables show the exact changes. No single preferred dimension is shared by all metrics at either size.
+\item \textbf{Does GAT benefit more from larger dimensions?} The data do not support a blanket claim: some GAT metrics rise at larger dimensions while ASW and FOSCTTM can favor smaller dimensions.
+\item \textbf{Is GATED dimension-sensitive?} GATED shows visible but metric-dependent variation. It is neither uniformly insensitive nor uniformly more sensitive than the alternatives.
+\item \textbf{Does runtime scale differently?} Yes. GAT remains the slowest architecture in these matched runs, while GCN and GATED are closer. Runtime is not monotonic with dimension because convergence time and scheduler-independent training dynamics vary by run.
+\item \textbf{Is default dimension 50 near a plateau?} Dimension 50 lies near a plateau for several curves, but later dimensions still yield best-observed values for some metrics. Relative 8,000-cell MAP change from dimension 50 to the better of 64/100 is: GCN +0.0101, GAT +0.0025, GATED +0.0055. Thus dimension 50 is a defensible baseline, not a demonstrated optimum.
+\item \textbf{Are dimensions clearly dominated at both sizes?} No dimension is declared globally dominated because metric directions conflict and no weighting scheme was specified.
+\end{enumerate}
+
+\section{Data integrity and limitations}
+All 15 2,000-cell and all 15 8,000-cell architecture--dimension combinations are present exactly once in the matched data. The 2,000-cell source is the authoritative Stage-A long table. The 8,000-cell non-default dimensions use only model job 54328002 records with completed exit code 0:0; dimension-50 benchmark outputs were independently validated and reused. Architecture, requested dimension, sample size, subsample/model seeds, latent non-emptiness and shape, scientific hyperparameters, and unique paths were checked before metrics were accepted. Failed metric job 54418992 and every failed/incomplete model record are excluded. No missing result was inferred or filled, sample sizes were never averaged together, and runtime consistently comes from run metadata.
+
+Primary comparisons are single runs and cannot estimate run-to-run uncertainty. The replicated appendix is restricted to the already-existing dimension-50 8,000-cell benchmark and reflects subsample-seed variation, not model-seed variation. Feature Consistency cannot be compared across dimensions. Conclusions are descriptive and specific to this dataset and matched hyperparameters.
+
+\appendix\section{Source paths}
+Combined table: \texttt{evaluation/dimension\_sweep/metrics\_2000\_8000\_combined.csv}.\\
+Validated 8,000-run inventory: \texttt{evaluation/dimension\_sweep/available\_8000\_runs.csv}.\\
+No model training was performed, no GPU job was submitted, and existing experiment outputs were not modified.
+\end{document}

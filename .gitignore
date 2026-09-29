@@ -58,3 +58,20 @@ Temp
 tmp
 tools
 dist
+
+# Large GATED GLUE experimental outputs stored on Fir
+evaluation/results_dimension_sweep/
+evaluation/results_gate_init_sensitivity/
+evaluation/results_gated/
+evaluation/results_gated_tuning/
+evaluation/gate_analysis/
+
+# Generated Python / LaTeX / cluster artifacts
+__pycache__/
+*.pyc
+*.aux
+*.fls
+*.fdb_latexmk
+*.log
+evaluation/gate_init_sensitivity/logs/
+*.toc

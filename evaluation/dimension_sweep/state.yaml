@@ -1,0 +1,49 @@
+current_stage: combined_dimension_report_complete
+completed_configs:
+  - gcn_dim50_size2000_seed0_reused
+  - gat_dim50_size2000_seed0_reused
+  - gated_dim50_size2000_seed0_reused
+  - gcn_dim16_size2000_seed0_job54292882_task0
+  - gcn_dim32_size2000_seed0_job54328035_task1
+  - gcn_dim64_size2000_seed0_job54328035_task2
+  - gcn_dim100_size2000_seed0_job54328035_task3
+  - gat_dim16_size2000_seed0_job54313064_task4
+  - gat_dim32_size2000_seed0_job54328035_task5
+  - gat_dim64_size2000_seed0_job54328035_task6
+  - gat_dim100_size2000_seed0_job54328035_task7
+  - gated_dim16_size2000_seed0_job54328035_task8
+  - gated_dim32_size2000_seed0_job54328035_task9
+  - gated_dim64_size2000_seed0_job54328035_task10
+  - gated_dim100_size2000_seed0_job54328035_task11
+completed_auxiliary_configs:
+  - job54328002_all_tasks_size8000_seed0_verified_not_stageA_selection_inputs
+pending_configs: 0
+failed_configs:
+  - stage_A_metrics_job54418992_tasks0_11_failed_exit1_raw_h5ad_used_instead_of_unirep_h5ad
+  - gcn_dim16_size2000_seed0_job54067376_exit3:0_recovered_job54292882
+  - gcn_dim32_size2000_seed0_job54067376_exit3:0_recovered_job54328035
+  - gcn_dim64_size2000_seed0_job54067376_exit3:0_recovered_job54328035
+  - gcn_dim100_size2000_seed0_job54067376_exit3:0_recovered_job54328035
+  - gat_dim16_size2000_seed0_job54067376_exit3:0_recovered_job54313064
+  - gat_dim32_size2000_seed0_job54067376_exit3:0_recovered_job54328035
+  - gat_dim64_size2000_seed0_job54067376_exit3:0_recovered_job54328035
+  - gat_dim100_size2000_seed0_job54067376_exit3:0_recovered_job54328035
+submitted_job_ids: [54067376, 54212616, 54292882, 54313064, 54328002, 54328035]
+metric_job_ids: [54067740, 54418992, 54430245, 54443958]
+metric_job_notes:
+  - job54418992_failed_all_tasks_in_neighbor_conservation_because_wrapper_passed_raw_sparse_h5ad_not_benchmark_unirep_h5ad
+  - job54430245_replacement_submitted_after_wrapper_input_fix_feature_consistency_deferred
+  - job54430245_all_tasks_completed_exit0_stageA_summaries_collected
+  - job54443958_cpu_only_8000_dimension_metrics_submitted_non50_dimensions_outputs_isolated_from_model_directories
+  - job54443958_all_12_tasks_completed_exit0_metrics_collected
+duplicate_execution_notes:
+  - jobs_54328002_and_54328035_have_no_exact_duplicates_size8000_vs_size2000
+  - gated_size2000_dims16_32_64_100_were_executed_twice_due_prior_CRLF_result_paths_count_canonical_non_CR_paths_once
+selected_stageB_dimensions: {}
+selected_finalist_dimensions: {}
+full_reference_status: not_started
+final_metric_status: not_started
+report_status: dimension_model_comparison_2000_8000_pdf_complete_21_pages
+stage_A_metric_status: complete
+stage_A_summary_files: [stageA_metrics.csv, stageA_metrics_long.csv]
+selection_note: all_five_dimensions_are_nondominated_for_each_architecture_when_all_nine_planned_stage_A_objectives_are_used

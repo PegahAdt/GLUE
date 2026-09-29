@@ -1,0 +1,18 @@
+current_stage: stageA_training
+completed_job_ids: []
+pending_job_ids:
+  - 54050745
+completed_configurations: []
+selected_finalists: []
+metrics_paths: []
+next_required_action: monitor every task of Stage A array 54050745; after all are COMPLETED 0:0, submit Stage A metrics
+last_scheduler_check: '2026-08-10'
+scheduler_status: all 15 Stage A tasks PENDING (Priority); estimated start 2026-08-12T02:32:31 due unavailable requested nodes
+initial_git_commit: 26946eb591c10c2562d96519eb654ce589f5f990
+preexisting_changes:
+  - evaluation/run_10x_gated_full_reference.sh
+  - evaluation/run_10x_gated_subsamples.sh
+  - docs/gated_glue_implementation_math.tex
+  - evaluation/gcn_gat_gated_metric_comparisons.tex
+  - evaluation/generate_gcn_gat_gated_metric_comparisons.py
+  - evaluation/results_gated/

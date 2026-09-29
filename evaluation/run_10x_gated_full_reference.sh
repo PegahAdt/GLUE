@@ -37,7 +37,7 @@ eval "$("$HOME/bin/micromamba" shell hook --shell bash)"
 set -u
 micromamba activate /project/6001426/paa40/GlUE_Exp/GLUE/conda
 hash -r
-unset PYTHONPATH || true
+export PYTHONPATH="$REPO"
 export PYTHONNOUSERSITE=1
 export LD_LIBRARY_PATH="$CONDA_PREFIX/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 export OMP_NUM_THREADS="$SLURM_CPUS_PER_TASK"

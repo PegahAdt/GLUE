@@ -1,0 +1,8 @@
+avg_silhouette_width: 0.6223785067310378
+avg_silhouette_width_batch: 0.9077703773758139
+foscttm: 0.037282359375000004
+graph_connectivity: 0.9839104001076655
+mean_average_precision: 0.8635909330333733
+neighbor_conservation: 0.28489492047078047
+normalized_mutual_info: 0.8279027713980611
+seurat_alignment_score: 0.8933492187500001
