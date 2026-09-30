@@ -20,6 +20,14 @@ import yaml
 
 import scglue
 
+try:
+    from evaluation.workflow.scripts.graph_perturbation import (
+        randomize_topology, subsample_reciprocal_pairs
+    )
+except ModuleNotFoundError:
+    # Direct execution also works when only this script's directory is on sys.path.
+    from graph_perturbation import randomize_topology, subsample_reciprocal_pairs
+
 scglue.log.console_log_level = logging.DEBUG
 
 
@@ -47,6 +55,14 @@ def nonnegative_float(value: str) -> float:
     return result
 
 
+def retain_fraction(value: str) -> float:
+    """Parse a finite fraction in the closed interval [0, 1]."""
+    result = finite_float(value)
+    if not 0 <= result <= 1:
+        raise argparse.ArgumentTypeError("retain fraction must be in [0, 1]")
+    return result
+
+
 def parse_args() -> argparse.Namespace:
     r"""
     Parse command line arguments
@@ -63,6 +79,24 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "-p", "--prior", dest="prior", type=pathlib.Path, required=True,
         help="Path to prior graph (.graphml[.gz])"
+    )
+    parser.add_argument(
+        "--graph-perturbation", choices=("none", "subsample", "randomize"), default="none",
+        help="Guidance graph perturbation (default: none)"
+    )
+    # None distinguishes omission from explicitly supplying an inactive option.
+    # Public defaults are assigned below after mode consistency checks.
+    parser.add_argument(
+        "--graph-retain-fraction", type=retain_fraction, default=None,
+        help="Fraction of reciprocal relations retained; only for subsample (default: 1.0)"
+    )
+    parser.add_argument(
+        "--graph-seed", type=int, default=0,
+        help="Graph perturbation seed, independent of --random-seed (default: 0)"
+    )
+    parser.add_argument(
+        "--graph-swap-multiplier", type=nonnegative_float, default=None,
+        help="Successful swaps per relation; only for randomize (default: 10.0)"
     )
     parser.add_argument(
         "-d", "--dim", dest="dim", type=int, default=50,
@@ -165,7 +199,16 @@ def parse_args() -> argparse.Namespace:
         "-r", "--run-info", dest="run_info", type=pathlib.Path, required=True,
         help="Path of output run info file (.yaml)"
     )
-    return parser.parse_args()
+    args = parser.parse_args()
+    if args.graph_retain_fraction is not None and args.graph_perturbation != "subsample":
+        parser.error("--graph-retain-fraction requires --graph-perturbation subsample")
+    if args.graph_swap_multiplier is not None and args.graph_perturbation != "randomize":
+        parser.error("--graph-swap-multiplier requires --graph-perturbation randomize")
+    if args.graph_retain_fraction is None:
+        args.graph_retain_fraction = 1.0
+    if args.graph_swap_multiplier is None:
+        args.graph_swap_multiplier = 10.0
+    return args
 
 
 def main(args: argparse.Namespace) -> None:
@@ -176,6 +219,43 @@ def main(args: argparse.Namespace) -> None:
     rna = anndata.read_h5ad(args.input_rna)
     atac = anndata.read_h5ad(args.input_atac)
     graph = nx.read_graphml(args.prior)
+    original_node_count = graph.number_of_nodes()
+    original_relation_count = sum(
+        u != v and attrs.get("type") == "fwd"
+        for u, v, attrs in graph.edges(data=True)
+    )
+    graph_perturbation_metadata = {"graph_seed": args.graph_seed}
+    if args.graph_perturbation == "subsample":
+        graph, graph_perturbation_metadata = subsample_reciprocal_pairs(
+            graph, retain_fraction=args.graph_retain_fraction,
+            graph_seed=args.graph_seed
+        )
+    elif args.graph_perturbation == "randomize":
+        graph, graph_perturbation_metadata = randomize_topology(
+            graph, graph_seed=args.graph_seed,
+            swap_multiplier=args.graph_swap_multiplier
+        )
+    resulting_relation_count = sum(
+        u != v and attrs.get("type") == "fwd"
+        for u, v, attrs in graph.edges(data=True)
+    )
+    graph_perturbation_metadata.update({
+        "original_node_count": original_node_count,
+        "original_relation_count": original_relation_count,
+        "resulting_relation_count": resulting_relation_count,
+    })
+    print(
+        f"Graph perturbation={args.graph_perturbation} graph_seed={args.graph_seed} "
+        f"original_nodes={original_node_count} "
+        f"original_relations={original_relation_count} "
+        f"resulting_relations={resulting_relation_count} "
+        f"metadata={graph_perturbation_metadata}"
+    )
+    if args.graph_perturbation == "randomize" and not graph_perturbation_metadata["completed"]:
+        raise RuntimeError(
+            "Graph randomization did not complete; refusing to train on a partial graph. "
+            f"Metadata: {graph_perturbation_metadata}"
+        )
 
     if args.random_sleep:
         time.sleep(random.randint(0, 10))
@@ -283,12 +363,12 @@ def main(args: argparse.Namespace) -> None:
         gate_diagnostics = {
             "number_of_trainable_gates": int(final_gate_logits.size),
             "initial_gate_mean": float(args.gate_init),
-            "final_gate_min": float(trainable_gates.min()),
-            "final_gate_mean": float(trainable_gates.mean()),
-            "final_gate_max": float(trainable_gates.max()),
+            "final_gate_min": float(trainable_gates.min()) if trainable_gates.size else None,
+            "final_gate_mean": float(trainable_gates.mean()) if trainable_gates.size else None,
+            "final_gate_max": float(trainable_gates.max()) if trainable_gates.size else None,
             "maximum_absolute_gate_logit_change": float(
                 abs(final_gate_logits - initial_gate_logits).max()
-            ),
+            ) if final_gate_logits.size else 0.0,
         }
 
     rna.obsm["X_glue"] = glue.encode_data("rna", rna)
@@ -308,6 +388,11 @@ def main(args: argparse.Namespace) -> None:
         yaml.dump({
             "cmd": " ".join(sys.argv),
             "args": vars(args),
+            "graph_perturbation": args.graph_perturbation,
+            "graph_seed": args.graph_seed,
+            "graph_retain_fraction": args.graph_retain_fraction,
+            "graph_swap_multiplier": args.graph_swap_multiplier,
+            "graph_perturbation_metadata": graph_perturbation_metadata,
             "time": elapsed_time,
             "n_cells": atac.shape[0] + rna.shape[0]
         }, f)
