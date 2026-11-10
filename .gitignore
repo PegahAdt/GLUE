@@ -79,3 +79,13 @@ evaluation/gate_init_sensitivity/logs/
 # Generated experiment reports
 evaluation/dimension_sweep/dimension_model_comparison_*.tex
 evaluation/gcn_gat_gated_metric_comparisons.tex
+
+# SHARE-seq stability manifests are configuration; run artifacts stay on Fir.
+evaluation/shareseq_gate_stability/dim_*/
+evaluation/shareseq_gate_stability/logs/
+evaluation/shareseq_gate_stability/locks/
+evaluation/shareseq_gate_stability/incomplete/
+evaluation/shareseq_gate_stability/analysis/
+!evaluation/shareseq_gate_stability/manifests/all_runs.csv
+!evaluation/shareseq_gate_stability/manifests/array_A.csv
+!evaluation/shareseq_gate_stability/manifests/array_B.csv
