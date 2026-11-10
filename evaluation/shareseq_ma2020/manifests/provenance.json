@@ -1,0 +1,110 @@
+{
+  "sources": {
+    "rna": {
+      "path": "/project/6001426/paa40/GlUE_Exp/GLUE/data/dataset/Ma-2020-RNA.h5ad",
+      "shape": [
+        32231,
+        21478
+      ],
+      "obs_columns": [
+        "domain",
+        "protocol",
+        "dataset",
+        "cell_type",
+        "batch"
+      ],
+      "var_columns": [
+        "chrom",
+        "chromStart",
+        "chromEnd",
+        "name",
+        "score",
+        "strand",
+        "thickStart",
+        "thickEnd",
+        "itemRgb",
+        "blockCount",
+        "blockSizes",
+        "blockStarts",
+        "gene_id",
+        "gene_type",
+        "mgi_id",
+        "havana_gene",
+        "tag",
+        "genome",
+        "n_counts",
+        "highly_variable",
+        "highly_variable_rank",
+        "means",
+        "variances",
+        "variances_norm"
+      ],
+      "obsm_keys": [],
+      "layers_keys": [],
+      "has_raw": false,
+      "X_looks_like_counts": true,
+      "has_pca": false,
+      "has_lsi": false,
+      "has_hvg": true,
+      "coordinate_columns": [
+        "chrom",
+        "chromStart",
+        "chromEnd",
+        "strand"
+      ],
+      "file_size_bytes": 50822146,
+      "sha256": "d38865f573e345b62f2d5a3714bd880ae8f298789d794bd635366599db182cee"
+    },
+    "atac": {
+      "path": "/project/6001426/paa40/GlUE_Exp/GLUE/data/dataset/Ma-2020-ATAC.h5ad",
+      "shape": [
+        32231,
+        340341
+      ],
+      "obs_columns": [
+        "domain",
+        "protocol",
+        "dataset",
+        "cell_type",
+        "batch"
+      ],
+      "var_columns": [
+        "chrom",
+        "chromStart",
+        "chromEnd",
+        "genome",
+        "n_counts"
+      ],
+      "obsm_keys": [],
+      "layers_keys": [],
+      "has_raw": false,
+      "X_looks_like_counts": true,
+      "has_pca": false,
+      "has_lsi": false,
+      "has_hvg": false,
+      "coordinate_columns": [
+        "chrom",
+        "chromStart",
+        "chromEnd"
+      ],
+      "file_size_bytes": 274596957,
+      "sha256": "fb94f9d3c9ee42c07aca5ce3769f77b754084bce7737999ddbb63c6c7f8f7c17"
+    }
+  },
+  "graph": {
+    "path": "/project/6001426/paa40/GlUE_Exp/GLUE/evaluation/shareseq_ma2020/data/guidance.graphml.gz",
+    "sha256": "4eb79675fa9c2de1d62356a3cc9d92eeecfea00ba9ddcf267c3cab6127495637",
+    "nodes": 47464,
+    "directed_edges": 138764,
+    "trainable_non_self_loop_edges": 91300,
+    "self_loops": 47464,
+    "positive_sign_edges": 138764,
+    "negative_sign_edges": 0,
+    "gene_to_region": 45650,
+    "region_to_gene": 45650,
+    "directed": true,
+    "same_graph_for_all_runs": true
+  },
+  "git_commit": "38726c508909e62a83326d2a7fed93dce438c8cb",
+  "validated_gated_commit": "26946eb591c10c2562d96519eb654ce589f5f990"
+}

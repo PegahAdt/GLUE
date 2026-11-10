@@ -1,0 +1,168 @@
+{
+  "protected_manifest_sha256": "77a445bb61d62862cb060c2a102ecf7fe8b6c6d6805df5c7de3f0a4321fdf0ef",
+  "graph_checksum": "4eb79675fa9c2de1d62356a3cc9d92eeecfea00ba9ddcf267c3cab6127495637",
+  "runs": [
+    {
+      "run_id": "gcn_size8000_subsample0_model0",
+      "gated_run_id": "gated_size8000_subsample0_model0_gate0.95",
+      "cell_manifest_path": "/project/6001426/paa40/GlUE_Exp/GLUE/evaluation/shareseq_ma2020/manifests/cells_size8000_seed0.txt",
+      "cell_manifest_sha256": "25ad1d790332ac44929abacdc3ad2c2599c4e5541b48eaea861833c4ffe76a66",
+      "cell_count": 8000,
+      "subsample_seed": 0,
+      "existing_output_directory": false
+    },
+    {
+      "run_id": "gat_size8000_subsample0_model0",
+      "gated_run_id": "gated_size8000_subsample0_model0_gate0.95",
+      "cell_manifest_path": "/project/6001426/paa40/GlUE_Exp/GLUE/evaluation/shareseq_ma2020/manifests/cells_size8000_seed0.txt",
+      "cell_manifest_sha256": "25ad1d790332ac44929abacdc3ad2c2599c4e5541b48eaea861833c4ffe76a66",
+      "cell_count": 8000,
+      "subsample_seed": 0,
+      "existing_output_directory": false
+    },
+    {
+      "run_id": "gcn_size8000_subsample1_model0",
+      "gated_run_id": "gated_size8000_subsample1_model0_gate0.95",
+      "cell_manifest_path": "/project/6001426/paa40/GlUE_Exp/GLUE/evaluation/shareseq_ma2020/manifests/cells_size8000_seed1.txt",
+      "cell_manifest_sha256": "c827f0d50bc9c5d10c5890421c1239f7746edc50b67503a536e379b1f753bf38",
+      "cell_count": 8000,
+      "subsample_seed": 1,
+      "existing_output_directory": false
+    },
+    {
+      "run_id": "gat_size8000_subsample1_model0",
+      "gated_run_id": "gated_size8000_subsample1_model0_gate0.95",
+      "cell_manifest_path": "/project/6001426/paa40/GlUE_Exp/GLUE/evaluation/shareseq_ma2020/manifests/cells_size8000_seed1.txt",
+      "cell_manifest_sha256": "c827f0d50bc9c5d10c5890421c1239f7746edc50b67503a536e379b1f753bf38",
+      "cell_count": 8000,
+      "subsample_seed": 1,
+      "existing_output_directory": false
+    },
+    {
+      "run_id": "gcn_size8000_subsample2_model0",
+      "gated_run_id": "gated_size8000_subsample2_model0_gate0.95",
+      "cell_manifest_path": "/project/6001426/paa40/GlUE_Exp/GLUE/evaluation/shareseq_ma2020/manifests/cells_size8000_seed2.txt",
+      "cell_manifest_sha256": "aa1df3f2d42b7d7fb0ab1c6c9c34148200b758c474ad3c068742fb67753c8e4f",
+      "cell_count": 8000,
+      "subsample_seed": 2,
+      "existing_output_directory": false
+    },
+    {
+      "run_id": "gat_size8000_subsample2_model0",
+      "gated_run_id": "gated_size8000_subsample2_model0_gate0.95",
+      "cell_manifest_path": "/project/6001426/paa40/GlUE_Exp/GLUE/evaluation/shareseq_ma2020/manifests/cells_size8000_seed2.txt",
+      "cell_manifest_sha256": "aa1df3f2d42b7d7fb0ab1c6c9c34148200b758c474ad3c068742fb67753c8e4f",
+      "cell_count": 8000,
+      "subsample_seed": 2,
+      "existing_output_directory": false
+    },
+    {
+      "run_id": "gcn_size16000_subsample0_model0",
+      "gated_run_id": "gated_size16000_subsample0_model0_gate0.95",
+      "cell_manifest_path": "/project/6001426/paa40/GlUE_Exp/GLUE/evaluation/shareseq_ma2020/manifests/cells_size16000_seed0.txt",
+      "cell_manifest_sha256": "d803d8e19e0c2fe6a901864896cbe71ea143bb0285f8ba9888d4f641963d08b8",
+      "cell_count": 16000,
+      "subsample_seed": 0,
+      "existing_output_directory": false
+    },
+    {
+      "run_id": "gat_size16000_subsample0_model0",
+      "gated_run_id": "gated_size16000_subsample0_model0_gate0.95",
+      "cell_manifest_path": "/project/6001426/paa40/GlUE_Exp/GLUE/evaluation/shareseq_ma2020/manifests/cells_size16000_seed0.txt",
+      "cell_manifest_sha256": "d803d8e19e0c2fe6a901864896cbe71ea143bb0285f8ba9888d4f641963d08b8",
+      "cell_count": 16000,
+      "subsample_seed": 0,
+      "existing_output_directory": false
+    },
+    {
+      "run_id": "gcn_size16000_subsample1_model0",
+      "gated_run_id": "gated_size16000_subsample1_model0_gate0.95",
+      "cell_manifest_path": "/project/6001426/paa40/GlUE_Exp/GLUE/evaluation/shareseq_ma2020/manifests/cells_size16000_seed1.txt",
+      "cell_manifest_sha256": "564ca21cd05656b9807ca0ed105cdbe591d7502b52c5070d5920cc4fd822d5c7",
+      "cell_count": 16000,
+      "subsample_seed": 1,
+      "existing_output_directory": false
+    },
+    {
+      "run_id": "gat_size16000_subsample1_model0",
+      "gated_run_id": "gated_size16000_subsample1_model0_gate0.95",
+      "cell_manifest_path": "/project/6001426/paa40/GlUE_Exp/GLUE/evaluation/shareseq_ma2020/manifests/cells_size16000_seed1.txt",
+      "cell_manifest_sha256": "564ca21cd05656b9807ca0ed105cdbe591d7502b52c5070d5920cc4fd822d5c7",
+      "cell_count": 16000,
+      "subsample_seed": 1,
+      "existing_output_directory": false
+    },
+    {
+      "run_id": "gcn_size16000_subsample2_model0",
+      "gated_run_id": "gated_size16000_subsample2_model0_gate0.95",
+      "cell_manifest_path": "/project/6001426/paa40/GlUE_Exp/GLUE/evaluation/shareseq_ma2020/manifests/cells_size16000_seed2.txt",
+      "cell_manifest_sha256": "3213c765999867ee040b88b9f08ec0a1d54409f740ddb5b80b8ccdf29a70e114",
+      "cell_count": 16000,
+      "subsample_seed": 2,
+      "existing_output_directory": false
+    },
+    {
+      "run_id": "gat_size16000_subsample2_model0",
+      "gated_run_id": "gated_size16000_subsample2_model0_gate0.95",
+      "cell_manifest_path": "/project/6001426/paa40/GlUE_Exp/GLUE/evaluation/shareseq_ma2020/manifests/cells_size16000_seed2.txt",
+      "cell_manifest_sha256": "3213c765999867ee040b88b9f08ec0a1d54409f740ddb5b80b8ccdf29a70e114",
+      "cell_count": 16000,
+      "subsample_seed": 2,
+      "existing_output_directory": false
+    },
+    {
+      "run_id": "gcn_size24000_subsample0_model0",
+      "gated_run_id": "gated_size24000_subsample0_model0_gate0.95",
+      "cell_manifest_path": "/project/6001426/paa40/GlUE_Exp/GLUE/evaluation/shareseq_ma2020/manifests/cells_size24000_seed0.txt",
+      "cell_manifest_sha256": "4f89db26f0d12c65c9d12bc09ef0502841ac1d38441bb84f71bd8f115c3b6cdd",
+      "cell_count": 24000,
+      "subsample_seed": 0,
+      "existing_output_directory": false
+    },
+    {
+      "run_id": "gat_size24000_subsample0_model0",
+      "gated_run_id": "gated_size24000_subsample0_model0_gate0.95",
+      "cell_manifest_path": "/project/6001426/paa40/GlUE_Exp/GLUE/evaluation/shareseq_ma2020/manifests/cells_size24000_seed0.txt",
+      "cell_manifest_sha256": "4f89db26f0d12c65c9d12bc09ef0502841ac1d38441bb84f71bd8f115c3b6cdd",
+      "cell_count": 24000,
+      "subsample_seed": 0,
+      "existing_output_directory": false
+    },
+    {
+      "run_id": "gcn_size24000_subsample1_model0",
+      "gated_run_id": "gated_size24000_subsample1_model0_gate0.95",
+      "cell_manifest_path": "/project/6001426/paa40/GlUE_Exp/GLUE/evaluation/shareseq_ma2020/manifests/cells_size24000_seed1.txt",
+      "cell_manifest_sha256": "0c4327ccaf99307322e16c80aee2f08d30a2e0849d3e9622f89772a168219501",
+      "cell_count": 24000,
+      "subsample_seed": 1,
+      "existing_output_directory": false
+    },
+    {
+      "run_id": "gat_size24000_subsample1_model0",
+      "gated_run_id": "gated_size24000_subsample1_model0_gate0.95",
+      "cell_manifest_path": "/project/6001426/paa40/GlUE_Exp/GLUE/evaluation/shareseq_ma2020/manifests/cells_size24000_seed1.txt",
+      "cell_manifest_sha256": "0c4327ccaf99307322e16c80aee2f08d30a2e0849d3e9622f89772a168219501",
+      "cell_count": 24000,
+      "subsample_seed": 1,
+      "existing_output_directory": false
+    },
+    {
+      "run_id": "gcn_size24000_subsample2_model0",
+      "gated_run_id": "gated_size24000_subsample2_model0_gate0.95",
+      "cell_manifest_path": "/project/6001426/paa40/GlUE_Exp/GLUE/evaluation/shareseq_ma2020/manifests/cells_size24000_seed2.txt",
+      "cell_manifest_sha256": "2d25e9e871517a0e64b141f8f818e0e92544e9f470eb54782c0ca8f0d1bb7f96",
+      "cell_count": 24000,
+      "subsample_seed": 2,
+      "existing_output_directory": false
+    },
+    {
+      "run_id": "gat_size24000_subsample2_model0",
+      "gated_run_id": "gated_size24000_subsample2_model0_gate0.95",
+      "cell_manifest_path": "/project/6001426/paa40/GlUE_Exp/GLUE/evaluation/shareseq_ma2020/manifests/cells_size24000_seed2.txt",
+      "cell_manifest_sha256": "2d25e9e871517a0e64b141f8f818e0e92544e9f470eb54782c0ca8f0d1bb7f96",
+      "cell_count": 24000,
+      "subsample_seed": 2,
+      "existing_output_directory": false
+    }
+  ]
+}

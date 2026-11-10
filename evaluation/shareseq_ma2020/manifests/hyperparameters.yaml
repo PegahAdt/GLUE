@@ -1,0 +1,12 @@
+lr: 0.002
+lam_graph: 0.02
+lam_align: 0.05
+dim: 50
+alt_dim: 100
+hidden_depth: 2
+hidden_dim: 256
+dropout: 0.2
+neg_samples: 10
+model_seed: 0
+gat_negative_slope: 0.2
+lam_keep: 0.0

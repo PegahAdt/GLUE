@@ -1,0 +1,11 @@
+full_dataset_has_no_subsample_seed: true
+full_dataset_manifest: cells_sizefull.txt
+nested_within_seed: true
+subsample_seeds:
+- 0
+- 1
+- 2
+subsample_sizes:
+- 8000
+- 16000
+- 24000

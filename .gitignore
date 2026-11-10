@@ -58,3 +58,18 @@ Temp
 tmp
 tools
 dist
+
+# Source-preservation worktree: generated artifacts remain on the cluster.
+/.venv/
+/r-lib/
+/logs/
+/results/
+/evaluation/results*/
+**/recovery_archives/
+**/incomplete/
+**/unirep_cache/
+*.aux
+*.fls
+*.fdb_latexmk
+*.toc
+*.lock

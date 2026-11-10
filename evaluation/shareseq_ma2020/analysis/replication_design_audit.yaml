@@ -1,0 +1,43 @@
+audit_date: 2026-09-08
+original_design:
+  full_manifest_cell_sets_identical: true
+  full_manifest_file_order_identical: false
+  original_full_model_seeds: [0]
+  conclusion: Full data_seed labels 0, 1, and 2 were not independent dataset replicates because each contained the complete identical 32231-cell set and all used model_seed 0.
+  duplicate_groups:
+    gate_0.50: [gated_sizefull_data0_gate0.50, gated_sizefull_data1_gate0.50, gated_sizefull_data2_gate0.50]
+    gate_0.70: [gated_sizefull_data0_gate0.70, gated_sizefull_data1_gate0.70, gated_sizefull_data2_gate0.70]
+    gate_0.90: [gated_sizefull_data0_gate0.90, gated_sizefull_data1_gate0.90, gated_sizefull_data2_gate0.90]
+    gate_0.95: [gated_sizefull_data0_gate0.95, gated_sizefull_data1_gate0.95, gated_sizefull_data2_gate0.95]
+    gate_0.99: [gated_sizefull_data0_gate0.99, gated_sizefull_data1_gate0.99, gated_sizefull_data2_gate0.99]
+corrected_design:
+  unique_training_configurations: 26
+  primary_architecture_runs: 3
+  subsample_stability:
+    sizes: [8000, 16000, 24000]
+    subsample_seeds: [0, 1, 2]
+    model_seed: 0
+  full_size_reference:
+    architecture: gated
+    gate_init: 0.95
+    model_seed: 0
+  gate_init_sensitivity:
+    gate_init: [0.50, 0.70, 0.90, 0.95, 0.99]
+    model_seeds: [0, 1, 2]
+    subsample_seed: null
+    common_cell_manifest: manifests/cells_sizefull.txt
+  variation_labels:
+    subsampled_runs: cell_subsampling
+    full_gated_runs: model_initialization
+slurm:
+  original_smoke_job: 58714178
+  original_smoke_outcome: failed_before_training_due_to_environment_activation
+  replacement_smoke_job: 58715622
+  original_training_job: 58714179
+  original_metrics_job: 58714180
+  original_report_job: 58714181
+  first_replacement_chain_cancelled_after_original_smoke_failure: [58715275, 58715277, 58715279]
+  final_replacement_training_job: 58715627
+  final_replacement_metrics_job: 58715629
+  final_replacement_report_job: 58715635
+  training_tasks_started_during_audit: 0

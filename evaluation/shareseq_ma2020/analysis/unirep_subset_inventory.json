@@ -1,0 +1,83 @@
+{
+  "training_pairs": 10,
+  "smoke_pairs": 1,
+  "total_pairs": 11,
+  "subsets": [
+    {
+      "cell_count": 32231,
+      "runs": [
+        "gcn_sizefull_model0",
+        "gat_sizefull_model0",
+        "gated_sizefull_model0_gate0.50",
+        "gated_sizefull_model1_gate0.50",
+        "gated_sizefull_model2_gate0.50",
+        "gated_sizefull_model0_gate0.70",
+        "gated_sizefull_model1_gate0.70",
+        "gated_sizefull_model2_gate0.70",
+        "gated_sizefull_model0_gate0.90",
+        "gated_sizefull_model1_gate0.90",
+        "gated_sizefull_model2_gate0.90",
+        "gated_sizefull_model0_gate0.95",
+        "gated_sizefull_model1_gate0.95",
+        "gated_sizefull_model2_gate0.95",
+        "gated_sizefull_model0_gate0.99",
+        "gated_sizefull_model1_gate0.99",
+        "gated_sizefull_model2_gate0.99"
+      ]
+    },
+    {
+      "cell_count": 8000,
+      "runs": [
+        "gated_size8000_subsample0_model0_gate0.95"
+      ]
+    },
+    {
+      "cell_count": 8000,
+      "runs": [
+        "gated_size8000_subsample1_model0_gate0.95"
+      ]
+    },
+    {
+      "cell_count": 8000,
+      "runs": [
+        "gated_size8000_subsample2_model0_gate0.95"
+      ]
+    },
+    {
+      "cell_count": 16000,
+      "runs": [
+        "gated_size16000_subsample0_model0_gate0.95"
+      ]
+    },
+    {
+      "cell_count": 16000,
+      "runs": [
+        "gated_size16000_subsample1_model0_gate0.95"
+      ]
+    },
+    {
+      "cell_count": 16000,
+      "runs": [
+        "gated_size16000_subsample2_model0_gate0.95"
+      ]
+    },
+    {
+      "cell_count": 24000,
+      "runs": [
+        "gated_size24000_subsample0_model0_gate0.95"
+      ]
+    },
+    {
+      "cell_count": 24000,
+      "runs": [
+        "gated_size24000_subsample1_model0_gate0.95"
+      ]
+    },
+    {
+      "cell_count": 24000,
+      "runs": [
+        "gated_size24000_subsample2_model0_gate0.95"
+      ]
+    }
+  ]
+}
