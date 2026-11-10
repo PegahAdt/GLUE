@@ -1,0 +1,39 @@
+{
+  "architecture_audit": {
+    "attention": false,
+    "graph_convolution": "scglue.models.nn.GraphConv",
+    "graph_encoder": "scglue.models.sc.GraphEncoder",
+    "graph_parameters": {
+      "loc.bias": [
+        50
+      ],
+      "loc.weight": [
+        50,
+        50
+      ],
+      "std_lin.bias": [
+        50
+      ],
+      "std_lin.weight": [
+        50,
+        50
+      ],
+      "vrepr": [
+        15205,
+        50
+      ]
+    },
+    "learned_edge_gates": false,
+    "model_class": "scglue.models.scglue.SCGLUEModel",
+    "model_seed": 0,
+    "source_files": [
+      "/project/6001426/paa40/GlUE_Exp/GLUE/scglue/models/scglue.py",
+      "/project/6001426/paa40/GlUE_Exp/GLUE/scglue/models/sc.py",
+      "/project/6001426/paa40/GlUE_Exp/GLUE/scglue/models/nn.py",
+      "/project/6001426/paa40/GlUE_Exp/GLUE/scglue/models/sc.py"
+    ]
+  },
+  "candidate_checkpoint": "/project/6001426/paa40/GlUE_Exp/GLUE/evaluation/results_gcn_h100/raw/10x-Multiome-Pbmc10k/original/gene_region:combined-extend_range:0-corrupt_rate:0.0-corrupt_seed:0/GLUE/dim:50-alt_dim:100-hidden_depth:2-hidden_dim:256-dropout:0.2-lam_graph:0.02-lam_align:0.05-neg_samples:10/seed:0/final.dill",
+  "decision": "Fresh baselines for all three seeds; historical runner/source/preprocessing snapshot is not frozen, so full equivalence to current frozen original workflow is not established. Earlier reproduction full runs used a newly built graph and different count-layer preprocessing.",
+  "reused": false
+}

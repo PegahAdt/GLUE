@@ -1,0 +1,2 @@
+job_id,accounting_step,state,exit_code,elapsed,max_rss_kib,cpus,gpu,chosen_mem_gib,chosen_time_hours
+52185979,52185979.batch,COMPLETED,0:0,00:41:35,8207364,8,h100:1,16,6

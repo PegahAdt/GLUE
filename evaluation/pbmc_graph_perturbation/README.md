@@ -1,5 +1,14 @@
 # Initial PBMC guidance-graph experiment
 
+The read-only evaluation/reporting pipeline is documented in
+[scripts/REPRODUCE.md](scripts/REPRODUCE.md), with scientific definitions in
+[scripts/methodology.md](scripts/methodology.md). Validate with
+`bash evaluation/pbmc_graph_perturbation/evaluate.sbatch test` and submit the
+full CPU-only evaluation with
+`sbatch evaluation/pbmc_graph_perturbation/evaluate.sbatch`. Full tables,
+figures, and reports are generated under `reports/full/` after all 18 runs
+finish; `reports/smoke/` contains only sampled pipeline validation artifacts.
+
 This experiment uses the `GATED_PBMC_GRAPH_EXPERIMENTS` branch in
 `/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC`. It has 18 runs: six graph
 conditions, each with model seeds 0, 1 and 2. The graph seed is explicitly 0
