@@ -1,1 +1,6 @@
-/*/*/
+# Generated output directories from the original GLUE case studies
+/Atlas/*/
+/BatchEffect/*/
+/OverCorrection/*/
+/RegInf/*/
+/TripleOmics/*/

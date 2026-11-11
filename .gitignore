@@ -9,7 +9,6 @@ __pycache__
 *.bigWig
 *.chain*
 *.cprof
-*.csv*
 *.dill
 *.docx
 *.egg-info
@@ -23,7 +22,6 @@ __pycache__
 *.html
 *.ipynb
 *.jpg
-*.json
 *.links
 *.log
 *.loom
@@ -42,7 +40,6 @@ __pycache__
 *.tbl
 *.gephi
 *.tfevents.*
-*.tsv*
 *@neomake*
 *Untitled*
 .deprecated
@@ -79,3 +76,36 @@ evaluation/gate_init_sensitivity/logs/
 # Generated experiment reports
 evaluation/dimension_sweep/dimension_model_comparison_*.tex
 evaluation/gcn_gat_gated_metric_comparisons.tex
+
+# Research designs are source: CSV/TSV/JSON are not globally ignored.
+# Place generated products in the explicit storage locations below.
+/.venv/
+/conda/
+/data/dataset/
+/logs/
+/results/
+/evaluation/results*/
+**/logs/
+**/results/
+**/metrics/
+**/metrics_*_runs/
+**/reports/
+**/recovery_archives/
+**/incomplete/
+**/unirep_cache/
+**/.pytest_cache/
+**/submission.lock
+**/submitted_jobs.json
+**/submission.json
+**/submitted_job.txt
+**/smoke/
+**/*.dill
+**/*.h5ad
+**/*.graphml.gz
+**/*.pt
+**/*.tar.gz
+**/*.zip
+**/*.log
+**/*.out
+**/*.err
+workspace.local.json

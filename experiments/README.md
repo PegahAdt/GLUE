@@ -1,4 +1,13 @@
-# Experiments
+# Research experiments
+
+Start with the orchestration branch's `experiments/catalog.json` and `experiments/README.md`.
+The original model implementation remains in `scglue/`; architecture branches stay separate.
+The `evaluation/` paths are retained where frozen provenance or historical tools depend on them.
+They are implementation/provenance paths, not additional canonical submission choices.
+Use the experiment directory's README and the shared launch planner. Read blockers before execution.
+Do not run historical wrappers against active research directories.
+
+## Original GLUE case studies
 
 ## Case studies
 
