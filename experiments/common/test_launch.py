@@ -3,6 +3,7 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import re
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -90,6 +91,51 @@ class LaunchTests(unittest.TestCase):
         self.assertEqual(plan['implementation'],self.workspace['implementations']['gat'])
         self.assertEqual(args[args.index('--graph-encoder')+1],'gcn')
         self.assertEqual(args[args.index('--dim')+1],'16')
+
+    def test_pbmc_dimensions_cover_the_complete_matched_design(self):
+        entry, config, tasks = launch.load('pbmc_dimensions')
+        self.assertEqual([int(task['task_id']) for task in tasks],list(range(30)))
+        identities = []
+        reused = []
+        for task in tasks:
+            subset = re.fullmatch(r'subsample_size:(\d+)-subsample_seed:(\d+)',
+                                  Path(task['rna_path']).parent.name)
+            self.assertIsNotNone(subset)
+            size, subset_seed = map(int,subset.groups())
+            identity = (task['architecture'],size,int(task['dim']),subset_seed,int(task['model_seed']))
+            identities.append(identity)
+            if task['reuse_source']:
+                reused.append(identity)
+        expected = {(arch,size,dim,0,0) for arch in ('gcn','gat','gated')
+                    for size in (2000,8000) for dim in (16,32,50,64,100)}
+        self.assertEqual(len(identities),len(set(identities)))
+        self.assertEqual(set(identities),expected)
+        self.assertEqual(set(reused),{(arch,size,50,0,0) for arch in ('gcn','gat','gated')
+                                     for size in (2000,8000)})
+        self.assertEqual(len(reused),6)
+        self.assertTrue(config['reuse_metrics'])
+
+    def test_restored_dimension_references_return_before_training(self):
+        entry, config, tasks = launch.load('pbmc_dimensions')
+        self.assertEqual([task['architecture'] for task in tasks[27:]],['gcn','gat','gated'])
+        for task in tasks[27:]:
+            with self.subTest(architecture=task['architecture']):
+                self.assertTrue(task['reuse_source'])
+                source = Path(launch.resolve(task['reuse_source'],self.workspace)).resolve()
+                plan = launch.task_plan(entry,config,task,self.workspace)
+                self.assertTrue(plan['reuse_source'])
+                self.assertEqual(Path(plan['run_directory']),source)
+                # Exercise only the guarded read-only return. Any attempt to
+                # plan or start a scientific process fails before it can run.
+                with patch.dict(os.environ,{'SLURM_JOB_ID':'unit-test'}),patch.object(
+                        launch,'verify_sources'),patch.object(launch,'check_inputs'),patch.object(
+                        launch,'require_training_files') as artifacts,patch.object(
+                        launch,'task_plan',side_effect=AssertionError('Reuse must not start training')),patch.object(
+                        launch.subprocess,'run',side_effect=AssertionError('No subprocess allowed')),patch.object(
+                        launch,'call',side_effect=AssertionError('No scientific command allowed')),patch('builtins.print'):
+                    launch.execute_task(entry,config,task,self.workspace,'train')
+                artifacts.assert_called_once_with(source)
+        self.assertFalse(Path(self.workspace['output_root']).exists())
 
     def test_blocked_evaluation_does_not_contact_scheduler(self):
         entry, config, tasks = launch.load('pbmc_gat_tuning')
