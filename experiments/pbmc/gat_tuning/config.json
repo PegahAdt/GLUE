@@ -1,0 +1,46 @@
+{
+  "configuration_sources": [
+    "evaluation/gat_tuning_10x/screen_v2/configs.tsv",
+    "evaluation/gat_tuning_10x/screen_v{1,2}/manifest.tsv",
+    "evaluation/gat_tuning_10x/screen_v{1,2}/configs/*/targets.txt"
+  ],
+  "evaluation_blocker": "Historical rule derives default-parameter full feature references; five extra full models exist. Review the exact historical reference mapping before selecting a clean metric policy. No silent replacement is made.",
+  "experiment": "pbmc_gat_tuning",
+  "historical_submission": [
+    "historical/gat_tuning/{submit.sh,run_one_config.sbatch}"
+  ],
+  "launch_blocker": null,
+  "resource_wrapper": false,
+  "resources": {
+    "evaluate": {
+      "concurrency": 6,
+      "cpus": 8,
+      "memory": "64G",
+      "time": "24:00:00"
+    },
+    "train": {
+      "concurrency": 6,
+      "cpus": 8,
+      "gpu": "h100:1",
+      "memory": "192G",
+      "time": "48:00:00"
+    }
+  },
+  "training": {
+    "alt_dim": 100,
+    "balance_cutoff": 0.5,
+    "balance_power": 4.0,
+    "balance_res": 1.0,
+    "data_batch_size": 128,
+    "dropout": 0.2,
+    "hidden_depth": 2,
+    "hidden_dim": 256,
+    "lam_align": 0.05,
+    "lam_graph": 0.02,
+    "lr": 0.002,
+    "neg_samples": 10,
+    "random_sleep": true,
+    "require_converge": true,
+    "val_split": 0.1
+  }
+}

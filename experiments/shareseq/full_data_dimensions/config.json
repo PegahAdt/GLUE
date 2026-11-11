@@ -1,0 +1,46 @@
+{
+  "configuration_sources": [
+    "evaluation/shareseq_ma2020/manifests/full_dimension_comparison_manifest.csv",
+    "evaluation/shareseq_ma2020/manifests/{hyperparameters.yaml,subsampling.yaml,cells_*.txt}"
+  ],
+  "evaluation_blocker": null,
+  "experiment": "share_dimensions",
+  "historical_submission": [
+    "evaluation/shareseq_ma2020/slurm/full_dimension_smoke.sbatch",
+    "historical inline full_dimension sbatch --wrap (recorded commands)"
+  ],
+  "launch_blocker": null,
+  "resource_wrapper": true,
+  "resources": {
+    "evaluate": {
+      "concurrency": 6,
+      "cpus": 8,
+      "memory": "64G",
+      "time": "12:00:00"
+    },
+    "train": {
+      "concurrency": 6,
+      "cpus": 8,
+      "gpu": "h100:1",
+      "memory": "32G",
+      "time": "12:00:00"
+    }
+  },
+  "training": {
+    "alt_dim": 100,
+    "balance_cutoff": 0.5,
+    "balance_power": 4.0,
+    "balance_res": 1.0,
+    "data_batch_size": 128,
+    "dropout": 0.2,
+    "hidden_depth": 2,
+    "hidden_dim": 256,
+    "lam_align": 0.05,
+    "lam_graph": 0.02,
+    "lr": 0.002,
+    "neg_samples": 10,
+    "random_sleep": false,
+    "require_converge": true,
+    "val_split": 0.1
+  }
+}

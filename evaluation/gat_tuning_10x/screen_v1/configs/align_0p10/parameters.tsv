@@ -1,5 +1,0 @@
-parameter	value
-lr	0.002
-lam_graph	0.02
-lam_align	0.10
-gat_negative_slope	0.2

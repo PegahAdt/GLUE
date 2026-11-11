@@ -1,0 +1,377 @@
+[
+  {
+    "directory": "pbmc/gcn_comparison",
+    "evaluation_entrypoint": "evaluation/workflow/scripts/{cell_integration,feature_consistency,combine_metrics}.py",
+    "historical_slurm": [
+      "evaluation/run_10x_gcn_reference.sh",
+      "evaluation/run_10x_gcn_subsamples.sh"
+    ],
+    "id": "pbmc_gcn_comparison",
+    "immutable_configuration": [
+      "evaluation/gcn_h100_10x_subsample_targets.txt",
+      "evaluation/gcn_h100_10x_reference_target.txt"
+    ],
+    "notes": "\nThe clean workflow requires the already-prepared RNA/ATAC, graph and 50D unirep files. It does not substitute a different preprocessing pipeline.",
+    "owner": "orchestration",
+    "preservation_branch": "GLUE_EXPERIMENT_ORCHESTRATION",
+    "preservation_commit": "88fee7ca07dfa25332d029d136887b651e57d313",
+    "purpose": "PBMC GCN architecture comparison and cell subsampling",
+    "research_question": "How does integration quality change across matched architectures and paired-cell subset sizes?",
+    "status": "48 subsets evaluated + full reference",
+    "training_entrypoint": "evaluation/workflow/scripts/run_GLUE.py in pinned gcn implementation"
+  },
+  {
+    "directory": "pbmc/gat_comparison",
+    "evaluation_entrypoint": "evaluation/workflow/scripts/{cell_integration,feature_consistency,combine_metrics}.py",
+    "historical_slurm": [
+      "evaluation/run_10x_gat_reference.sh",
+      "evaluation/run_10x_gat_subsamples.sh"
+    ],
+    "id": "pbmc_gat_comparison",
+    "immutable_configuration": [
+      "evaluation/gat_10x_subsample_targets.txt"
+    ],
+    "notes": "Historical GAT rules invoke a baseline-relative runner with unsupported GAT flags. The clean planner selects the pinned GAT runner explicitly. CLI compatibility is tested separately; this does not establish successful GPU reproduction.\nThe clean workflow requires the already-prepared RNA/ATAC, graph and 50D unirep files. It does not substitute a different preprocessing pipeline.",
+    "owner": "orchestration",
+    "preservation_branch": "GLUE_EXPERIMENT_ORCHESTRATION",
+    "preservation_commit": "88fee7ca07dfa25332d029d136887b651e57d313",
+    "purpose": "PBMC GAT architecture comparison and cell subsampling",
+    "research_question": "How does integration quality change across matched architectures and paired-cell subset sizes?",
+    "status": "48 subsets evaluated + full reference; historical GAT Snakemake binding broken",
+    "training_entrypoint": "evaluation/workflow/scripts/run_GLUE.py in pinned gat implementation"
+  },
+  {
+    "directory": "pbmc/gated_comparison",
+    "evaluation_entrypoint": "evaluation/workflow/scripts/{cell_integration,feature_consistency,combine_metrics}.py",
+    "historical_slurm": [
+      "evaluation/run_10x_gated_full_reference.sh",
+      "evaluation/run_10x_gated_subsamples.sh"
+    ],
+    "id": "pbmc_gated_comparison",
+    "immutable_configuration": [
+      "evaluation/gated_10x_subsample_targets.txt"
+    ],
+    "notes": "\nThe clean workflow requires the already-prepared RNA/ATAC, graph and 50D unirep files. It does not substitute a different preprocessing pipeline.",
+    "owner": "gated",
+    "preservation_branch": "GATED_SHARE_GATE_STABILITY",
+    "preservation_commit": "becf8f758f6d6869511e5d18732ce1f055a3cf03",
+    "purpose": "PBMC GATED architecture comparison and cell subsampling",
+    "research_question": "How does integration quality change across matched architectures and paired-cell subset sizes?",
+    "status": "9 subsets evaluated + full reference",
+    "training_entrypoint": "evaluation/workflow/scripts/run_GLUE.py in pinned gated implementation"
+  },
+  {
+    "directory": "pbmc/gat_tuning",
+    "evaluation_entrypoint": "historical Snakemake metric/reference rules; review reference selection before new evaluation",
+    "historical_slurm": [
+      "historical/gat_tuning/{submit.sh,run_one_config.sbatch}"
+    ],
+    "id": "pbmc_gat_tuning",
+    "immutable_configuration": [
+      "evaluation/gat_tuning_10x/screen_v2/configs.tsv",
+      "evaluation/gat_tuning_10x/screen_v{1,2}/manifest.tsv",
+      "evaluation/gat_tuning_10x/screen_v{1,2}/configs/*/targets.txt"
+    ],
+    "notes": "Canonical design is v2. The old workers and wrappers are retained once under historical/gat_tuning. Use common/restore_workflow.py for byte-exact snapshots; restored launchers retain their historical blockers. New array mapping is config-major: full reference, then 3 sizes x 3 subset seeds, 100 rows total; historical mapping was 10 configuration jobs with 10 targets each.",
+    "owner": "orchestration",
+    "preservation_branch": "GLUE_EXPERIMENT_ORCHESTRATION",
+    "preservation_commit": "88fee7ca07dfa25332d029d136887b651e57d313",
+    "purpose": "PBMC GAT one-factor tuning",
+    "research_question": "Which learning rate, loss weight or attention slope improves the matched comparison?",
+    "status": "v2: 97/100 requested targets; three missing; v1 no requested outputs",
+    "training_entrypoint": "GAT_GLUE:evaluation/workflow/scripts/run_GLUE.py"
+  },
+  {
+    "directory": "pbmc/gat_manual_search",
+    "evaluation_entrypoint": "same adaptive search script",
+    "historical_slurm": [
+      "evaluation/wait_and_launch_gat_manual_search.sh",
+      "evaluation/run_gat_manual_search_in_allocation.sh"
+    ],
+    "id": "pbmc_gat_manual",
+    "immutable_configuration": [],
+    "notes": "Candidates (graph,align,slope): (.04,.05,.10),(.05,.04,.10),(.05,.05,.10),(.05,.06,.10),(.06,.05,.10). Screen size2000/subset0, then winner at (2000,1),(2000,2),(250,0),(8000,0).",
+    "owner": "orchestration",
+    "preservation_branch": "GLUE_EXPERIMENT_ORCHESTRATION",
+    "preservation_commit": "88fee7ca07dfa25332d029d136887b651e57d313",
+    "purpose": "Planned adaptive GAT search",
+    "research_question": "Can a five-candidate screen followed by four validation runs improve integration?",
+    "status": "Planned only; output directory absent",
+    "training_entrypoint": "evaluation/run_gat_manual_search.py"
+  },
+  {
+    "directory": "pbmc/gated_tuning",
+    "evaluation_entrypoint": "evaluation/run_gated_tuning_stageA_metrics.sbatch; select_gated_tuning_stageA.py",
+    "historical_slurm": [
+      "evaluation/run_gated_tuning_stage{A,A_metrics,B,B_metrics}.sbatch"
+    ],
+    "id": "pbmc_gated_tuning",
+    "immutable_configuration": [
+      "evaluation/gated_tuning_stageA_configs.tsv"
+    ],
+    "notes": "Stage A gates .50,.75,.90,.95,.99 crossed with keep penalties 0,1e-5,1e-4; size2000/subset0/model0. The clean fresh-replication plan trains all 15; historical .95/0 reuse remains documented. Stage B up to three finalists x subset seeds0\u20132 is planned only.",
+    "owner": "gated",
+    "preservation_branch": "GATED_SHARE_GATE_STABILITY",
+    "preservation_commit": "becf8f758f6d6869511e5d18732ce1f055a3cf03",
+    "purpose": "PBMC bounded GATED tuning, Stage A",
+    "research_question": "How do initial gate values and keep penalties affect integration?",
+    "status": "15 Stage A configurations: 14 trained + one reused baseline; metrics not run; Stage B not designed",
+    "training_entrypoint": "evaluation/run_gated_tuning_stageA.sbatch -> workflow/scripts/run_GLUE.py"
+  },
+  {
+    "directory": "pbmc/latent_dimensions",
+    "evaluation_entrypoint": "evaluation/dimension_sweep/run_{stageA,8000}_metrics.sbatch",
+    "historical_slurm": [
+      "evaluation/dimension_sweep/run_dimension_train_array.sbatch",
+      "evaluation/dimension_sweep/run_stageA_metrics.sbatch",
+      "evaluation/dimension_sweep/run_8000_metrics.sbatch"
+    ],
+    "id": "pbmc_dimensions",
+    "immutable_configuration": [
+      "evaluation/dimension_sweep/{stageA_tasks,stageA_8000_tasks,reused_runs}.csv"
+    ],
+    "notes": "Dimensions16,32,50,64,100, subset/model seed0. Original arrays 0\u201311 for 2000 and separately 8000. Clean manifest concatenates 12+12+6 reused rows. GCN in this study deliberately uses the GAT branch with graph_encoder=gcn. It is not the separately audited original-GCN graph control. No non-50D feature-consistency metric is added.",
+    "owner": "gated",
+    "preservation_branch": "GATED_SHARE_GATE_STABILITY",
+    "preservation_commit": "becf8f758f6d6869511e5d18732ce1f055a3cf03",
+    "purpose": "PBMC latent dimension comparison",
+    "research_question": "How does embedding dimension affect each architecture at 2000 and 8000 paired cells?",
+    "status": "30 configurations in metric tables; 24 fresh + six reused 50D; feature consistency deferred for non-50D",
+    "training_entrypoint": "evaluation/dimension_sweep/run_dimension_train_array.sbatch"
+  },
+  {
+    "directory": "pbmc/gate_initialization",
+    "evaluation_entrypoint": "orchestration:evaluation/gate_init_sensitivity_{metrics,report}/*.py",
+    "historical_slurm": [
+      "evaluation/gate_init_sensitivity/run_training.sbatch"
+    ],
+    "id": "pbmc_gate_initialization",
+    "immutable_configuration": [
+      "evaluation/gate_init_sensitivity/{all_configurations,training_tasks}.csv"
+    ],
+    "notes": "Gates .50,.70,.90,.95,.99; sizes250,2000,8000 x subset seeds0\u20132; model seed0. This differs from tuning gates (.75 instead of .70 there). Historical 36 directory names carry carriage returns; originals are preserved. Fresh clean output paths contain no CR. Distribution/report scripts are retained at their frozen source paths; the shared evaluator computes integration metrics only.",
+    "owner": "gated",
+    "preservation_branch": "GATED_SHARE_GATE_STABILITY",
+    "preservation_commit": "becf8f758f6d6869511e5d18732ce1f055a3cf03",
+    "purpose": "PBMC gate initialization sensitivity",
+    "research_question": "Does initial gate probability change integration or learned-edge distributions?",
+    "status": "45 evaluated configurations; nine reused + 36 fresh",
+    "training_entrypoint": "evaluation/gate_init_sensitivity/run_training.sbatch"
+  },
+  {
+    "directory": "pbmc/learned_edge_analysis",
+    "evaluation_entrypoint": "evaluation/extract_gated_edge_analysis.py; evaluation/gate_analysis/build_gated_edge_analysis_report.py",
+    "historical_slurm": [
+      "evaluation/extract_gated_edge_analysis.sbatch"
+    ],
+    "id": "pbmc_gate_analysis",
+    "immutable_configuration": [],
+    "notes": "The report generator was incorrectly ignored before preservation. It remains tracked; learned gate tables and PDF/HTML output remain external.",
+    "owner": "gated",
+    "preservation_branch": "GATED_SHARE_GATE_STABILITY",
+    "preservation_commit": "becf8f758f6d6869511e5d18732ce1f055a3cf03",
+    "purpose": "PBMC learned edge analysis",
+    "research_question": "Which prior edges are down-weighted and how stable are gates across subsamples?",
+    "status": "Ten reused models analyzed; generated reports excluded",
+    "training_entrypoint": "reuse ten GATED models"
+  },
+  {
+    "directory": "shareseq/architecture_comparison",
+    "evaluation_entrypoint": "unchanged cell_integration.py via shared planner; historical evaluate_one.py/matched_evaluate_one.py",
+    "historical_slurm": [
+      "evaluation/shareseq_ma2020/slurm/train_array.sbatch",
+      "evaluation/shareseq_ma2020/slurm/evaluate_array.sbatch"
+    ],
+    "id": "share_primary",
+    "immutable_configuration": [
+      "evaluation/shareseq_ma2020/manifests/master_experiment_manifest.csv",
+      "evaluation/shareseq_ma2020/manifests/{hyperparameters.yaml,subsampling.yaml,cells_*.txt}"
+    ],
+    "notes": "SHARE has 32231 paired cells. Canonical preparation/materialization and RNA PCA / ATAC LSI entrypoints are unchanged. The new evaluator writes isolated per-task 50D representations rather than sharing the original mutable cache; metric algorithms and settings are unchanged. Gate extraction and aggregate reports remain explicitly separate historical analysis entrypoints; the generic EVALUATED marker means integration metrics only. No feature consistency is invented. Full dimension list:16,32,50,64,100,128,200,256,384,512,768,1024. The original 26-row study includes 15 full GATED initialization/seed combinations and nine GATED subsamples; these are reused views, not additional submissions.",
+    "owner": "orchestration",
+    "preservation_branch": "GLUE_EXPERIMENT_ORCHESTRATION",
+    "preservation_commit": "88fee7ca07dfa25332d029d136887b651e57d313",
+    "purpose": "SHARE-seq architecture comparison",
+    "research_question": "Compare full-data architectures, GATED subsampling and full-data gate initialization.",
+    "status": "26 trained and evaluated",
+    "training_entrypoint": "evaluation/shareseq_ma2020/scripts/train_one.sh"
+  },
+  {
+    "directory": "shareseq/matched_cell_subsampling",
+    "evaluation_entrypoint": "unchanged cell_integration.py via shared planner; historical evaluate_one.py/matched_evaluate_one.py",
+    "historical_slurm": [
+      "evaluation/shareseq_ma2020/slurm/matched_train_array.sbatch",
+      "evaluation/shareseq_ma2020/slurm/matched_evaluate_array.sbatch"
+    ],
+    "id": "share_matched_cells",
+    "immutable_configuration": [
+      "evaluation/shareseq_ma2020/manifests/matched_subsample_manifest.csv",
+      "evaluation/shareseq_ma2020/manifests/{hyperparameters.yaml,subsampling.yaml,cells_*.txt}"
+    ],
+    "notes": "SHARE has 32231 paired cells. Canonical preparation/materialization and RNA PCA / ATAC LSI entrypoints are unchanged. The new evaluator writes isolated per-task 50D representations rather than sharing the original mutable cache; metric algorithms and settings are unchanged. Gate extraction and aggregate reports remain explicitly separate historical analysis entrypoints; the generic EVALUATED marker means integration metrics only. No feature consistency is invented. Full dimension list:16,32,50,64,100,128,200,256,384,512,768,1024. The original 26-row study includes 15 full GATED initialization/seed combinations and nine GATED subsamples; these are reused views, not additional submissions.",
+    "owner": "orchestration",
+    "preservation_branch": "GLUE_EXPERIMENT_ORCHESTRATION",
+    "preservation_commit": "88fee7ca07dfa25332d029d136887b651e57d313",
+    "purpose": "SHARE-seq matched cell subsampling",
+    "research_question": "Compare all architectures on identical 8000/16000/24000-cell subsets and subset seeds0\u20132.",
+    "status": "18 trained; nine GAT evaluated; nine GCN evaluations absent",
+    "training_entrypoint": "evaluation/shareseq_ma2020/scripts/matched_train_one.sh"
+  },
+  {
+    "directory": "shareseq/full_data_dimensions",
+    "evaluation_entrypoint": "unchanged cell_integration.py via shared planner; historical full_dimension.py metrics",
+    "historical_slurm": [
+      "evaluation/shareseq_ma2020/slurm/full_dimension_smoke.sbatch",
+      "historical inline full_dimension sbatch --wrap (recorded commands)"
+    ],
+    "id": "share_dimensions",
+    "immutable_configuration": [
+      "evaluation/shareseq_ma2020/manifests/full_dimension_comparison_manifest.csv",
+      "evaluation/shareseq_ma2020/manifests/{hyperparameters.yaml,subsampling.yaml,cells_*.txt}"
+    ],
+    "notes": "SHARE has 32231 paired cells. Canonical preparation/materialization and RNA PCA / ATAC LSI entrypoints are unchanged. The new evaluator writes isolated per-task 50D representations rather than sharing the original mutable cache; metric algorithms and settings are unchanged. Gate extraction and aggregate reports remain explicitly separate historical analysis entrypoints; the generic EVALUATED marker means integration metrics only. No feature consistency is invented. Full dimension list:16,32,50,64,100,128,200,256,384,512,768,1024. The original 26-row study includes 15 full GATED initialization/seed combinations and nine GATED subsamples; these are reused views, not additional submissions.",
+    "owner": "orchestration",
+    "preservation_branch": "GLUE_EXPERIMENT_ORCHESTRATION",
+    "preservation_commit": "88fee7ca07dfa25332d029d136887b651e57d313",
+    "purpose": "SHARE-seq full data dimensions",
+    "research_question": "Compare 12 full-data latent dimensions across GCN/GAT/GATED, model seed0.",
+    "status": "36 validated metric directories; three reused 50D",
+    "training_entrypoint": "evaluation/shareseq_ma2020/scripts/full_dimension_train_one.sh"
+  },
+  {
+    "directory": "shareseq/gate_stability",
+    "evaluation_entrypoint": "evaluation/shareseq_gate_stability/analyze.py",
+    "historical_slurm": [
+      "evaluation/shareseq_gate_stability/submit.sh",
+      "evaluation/shareseq_gate_stability/slurm/array_{a,b}.sbatch"
+    ],
+    "id": "share_gate_stability",
+    "immutable_configuration": [
+      "evaluation/shareseq_gate_stability/manifests/{all_runs,array_A,array_B,edges}.csv",
+      "evaluation/shareseq_gate_stability/preflight.json"
+    ],
+    "notes": "A:12 dimensions16\u20131024 x gates .25,.50,.75,.95 x seeds0\u20132=144. B:1536,2048,3072,4096 x same gates/seeds=48. Manifest row task_id is contiguous within A or B. Resources A4CPU/32G/3h30; B4CPU/48G/4h template, historically overridden to12h or18h. Retain exact original manifests/edge IDs/preflight. Analysis thresholds .25,.50,.75; all192 completion markers required. This catalog entry intentionally cannot submit into active paths.",
+    "owner": "gated",
+    "preservation_branch": "GATED_SHARE_GATE_STABILITY",
+    "preservation_commit": "becf8f758f6d6869511e5d18732ce1f055a3cf03",
+    "purpose": "SHARE-seq GATED gate stability",
+    "research_question": "Are learned gates stable across initialization, model seeds and latent dimension?",
+    "status": "A:109/144 finalized +35 pending; B:29/48 finalized +19 pending (one already trained); final analysis pending",
+    "training_entrypoint": "evaluation/shareseq_gate_stability/experiment.py run A|B TASK"
+  },
+  {
+    "directory": "pbmc/gated_graph_perturbation",
+    "evaluation_entrypoint": "evaluation/pbmc_graph_perturbation/scripts/evaluate.py",
+    "historical_slurm": [
+      "evaluation/pbmc_graph_perturbation/run_array.sbatch",
+      "evaluation/pbmc_graph_perturbation/evaluate.sbatch"
+    ],
+    "id": "pbmc_gated_graph",
+    "immutable_configuration": [
+      "evaluation/pbmc_graph_perturbation/manifest.csv",
+      "evaluation/pbmc_graph_perturbation/provenance/completed_evaluation_config.json"
+    ],
+    "notes": "Six conditions original,retain75/50/25/10,randomized x model seeds0\u20132. Graph seed0; 13493 reciprocal biological relations. Degree-preserving randomization10 accepted swaps per original relation, 134930 swaps;22 original relations remain. Full evaluator uses WNN reference annotations, not independent ground truth; canonical R kBET and independent donor batch measures unavailable.",
+    "owner": "pbmc",
+    "preservation_branch": "GATED_PBMC_GRAPH_EXPERIMENTS",
+    "preservation_commit": "2ead2851a06b3aaec969e83c61eccb05b1d0c5dd",
+    "purpose": "PBMC gated graph perturbation",
+    "research_question": "How does guidance-graph structure affect integration under matched architecture and data?",
+    "status": "18 trained and evaluated",
+    "training_entrypoint": "evaluation/pbmc_graph_perturbation/run_array.sbatch"
+  },
+  {
+    "directory": "pbmc/gcn_graph_subsampling",
+    "evaluation_entrypoint": "evaluation/pbmc_graph_subsampling_gcn/scripts/evaluate.py",
+    "historical_slurm": [
+      "evaluation/pbmc_graph_subsampling_gcn/train_array.sbatch",
+      "evaluation/pbmc_graph_subsampling_gcn/evaluate.sbatch"
+    ],
+    "id": "pbmc_gcn_graph_subsampling",
+    "immutable_configuration": [
+      "evaluation/pbmc_graph_subsampling_gcn/manifest.csv",
+      "evaluation/pbmc_graph_subsampling_gcn/validation/frozen_inputs.json"
+    ],
+    "notes": "Five conditions original and retain .75,.50,.25,.10 x model seeds0\u20132. Original GraphEncoder/GraphConv with audited constructors; no gates/attention. Requires successful frozen smoke and graph-validation records.",
+    "owner": "pbmc",
+    "preservation_branch": "GATED_PBMC_GRAPH_EXPERIMENTS",
+    "preservation_commit": "2ead2851a06b3aaec969e83c61eccb05b1d0c5dd",
+    "purpose": "PBMC gcn graph subsampling",
+    "research_question": "How does guidance-graph structure affect integration under matched architecture and data?",
+    "status": "14/15 trained; task7 pending; evaluation waits",
+    "training_entrypoint": "evaluation/pbmc_graph_subsampling_gcn/scripts/train.py"
+  },
+  {
+    "directory": "pbmc/gcn_graph_randomization",
+    "evaluation_entrypoint": "evaluation/pbmc_graph_subsampling_gcn/randomized_control/scripts/evaluate.py",
+    "historical_slurm": [
+      "evaluation/pbmc_graph_subsampling_gcn/randomized_control/train_array.sbatch",
+      "evaluation/pbmc_graph_subsampling_gcn/randomized_control/evaluate.sbatch"
+    ],
+    "id": "pbmc_gcn_randomized",
+    "immutable_configuration": [
+      "evaluation/pbmc_graph_subsampling_gcn/randomized_control/manifest.csv",
+      "evaluation/pbmc_graph_subsampling_gcn/randomized_control/validation/frozen_inputs.json"
+    ],
+    "notes": "Three randomized controls plus combined_manifest.csv18rows. Original evaluator snapshot under validation/completed_gated_evaluate.py is scientifically frozen reference code, not an unnecessary duplicate. Original combined dependency afterok:64840335:64848480; replacement evaluation currently afterok:3069635.",
+    "owner": "pbmc",
+    "preservation_branch": "GATED_PBMC_GRAPH_EXPERIMENTS",
+    "preservation_commit": "2ead2851a06b3aaec969e83c61eccb05b1d0c5dd",
+    "purpose": "PBMC gcn graph randomization",
+    "research_question": "How does guidance-graph structure affect integration under matched architecture and data?",
+    "status": "3/3 trained; combined18-run evaluation waits on retention task7",
+    "training_entrypoint": "evaluation/pbmc_graph_subsampling_gcn/randomized_control/scripts/train.py"
+  },
+  {
+    "directory": "pbmc/historical_smoke",
+    "evaluation_entrypoint": "Run_On_fir historical metric workflow",
+    "historical_slurm": [
+      "historical/original_glue_checkout/*.sh",
+      "GLUE_Reproduction:Run_On_fir/**/*.sh"
+    ],
+    "id": "pbmc_historical_smoke",
+    "immutable_configuration": [],
+    "notes": "Unique independent environment recipes remain in historical/original_glue_checkout. Reproduction commit731f9ba stores eight curated metric files. Some historical scripts source missing Run_On_fir/activate_glue.sh. No files are deleted because of age.",
+    "owner": "orchestration",
+    "preservation_branch": "GLUE_EXPERIMENT_ORCHESTRATION",
+    "preservation_commit": "88fee7ca07dfa25332d029d136887b651e57d313",
+    "purpose": "Historical PBMC smoke and size250 reproduction",
+    "research_question": "Establish original GLUE and GAT environment/training viability.",
+    "status": "Original 1000-cell smoke and baseline smoke/full/GAT smoke artifacts exist; size250 eight seeds evaluated",
+    "training_entrypoint": "historical/original_glue_checkout/smoke_train_10x_glue.sh; smoke_train_10x_gat.sh"
+  },
+  {
+    "directory": "pbmc/normalized_gat",
+    "evaluation_entrypoint": "no executed experiment evaluator",
+    "historical_slurm": [],
+    "id": "gat_normalized",
+    "immutable_configuration": [],
+    "notes": "Architecture commit5ac0b073a5f0a372a472605d8fc61a39def55b31; unit test tests/test_gat_normalized_weights.py. This is an architecture option, not completed experiment evidence.",
+    "owner": "orchestration",
+    "preservation_branch": "GLUE_EXPERIMENT_ORCHESTRATION",
+    "preservation_commit": "88fee7ca07dfa25332d029d136887b651e57d313",
+    "purpose": "Normalized guidance-edge GAT variant",
+    "research_question": "How would normalized rather than raw prior weights affect GAT?",
+    "status": "Implementation and unit tests only; no verified local experiment design or outputs",
+    "training_entrypoint": "GAT_NORM_GLUE:evaluation/workflow/scripts/run_GLUE.py"
+  },
+  {
+    "directory": "common/upstream_suites",
+    "evaluation_entrypoint": "upstream workflow and case-study code",
+    "historical_slurm": [
+      "evaluation/profiles/cls/config.yaml"
+    ],
+    "id": "upstream_suites",
+    "immutable_configuration": [
+      "evaluation/config/config.yaml"
+    ],
+    "notes": "Keep upstream source for lineage and preprocessing. The 240-target five-dataset official subsampling list is a plan, not completion evidence.",
+    "owner": "orchestration",
+    "preservation_branch": "GLUE_EXPERIMENT_ORCHESTRATION",
+    "preservation_commit": "88fee7ca07dfa25332d029d136887b651e57d313",
+    "purpose": "Inherited upstream experimental suites",
+    "research_question": "Configured GLUE benchmarking, preprocessing/HVG/prior ablations and case studies.",
+    "status": "Configured source; no verified local case-study model outputs",
+    "training_entrypoint": "evaluation/workflow/Snakefile; Atlas/RegInf/TripleOmics/BatchEffect/OverCorrection"
+  }
+]

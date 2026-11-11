@@ -1,0 +1,23 @@
+{
+  "implementations": {
+    "gat": "/replace-me/checkouts/gat-71e1517",
+    "gated": "/replace-me/checkouts/gated-cleanup",
+    "gcn": "/replace-me/checkouts/original-gcn-38726c5"
+  },
+  "output_root": "/replace-me/fresh-outputs",
+  "partitions": {
+    "cpu": "cpubase_bycore_b2",
+    "gpu": "gpubase_bygpu_b2"
+  },
+  "path_bindings": {
+    "/project/6001426/paa40/GlUE_Exp/GLUE/evaluation/results_gat/raw/10x-Multiome-Pbmc10k": "/replace-me/prepared-inputs/pbmc-gat",
+    "/project/6001426/paa40/GlUE_Exp/GLUE/evaluation/results_gat_tuning/screen_v2": "/replace-me/prepared-inputs/pbmc-gat-tuning",
+    "/project/6001426/paa40/GlUE_Exp/GLUE/evaluation/results_gcn_h100/raw/10x-Multiome-Pbmc10k": "/replace-me/prepared-inputs/pbmc",
+    "/project/6001426/paa40/GlUE_Exp/GLUE/evaluation/shareseq_ma2020/data": "/replace-me/prepared-inputs/shareseq",
+    "/project/6001426/paa40/GlUE_Exp/GLUE/evaluation/shareseq_ma2020/manifests": "repo:evaluation/shareseq_ma2020/manifests"
+  },
+  "protected_roots": [
+    "/replace-me/prepared-inputs"
+  ],
+  "python": "/replace-me/environment/bin/python"
+}

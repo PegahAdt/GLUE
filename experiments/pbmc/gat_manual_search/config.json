@@ -1,0 +1,43 @@
+{
+  "configuration_sources": [],
+  "evaluation_blocker": null,
+  "experiment": "pbmc_gat_manual",
+  "historical_submission": [
+    "evaluation/wait_and_launch_gat_manual_search.sh",
+    "evaluation/run_gat_manual_search_in_allocation.sh"
+  ],
+  "launch_blocker": "Historical manual search uses an unmatched feature reference. Adaptive winner selection must not be precomputed or silently repaired during cleanup.",
+  "resource_wrapper": false,
+  "resources": {
+    "evaluate": {
+      "concurrency": 6,
+      "cpus": 8,
+      "memory": "64G",
+      "time": "24:00:00"
+    },
+    "train": {
+      "concurrency": 6,
+      "cpus": 8,
+      "gpu": "h100:1",
+      "memory": "192G",
+      "time": "48:00:00"
+    }
+  },
+  "training": {
+    "alt_dim": 100,
+    "balance_cutoff": 0.5,
+    "balance_power": 4.0,
+    "balance_res": 1.0,
+    "data_batch_size": 128,
+    "dropout": 0.2,
+    "hidden_depth": 2,
+    "hidden_dim": 256,
+    "lam_align": 0.05,
+    "lam_graph": 0.02,
+    "lr": 0.002,
+    "neg_samples": 10,
+    "random_sleep": true,
+    "require_converge": true,
+    "val_split": 0.1
+  }
+}
