@@ -9,7 +9,6 @@ __pycache__
 *.bigWig
 *.chain*
 *.cprof
-*.csv*
 *.dill
 *.docx
 *.egg-info
@@ -23,7 +22,6 @@ __pycache__
 *.html
 *.ipynb
 *.jpg
-*.json
 *.links
 *.log
 *.loom
@@ -42,7 +40,6 @@ __pycache__
 *.tbl
 *.gephi
 *.tfevents.*
-*.tsv*
 *@neomake*
 *Untitled*
 .deprecated
@@ -89,3 +86,36 @@ evaluation/shareseq_gate_stability/analysis/
 !evaluation/shareseq_gate_stability/manifests/all_runs.csv
 !evaluation/shareseq_gate_stability/manifests/array_A.csv
 !evaluation/shareseq_gate_stability/manifests/array_B.csv
+
+# Research designs are source: CSV/TSV/JSON are not globally ignored.
+# Place generated products in the explicit storage locations below.
+/.venv/
+/conda/
+/data/dataset/
+/logs/
+/results/
+/evaluation/results*/
+**/logs/
+**/results/
+**/metrics/
+**/metrics_*_runs/
+**/reports/
+**/recovery_archives/
+**/incomplete/
+**/unirep_cache/
+**/.pytest_cache/
+**/submission.lock
+**/submitted_jobs.json
+**/submission.json
+**/submitted_job.txt
+**/smoke/
+**/*.dill
+**/*.h5ad
+**/*.graphml.gz
+**/*.pt
+**/*.tar.gz
+**/*.zip
+**/*.log
+**/*.out
+**/*.err
+workspace.local.json
