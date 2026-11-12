@@ -1,0 +1,233 @@
+{
+  "cell_type": "cell_type",
+  "chunk_size": 256,
+  "cross_k": 15,
+  "evaluation_mode": "full",
+  "evaluation_seed": 0,
+  "fingerprint": "41f5675987ec8e4cd54464510358abf6509f5d7a8991343db31361684e40e7f8",
+  "input_dir": "/project/6001426/paa40/GlUE_Exp/GLUE/evaluation/results_gcn_h100/raw/10x-Multiome-Pbmc10k/original",
+  "kbet_k": 50,
+  "leiden_resolution": 1.0,
+  "lisi_perplexity": 30,
+  "manifest": "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/manifest.csv",
+  "manifest_sha256": "d49081da099abb1ef8ae9c392cd3d055247489f6645fec51b22b8c64fb436972",
+  "numeric_threads": {
+    "MKL_NUM_THREADS": "8",
+    "NUMBA_NUM_THREADS": "8",
+    "OMP_NUM_THREADS": "8",
+    "OPENBLAS_NUM_THREADS": "8"
+  },
+  "original_graph_sha256": {
+    "/project/6001426/paa40/GlUE_Exp/GLUE/evaluation/results_gcn_h100/raw/10x-Multiome-Pbmc10k/original/gene_region:combined-extend_range:0-corrupt_rate:0.0-corrupt_seed:0/sub.graphml.gz": "7c426bca7c37f5097203686d172e5e3d2641b639ceaac658113614b24a9d7662"
+  },
+  "output": "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/reports/full",
+  "pairing": {
+    "n_pairs": 9631,
+    "provenance_sha256": "47d13b971c6dc226f30353582b02f513f963349dc6d003bf38eb8dfd038bf368",
+    "reason": "Shared source Multiome matrix and common filters; exact unique barcodes, protocol and sample identifiers verified; embeddings realigned by ID",
+    "source": "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/data/collect/10x-Multiome-Pbmc10k.ipynb",
+    "verified": true
+  },
+  "pairing_provenance": "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/data/collect/10x-Multiome-Pbmc10k.ipynb",
+  "python": "3.8.5 (default, Sep  4 2020, 07:30:14) \n[GCC 7.3.0]",
+  "references": "derive",
+  "run_input_sha256": [
+    {
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/original/graph_seed:0/model_seed:0/atac_latent.csv": "2fea603ce4df4d1c66cce7cd50cff3c72870f9cac7b4d9b02774e14ec9d73e8a",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/original/graph_seed:0/model_seed:0/feature_latent.csv": "544c686290b8f3d70c6f70fc8ffd6ad64e23b1aa8dfa07dde17abc2ba62612b5",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/original/graph_seed:0/model_seed:0/final.dill": "d5c787880b9a842e39349a72ce30548e5c1c7110bb4b2b6d25f33cc0e2b5ae7d",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/original/graph_seed:0/model_seed:0/gate_diagnostics.yaml": "056080daa383b23b3c429748f8582f47dfb6441f450d455674dd7cde40c2959c",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/original/graph_seed:0/model_seed:0/manifest.csv": "d49081da099abb1ef8ae9c392cd3d055247489f6645fec51b22b8c64fb436972",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/original/graph_seed:0/model_seed:0/rna_latent.csv": "edd3d69544335b535fbd6b09700c9ff7c23c3a51d31bd5a091e9aadff7c75f26",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/original/graph_seed:0/model_seed:0/run_info.yaml": "df93afd1f805afcffdf31564e2f1fb14fab7874c0f26fcdd126d806b00879082"
+    },
+    {
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/original/graph_seed:0/model_seed:1/atac_latent.csv": "c398057b60f7d0cb9a5ac04f102a160017bcfa46d793ce4bde2d79cd70c7ccad",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/original/graph_seed:0/model_seed:1/feature_latent.csv": "48181f198ad8e191b4bbc8f2cf05cd6444b4b91a6fe1247abac5b71ed70a99a7",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/original/graph_seed:0/model_seed:1/final.dill": "55f8923e51df201e499b0ea299906026f4be706ea160980b13453ce4f571681f",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/original/graph_seed:0/model_seed:1/gate_diagnostics.yaml": "288d1a20c6477ac0a00a59fe68e46704f9d35b26462680de6affd0845b2fc871",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/original/graph_seed:0/model_seed:1/manifest.csv": "d49081da099abb1ef8ae9c392cd3d055247489f6645fec51b22b8c64fb436972",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/original/graph_seed:0/model_seed:1/rna_latent.csv": "23622d1c7ac3e4422856b15b755aff499e56e9de8e257f01d6b4563048ab6bee",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/original/graph_seed:0/model_seed:1/run_info.yaml": "3bd2694aeb205e4d5260df2c90e838a1eda69fa5e04229bccba9d8616a085308"
+    },
+    {
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/original/graph_seed:0/model_seed:2/atac_latent.csv": "1d5620cdc96cd3912b4fc96a2457698e7344c5319ca98d5678241d5b16e442be",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/original/graph_seed:0/model_seed:2/feature_latent.csv": "f416c0e29a89d97d2bec7dc3386d112e571b5c4cec140e6c20b5d4af3434b160",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/original/graph_seed:0/model_seed:2/final.dill": "5ad5fc1f174b37a05e71e246def78096ca6aa2696177be117bbda9dcfa9c4129",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/original/graph_seed:0/model_seed:2/gate_diagnostics.yaml": "88436f8ab907aee70427e475a4fa6a31bb97bd38dc87e6dd257dccab3aa681d0",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/original/graph_seed:0/model_seed:2/manifest.csv": "d49081da099abb1ef8ae9c392cd3d055247489f6645fec51b22b8c64fb436972",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/original/graph_seed:0/model_seed:2/rna_latent.csv": "1a5f840e79d4db23c025468d6f6c238a47f8bcf3a3038c8e9f220f1c2f2bd7a3",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/original/graph_seed:0/model_seed:2/run_info.yaml": "71587d353a3cbd02f295ffde7c264871572bdb595837efd4d5aeed53780aeba3"
+    },
+    {
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_75/graph_seed:0/model_seed:0/atac_latent.csv": "f94446fdd39ea150ad6747d9ebc0924f5c0c4587dee93ab62d29e3170a8d1386",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_75/graph_seed:0/model_seed:0/feature_latent.csv": "ca82998e38d3aef111421e4b5255cf0d13eb0c1cce746d9b91e90800a3cdc782",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_75/graph_seed:0/model_seed:0/final.dill": "7fefbdb69a2bc42de6469436b68ba3ef226c18ea0a4e714904695517b60a7dc9",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_75/graph_seed:0/model_seed:0/gate_diagnostics.yaml": "e507718c98709563d6f01a00df2f1d4346f8770c9f6a02e177903ed31b0d0850",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_75/graph_seed:0/model_seed:0/manifest.csv": "d49081da099abb1ef8ae9c392cd3d055247489f6645fec51b22b8c64fb436972",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_75/graph_seed:0/model_seed:0/rna_latent.csv": "70e0b4e659d2075a79497db70c4de497ca5d21f4ca68888e7e090ced6719319e",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_75/graph_seed:0/model_seed:0/run_info.yaml": "ef2915500c700cf0cdb83e485c8cd4d5c804e270ef99b9b6641ee38e37a1078a"
+    },
+    {
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_75/graph_seed:0/model_seed:1/atac_latent.csv": "65c782968c8ab5e7de6c73db70c47595d7664ab4cd1774ca562d82595ae7dfc5",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_75/graph_seed:0/model_seed:1/feature_latent.csv": "f9109c3deab4b8c9e9178808c394e1d6fc3181ddfb6a3a016997131bbb7f95c4",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_75/graph_seed:0/model_seed:1/final.dill": "cefc7c778d4d2e24dd2faa4309260369da2db1d7fc065799686a3e72a224f2e8",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_75/graph_seed:0/model_seed:1/gate_diagnostics.yaml": "5c1b854859607a9a6789a57c71d343f8f141ab17d54b3468929c1b4da927f47b",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_75/graph_seed:0/model_seed:1/manifest.csv": "d49081da099abb1ef8ae9c392cd3d055247489f6645fec51b22b8c64fb436972",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_75/graph_seed:0/model_seed:1/rna_latent.csv": "b9046b8d72152cb3402e4be76a017f368916dadec9a7200939321689d1ef8daf",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_75/graph_seed:0/model_seed:1/run_info.yaml": "94b117f0cd3c141a8dd0cdb71d97c795ed20757ce946b54cbd9467848f579a15"
+    },
+    {
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_75/graph_seed:0/model_seed:2/atac_latent.csv": "629c48b283850db76790c6d75921fc8f7615709b0f103a412d15d363d279925b",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_75/graph_seed:0/model_seed:2/feature_latent.csv": "c6d973c9c72ecd865e0cc668c41340266ad70f8e316a0ee92222a9ef9c88b80b",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_75/graph_seed:0/model_seed:2/final.dill": "8db88cd3136d97a62cdc5db57a0f822d7e5337cf984894c07799619089c16313",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_75/graph_seed:0/model_seed:2/gate_diagnostics.yaml": "6c66bdd3538f138daf2b1660c56958e2e21e98496cb83f179aec676ade87e5e3",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_75/graph_seed:0/model_seed:2/manifest.csv": "d49081da099abb1ef8ae9c392cd3d055247489f6645fec51b22b8c64fb436972",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_75/graph_seed:0/model_seed:2/rna_latent.csv": "db6a79286c1fa8e71aa744951b7a714d1f6a8e829d3074dae5ba7d1b337ba01f",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_75/graph_seed:0/model_seed:2/run_info.yaml": "e757d0644032a1801a76ed0ede79fb9eebbc4fb22dc627e39b119240c3e6cd45"
+    },
+    {
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_50/graph_seed:0/model_seed:0/atac_latent.csv": "b533e89edb053f7cb130aeb7dff681fe33fba38734855deb91f7563c4bccb5ba",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_50/graph_seed:0/model_seed:0/feature_latent.csv": "1618101a55f50b8b0327194b1bc804fefca257494fc65738365ed9d83a5f803c",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_50/graph_seed:0/model_seed:0/final.dill": "efc4dd774fc5b04598828e9b3d27f9abdfd3a09add2b211a587b1102d0babe78",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_50/graph_seed:0/model_seed:0/gate_diagnostics.yaml": "de41b1ab0d78c880cac0d759c87ad54b7f3c1fea35443498bae59db5bc238eba",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_50/graph_seed:0/model_seed:0/manifest.csv": "d49081da099abb1ef8ae9c392cd3d055247489f6645fec51b22b8c64fb436972",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_50/graph_seed:0/model_seed:0/rna_latent.csv": "211fabb17c83caec9ef03a4cba72135e32259e87b46202be847a95760f1281a9",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_50/graph_seed:0/model_seed:0/run_info.yaml": "7ea7fff289486eb53779e9a4d12efcb589c8c15c8494315f6d2b15744a0bea2b"
+    },
+    {
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_50/graph_seed:0/model_seed:1/atac_latent.csv": "9951d87ebad68f3780b9040dbdc22bda0e6fca2cc152abe4a99693b5f7757dee",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_50/graph_seed:0/model_seed:1/feature_latent.csv": "7ef35328c83b54da8a1f0bab75e99605dd9ebdd6bdd502f9e492c1b8bf090bd0",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_50/graph_seed:0/model_seed:1/final.dill": "e7144bc1da89e5a7970d222b73d7f2c023036aadc3d4cc8688655040d2633c26",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_50/graph_seed:0/model_seed:1/gate_diagnostics.yaml": "34af07fce65cbeb50d958d9fb56740e7cff62e1cc184ce50fdae0e7d46a79449",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_50/graph_seed:0/model_seed:1/manifest.csv": "d49081da099abb1ef8ae9c392cd3d055247489f6645fec51b22b8c64fb436972",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_50/graph_seed:0/model_seed:1/rna_latent.csv": "34261435b1c91cbfb88aaef92ab9cee15ccde6b2ed70359980424f44abe0feae",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_50/graph_seed:0/model_seed:1/run_info.yaml": "0e9e2ad5e6f81944d31f1f7e28b52ac5b559b144fd6bf44a837134702814c747"
+    },
+    {
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_50/graph_seed:0/model_seed:2/atac_latent.csv": "0525c1217c63cde0add51cbcd705253a7b3f714d4c8312f48195c8d8de3e1f43",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_50/graph_seed:0/model_seed:2/feature_latent.csv": "2f717ea924d3492e71dca100db6a0e0432f25123d11b983146af2ede35b070c8",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_50/graph_seed:0/model_seed:2/final.dill": "8535aaf4381e539fe6ee0959097957bb63d2bb77633ed0d9f9c7aaa0bc10557f",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_50/graph_seed:0/model_seed:2/gate_diagnostics.yaml": "65d592d0760bf782bc07635a071c18dcd6e8e0d715356559fc854bbbf6cb44c2",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_50/graph_seed:0/model_seed:2/manifest.csv": "d49081da099abb1ef8ae9c392cd3d055247489f6645fec51b22b8c64fb436972",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_50/graph_seed:0/model_seed:2/rna_latent.csv": "e8d98f8481fb2f482d059407d8dcf647e4f072159beaa4424bc00c2f9a5c4511",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_50/graph_seed:0/model_seed:2/run_info.yaml": "46424d3f91c1b246a46927875ac41aed32de8859bcb835bc013a281c16a4f367"
+    },
+    {
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_25/graph_seed:0/model_seed:0/atac_latent.csv": "e91a4c846c6a2a1c4e51c28c95702bb459053d114c3589fe329230c13d2f91b7",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_25/graph_seed:0/model_seed:0/feature_latent.csv": "ff8598c34578ae658440e85584a1005e1322274707be37d727132f825d4fdaad",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_25/graph_seed:0/model_seed:0/final.dill": "20502444947b90c250e9e82c6041cd791a0f73aead854e1a0b6a2da1d488b343",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_25/graph_seed:0/model_seed:0/gate_diagnostics.yaml": "51ec55a5b67048f4a7002790ea80def61700842873ecc5974186ed669615d8d9",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_25/graph_seed:0/model_seed:0/manifest.csv": "d49081da099abb1ef8ae9c392cd3d055247489f6645fec51b22b8c64fb436972",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_25/graph_seed:0/model_seed:0/rna_latent.csv": "0b5bc5440bd3bebe17aef02685b63f6b54ec6b9df40298413de97a109b7d3079",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_25/graph_seed:0/model_seed:0/run_info.yaml": "d740bf74cc112e495f441532f94f201a320f03d60b08c7c203a791abc81711ea"
+    },
+    {
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_25/graph_seed:0/model_seed:1/atac_latent.csv": "242fd08dd7e0ec7976783f3d56048ff6689d972ee532a210cce443d9ddbaec09",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_25/graph_seed:0/model_seed:1/feature_latent.csv": "0f32ab3a1f7aaf1ac8509fff855898893484f4be5934aafff32f4ac77297e066",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_25/graph_seed:0/model_seed:1/final.dill": "cc29708699e460f69ee2a15a9b66aed922528b7d7b71e69eb4f391cef4ae71ce",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_25/graph_seed:0/model_seed:1/gate_diagnostics.yaml": "9d66230e40e90b2d606a4dff9080674e47cd42a8d8d9efb5775c19f539cd8255",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_25/graph_seed:0/model_seed:1/manifest.csv": "d49081da099abb1ef8ae9c392cd3d055247489f6645fec51b22b8c64fb436972",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_25/graph_seed:0/model_seed:1/rna_latent.csv": "783bc0999f2082d73115479d106f819b533797be1654a340f1074d5e03fc8be0",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_25/graph_seed:0/model_seed:1/run_info.yaml": "b8af524709a82254a143cc65e9c36f8e7740e5654e7fe4752d3e58144586d7f8"
+    },
+    {
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_25/graph_seed:0/model_seed:2/atac_latent.csv": "a7198b73d6fe17a006b024511abc018a05fd0da441335f703c42d0d4f11f61f5",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_25/graph_seed:0/model_seed:2/feature_latent.csv": "1191912bf0483927015ed2ff20f66e9188b97094ffbfed4243b894b63badf6b3",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_25/graph_seed:0/model_seed:2/final.dill": "28ee014074d0de4d7ba2fab431fcba83b7fe2275a1216ae51491de694c0f2832",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_25/graph_seed:0/model_seed:2/gate_diagnostics.yaml": "7b27b1a76ade4575d98c473f9b6b37e3165b25c6f1751bf7e459aeb6437554ab",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_25/graph_seed:0/model_seed:2/manifest.csv": "d49081da099abb1ef8ae9c392cd3d055247489f6645fec51b22b8c64fb436972",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_25/graph_seed:0/model_seed:2/rna_latent.csv": "ed50991af941792ba4e750d12fda5d72f718b89fa89c45a9cc94dbd9e0d63979",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_25/graph_seed:0/model_seed:2/run_info.yaml": "8f74f43f81c8f304356859ad1cd6e8b2ef0c45f883117e3121528bd54e9a7fc7"
+    },
+    {
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_10/graph_seed:0/model_seed:0/atac_latent.csv": "8946d1823a14b693ffe90f1c35bb8566107bd5ad63729bc5f4ef241819728eef",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_10/graph_seed:0/model_seed:0/feature_latent.csv": "860f298e9be6d9ed192961e3451428b102b8506d11cb6e60fa79e233c8af887f",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_10/graph_seed:0/model_seed:0/final.dill": "32c437e4bb5022f90a5afa99fab71a2528730f940be80b57facec616412a576b",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_10/graph_seed:0/model_seed:0/gate_diagnostics.yaml": "a1127a0eb2b79b5310daeed22f0ffa468a2620ad6aa41185fdba1dd3bbc19e12",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_10/graph_seed:0/model_seed:0/manifest.csv": "d49081da099abb1ef8ae9c392cd3d055247489f6645fec51b22b8c64fb436972",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_10/graph_seed:0/model_seed:0/rna_latent.csv": "2607e61633a2ddfdef96dd64e08493b8300b95f4b8741c319b5c47b31de34614",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_10/graph_seed:0/model_seed:0/run_info.yaml": "ed11273f9db1ad7196a0819bcd0f2e32f620bbfc016bb2a0870db37d58ec73e1"
+    },
+    {
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_10/graph_seed:0/model_seed:1/atac_latent.csv": "946bd26b78f067da98f45fbbdf3abc437475b94bf00df30942d46935e22c6e61",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_10/graph_seed:0/model_seed:1/feature_latent.csv": "975b5d60f36bb5145ca2f1e369b112d83454c8ace2f95612d9bf6947927b565a",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_10/graph_seed:0/model_seed:1/final.dill": "ebdf9e78ea375919be4aa50b9f9f8de7a0e637206d05408187b1d45f8ca208aa",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_10/graph_seed:0/model_seed:1/gate_diagnostics.yaml": "b586895524b5f795fb727aef1842bc405eaf870763880a6826d0a851c192bf7b",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_10/graph_seed:0/model_seed:1/manifest.csv": "d49081da099abb1ef8ae9c392cd3d055247489f6645fec51b22b8c64fb436972",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_10/graph_seed:0/model_seed:1/rna_latent.csv": "7d10a6365115df6ab83bb50201ec7f0b65a2e8b5e2362f055d4cd921abd09dcd",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_10/graph_seed:0/model_seed:1/run_info.yaml": "be90a23d2b6e399724b34591e6ddc812b85423db406254bd21761618e2f3af9b"
+    },
+    {
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_10/graph_seed:0/model_seed:2/atac_latent.csv": "bdc59c15ec3f068df61704565cce193ce16f280598003983340c14700ee25d8d",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_10/graph_seed:0/model_seed:2/feature_latent.csv": "3cd9bb7416dce1ef0b7c575edc3113ba07b59862b2f636e8db0891aa07323539",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_10/graph_seed:0/model_seed:2/final.dill": "d3e8d7dfd324bc157af4f9935d3e07c3b6dc5de2b060501c670daef9544cb579",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_10/graph_seed:0/model_seed:2/gate_diagnostics.yaml": "acb530480f8988c1e985d724f8504a7319b87dbabfa73e4ed8c140cc6a08d2ed",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_10/graph_seed:0/model_seed:2/manifest.csv": "d49081da099abb1ef8ae9c392cd3d055247489f6645fec51b22b8c64fb436972",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_10/graph_seed:0/model_seed:2/rna_latent.csv": "6510665d34094d6950e13effccb6f740e65e09c6b9fe45059a520d087fbed39d",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/retain_10/graph_seed:0/model_seed:2/run_info.yaml": "b77d501ba31b5dc527825002d178bd55c34f3617febf2411a266219cb709c133"
+    },
+    {
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/randomized/graph_seed:0/model_seed:0/atac_latent.csv": "ebf9379e6ad88281647b2b0935cef5aeb033900e76778543cf058cf456a4efaf",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/randomized/graph_seed:0/model_seed:0/feature_latent.csv": "e747bd5b06e6e902220889c2c212908cacac9890e11ec0e1ca4c2b6ad0ef2b3a",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/randomized/graph_seed:0/model_seed:0/final.dill": "1deae9f6c71b60f2f2c22e95479aba9cb875f527620a2a9aef65cf788a50673d",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/randomized/graph_seed:0/model_seed:0/gate_diagnostics.yaml": "b110330429c585ff68c65342ec653964af2f79430b07f2169f8361bd39af6349",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/randomized/graph_seed:0/model_seed:0/manifest.csv": "d49081da099abb1ef8ae9c392cd3d055247489f6645fec51b22b8c64fb436972",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/randomized/graph_seed:0/model_seed:0/rna_latent.csv": "73f5c1769bf57d678c10c030156f82986578feedd1f8b3a0e0814e16cf3c102d",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/randomized/graph_seed:0/model_seed:0/run_info.yaml": "5359cb045c4bc754c052a796c4774ce3046c0dca0e7f443178fb367acc253f46"
+    },
+    {
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/randomized/graph_seed:0/model_seed:1/atac_latent.csv": "635e09b5c408b783d886e0e6153477193103a28b714b5c3667a00d62c862231f",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/randomized/graph_seed:0/model_seed:1/feature_latent.csv": "e605fcbca8e119212215148124f111b888ac9f4f5cb1e5daa769e77a60cee970",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/randomized/graph_seed:0/model_seed:1/final.dill": "6de8c5b85ee17fa44b4dbfafc0fdd0c878f2acf3fd7db5d4d9a59db5a7789a9f",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/randomized/graph_seed:0/model_seed:1/gate_diagnostics.yaml": "c99ff73ecfa5522b273b5db5c83c936cbb5bff2d9e04f490bfe265a26a1b883f",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/randomized/graph_seed:0/model_seed:1/manifest.csv": "d49081da099abb1ef8ae9c392cd3d055247489f6645fec51b22b8c64fb436972",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/randomized/graph_seed:0/model_seed:1/rna_latent.csv": "8d756daa522006890334924553443d989575f248b91c38b7e4a869615a2acf8e",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/randomized/graph_seed:0/model_seed:1/run_info.yaml": "5b13be4ae8781cc3006255043e04248b4406e6d23c4ca8449213ad2b4041ddbf"
+    },
+    {
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/randomized/graph_seed:0/model_seed:2/atac_latent.csv": "50116e6830fa87ea8779071e1ca8a2c7a9ca58a30154b138439d44252037d78a",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/randomized/graph_seed:0/model_seed:2/feature_latent.csv": "52941e2eb0b9e2f378310e90b2893713473035b02eabaef3c9fd059993d43be0",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/randomized/graph_seed:0/model_seed:2/final.dill": "bc926cea69d6300557898943aaee7bafce66ef8802c39bcfc2b5f47a121a5b3b",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/randomized/graph_seed:0/model_seed:2/gate_diagnostics.yaml": "af41511e364d32db9fb371ab8f4d888ab455c7db11519cac302e14366294ea1d",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/randomized/graph_seed:0/model_seed:2/manifest.csv": "d49081da099abb1ef8ae9c392cd3d055247489f6645fec51b22b8c64fb436972",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/randomized/graph_seed:0/model_seed:2/rna_latent.csv": "96429ff58ba75a4d56f0cc161392e176a5b6eada39b91b3ad2e44d7a7200fa88",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/randomized/graph_seed:0/model_seed:2/run_info.yaml": "c0da536462330c8dc28dc4701d9806b33e6557a9fe0b1f80298629c27587c4e9"
+    }
+  ],
+  "smoke_cells": 100,
+  "source_hashes": {
+    "evaluation/pbmc_graph_perturbation/scripts/REPRODUCE.md": "3b9254f9df7b014778ef5c7302cc01527b152fd4a7a70118643cef560cc205a7",
+    "evaluation/pbmc_graph_perturbation/scripts/evaluate.py": "a9487b82342b31461fec9d7f5cadc2079ee6bc17f78f9fba1ac72bd36e27849c",
+    "evaluation/pbmc_graph_perturbation/scripts/methodology.md": "940572ce52cc5822bcedce02749d6174b0ded9fba168929db5e35b088849b4eb",
+    "evaluation/pbmc_graph_perturbation/scripts/reporting.py": "92664db310d74f52ac448cec383c3a5eb4da6b17c43a070a4950517bd4ee5f97",
+    "evaluation/workflow/scripts/graph_perturbation.py": "7e96c818f0bff43be537900891786cbcfffe5fabb6164def9e36456e916e9136",
+    "scglue/data.py": "cce7d0040fed1add2ea420b89dde8b2434c99cd2187d28fded34be48ebc72711",
+    "scglue/metrics.py": "59b5f07ebe24a838bf4d4f03eb29df35758e7daac9fa28111e581a86ca26c908"
+  },
+  "source_inputs": {
+    "/project/6001426/paa40/GlUE_Exp/GLUE/evaluation/results_gcn_h100/raw/10x-Multiome-Pbmc10k/original/atac.h5ad": {
+      "mtime_ns": 1783936190000000000,
+      "size": 153863242
+    },
+    "/project/6001426/paa40/GlUE_Exp/GLUE/evaluation/results_gcn_h100/raw/10x-Multiome-Pbmc10k/original/rna.h5ad": {
+      "mtime_ns": 1783930891000000000,
+      "size": 50668504
+    }
+  },
+  "supplied_references_sha256": {},
+  "versions": {
+    "anndata": "0.7.8",
+    "dill": "0.3.3",
+    "igraph": "0.9.8",
+    "leidenalg": "0.8.3",
+    "matplotlib": "3.3.2",
+    "numpy": "1.19.2",
+    "pandas": "1.1.5",
+    "scanpy": "1.8.2",
+    "scikit-learn": "0.24.1",
+    "scipy": "1.6.1",
+    "torch": "1.10.1"
+  },
+  "working_memory_mb": 64
+}

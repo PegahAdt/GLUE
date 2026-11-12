@@ -1,47 +1,59 @@
 # PBMC GATED architecture comparison and cell subsampling
 
-Question: How does integration quality change across matched architectures and paired-cell subset sizes?
+[Thesis map](../../../THESIS_EXPERIMENTS.md) · `REPRODUCIBILITY.md` (external, planned, or unresolved)
 
-## Canonical workflow
+## Scientific objective
 
-From the orchestration checkout, inspect without changing files or contacting Slurm:
+How does integration quality change across matched architectures and paired-cell subset sizes?
+
+## Dataset, architectures and conditions
+
+PBMC 10x Multiome: paired human PBMC scRNA-seq + scATAC-seq.
+
+GATED-GLUE.
+
+Full reference + sizes 250/2000/8000 × subset seeds 0–2; model seed 0; gate_init=.95, lam_keep=0.
+
+The canonical registry has **10 rows**. Reused rows and overlapping analysis views are not new independent fits.
+
+## Implementation and configuration
+
+| Stage | Source |
+|---|---|
+| Training | [implementations/gated/evaluation/workflow/scripts/run_GLUE.py](../../../implementations/gated/evaluation/workflow/scripts/run_GLUE.py) |
+| Configuration / manifest | [experiments/pbmc/gated_comparison/config.json](config.json)<br>[experiments/pbmc/gated_comparison/manifest.csv](manifest.csv) |
+| Preprocessing | Not applicable / no entry point identified |
+| Evaluation | [evaluation/workflow/scripts/cell_integration.py](../../../evaluation/workflow/scripts/cell_integration.py)<br>[evaluation/workflow/scripts/feature_consistency.py](../../../evaluation/workflow/scripts/feature_consistency.py)<br>[evaluation/workflow/scripts/combine_metrics.py](../../../evaluation/workflow/scripts/combine_metrics.py) |
+| Plotting / reporting | [evaluation/collect_10x_gcn_gat_gated_comparison.py](../../../evaluation/collect_10x_gcn_gat_gated_comparison.py)<br>[evaluation/generate_gcn_gat_gated_metric_comparisons.py](../../../evaluation/generate_gcn_gat_gated_metric_comparisons.py)<br>[evaluation/compare_10x_gcn_vs_gat.py](../../../evaluation/compare_10x_gcn_vs_gat.py)<br>[evaluation/analyze_10x_gcn_vs_gat_statistics.py](../../../evaluation/analyze_10x_gcn_vs_gat_statistics.py) |
+| Canonical architecture bindings | `implementations/README.md` (external, planned, or unresolved) |
+
+## Commands and execution boundary
+
+From the repository root, inspect the catalog and this experiment without training or scheduler calls:
 
 ```bash
-python3 -B experiments/launch.py pbmc_gated_comparison --dry-run --workspace experiments/workspace.example.json
+python3 -B experiments/launch.py --list
+python3 -B experiments/launch.py pbmc_gated_comparison --dry-run
 ```
 
-`config.json` holds fixed settings and explicit resources; `manifest.csv`, when present,
-maps zero-based array indices directly to configurations. It contains 10 rows.
-Use `--task N` to inspect an individual command. Seeds are distinct model and cell-subset fields;
-the latter remains traceable through `source_row` and input-directory identity.
-Use `--phase train` or `--phase evaluate` to select a phase. `all` uses `afterok` dependencies.
-Only `--submit` contacts Slurm; an exclusive external submission record prevents a second dispatch.
-Existing or partial output directories are never overwritten. Preparation, model fitting and metric
-code are the preserved entrypoints, selected explicitly by architecture.
+The default workspace is deliberately a placeholder. `environments/workspace.integration.example.json` (external, planned, or unresolved) binds the three canonical sources explicitly after its paths are replaced in an external copy. A printed historical/frozen plan is not an executable relocation adapter. Do not invoke archived wrappers against active runs.
 
-Status at audit/cleanup review: **9 subsets evaluated + full reference**. Manifest status columns in historical designs are
-provenance, not live scheduler state. The clean command path has lightweight validation only;
-no expensive training or end-to-end GPU reproduction was run during cleanup.
+## Artifacts and metrics
 
-Launch blocker: None identified in command construction; compute-node validation still required.
+<output_root>/pbmc_gated_comparison/runs/<task_id> and metrics/<task_id>; historical /project/6001426/paa40/GlUE_Exp/GLUE_GATED/evaluation/results_gated/raw/10x-Multiome-Pbmc10k/
 
-Evaluation blocker/limit: Metric entrypoints unchanged; no large-data recomputation during cleanup.
+Eight cell-integration metrics below, plus feature consistency only where the preserved configuration specifies a valid full-feature reference.
 
-## Implementation and provenance
+Integration keys: `mean_average_precision, normalized_mutual_info, avg_silhouette_width, graph_connectivity, seurat_alignment_score, avg_silhouette_width_batch, neighbor_conservation, foscttm`. Definitions remain in [evaluation/workflow/scripts/cell_integration.py](../../../evaluation/workflow/scripts/cell_integration.py).
 
-* Training: `evaluation/workflow/scripts/run_GLUE.py in pinned gated implementation`
-* Evaluation/analysis: `evaluation/workflow/scripts/{cell_integration,feature_consistency,combine_metrics}.py`
-* Owner: `gated`, preservation `GATED_SHARE_GATE_STABILITY` at `becf8f758f6d6869511e5d18732ce1f055a3cf03`.
-* Historical submission files: `evaluation/run_10x_gated_full_reference.sh`, `evaluation/run_10x_gated_subsamples.sh`
-* Immutable source configuration: `evaluation/gated_10x_subsample_targets.txt`
+`results/README.md` (external, planned, or unresolved) lists external outputs and included compact evidence. No numerical result was changed.
 
+## Reproduction status and limitations
 
-The clean workflow requires the already-prepared RNA/ATAC, graph and 50D unirep files. It does not substitute a different preprocessing pipeline.
+Historical audit: 9 subsets evaluated + full reference. No new runtime reproduction.
 
-Configure the Python environment, architecture checkout paths, input-prefix bindings,
-partitions and a fresh external output directory in a copy of `workspace.example.json`.
-Prepared inputs and original output directories are read-only dependencies. This launcher
-does not download data or rerun preprocessing implicitly. Follow the preserved preparation
-scripts and source fingerprints in the root reproducibility guide before a fresh replication.
+Evaluation references task 0 of its own architecture. Three-way comparison uses only the nine common subset identities, not all 48 GCN/GAT subsets.
 
-The full reference is clean task 0. Tasks 1 through 9 follow the preserved target list in its original order.
+Historical GCN/GAT wrappers reference factored workflow directories and cluster paths; the clean launcher selects an explicit runner. Different prepared-input prefixes are recorded for GAT versus GCN/GATED; byte-equivalence of those input files was not assessed here.
+
+Historical paths, fingerprints and scientific configurations are retained. Frozen originals remain tied to their original workspace. Environment reconstruction, checkpoint compatibility and GPU convergence/numerical equivalence are unverified. Exact thesis section/figure correspondence requires the manuscript; no chapter or figure number is assigned here.

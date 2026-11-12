@@ -1,0 +1,30 @@
+{
+  "architecture": "original_glue_gcn",
+  "condition": "randomized",
+  "graph_path": "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_subsampling_gcn/randomized_control/graphs/randomized.graphml.gz",
+  "graph_perturbation": "randomize",
+  "graph_seed": 0,
+  "input_atac": "/project/6001426/paa40/GlUE_Exp/GLUE/evaluation/results_gcn_h100/raw/10x-Multiome-Pbmc10k/original/atac.h5ad",
+  "input_rna": "/project/6001426/paa40/GlUE_Exp/GLUE/evaluation/results_gcn_h100/raw/10x-Multiome-Pbmc10k/original/rna.h5ad",
+  "model_seed": 2,
+  "require_converge": true,
+  "retain_fraction": 1.0,
+  "run_dir": "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_subsampling_gcn/results/10x-Multiome-Pbmc10k/randomized/graph_seed:0/model_seed:2",
+  "shared": {
+    "alt_dim": 100,
+    "balance_cutoff": 0.5,
+    "balance_power": 4.0,
+    "balance_res": 1.0,
+    "data_batch_size": 128,
+    "dim": 50,
+    "dropout": 0.2,
+    "hidden_depth": 2,
+    "hidden_dim": 256,
+    "lam_align": 0.05,
+    "lam_graph": 0.02,
+    "lr": 0.002,
+    "neg_samples": 10,
+    "val_split": 0.1
+  },
+  "task_id": 2
+}

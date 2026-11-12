@@ -1,0 +1,157 @@
+{
+  "counts": {
+    "bash_syntax_checks": 108,
+    "byte_preserved_routes": 1289,
+    "catalog_entries": 19,
+    "experiment_map_records": 35,
+    "implementation_profiles": 5,
+    "json_files_parsed": 63,
+    "manifest_rows": {
+      "pbmc_dimensions": 30,
+      "pbmc_gat_comparison": 49,
+      "pbmc_gat_tuning": 100,
+      "pbmc_gate_initialization": 45,
+      "pbmc_gated_comparison": 10,
+      "pbmc_gated_tuning": 15,
+      "pbmc_gcn_comparison": 49,
+      "share_dimensions": 36,
+      "share_matched_cells": 18,
+      "share_primary": 26
+    },
+    "new_document_local_links": 516,
+    "new_research_documents": 38,
+    "original_git_blobs_checked": 691,
+    "pbmc_dimension_conditions": 30,
+    "pinned_implementation_files": 175,
+    "python_files_parsed": 311,
+    "python_files_with_inherited_error": 1,
+    "source_routes": 1329
+  },
+  "date_utc": "2026-11-12T02:09:47.095777+00:00",
+  "errors": [],
+  "forbidden_actions_performed": [],
+  "frozen_designs": {
+    "scope": "Static design coverage only, not training/evaluation completion",
+    "tables": {
+      "evaluation/pbmc_graph_perturbation/manifest.csv": {
+        "rows": 18,
+        "sha256": "d49081da099abb1ef8ae9c392cd3d055247489f6645fec51b22b8c64fb436972",
+        "unique_identifiers": 18
+      },
+      "evaluation/pbmc_graph_subsampling_gcn/manifest.csv": {
+        "rows": 15,
+        "sha256": "a7629c385fbbcc0c82ab59999f10617c0fb66c4c40035254a73a353e699c2d16",
+        "unique_identifiers": 15
+      },
+      "evaluation/pbmc_graph_subsampling_gcn/randomized_control/combined_manifest.csv": {
+        "rows": 18,
+        "sha256": "18ca13d66cc4888c97e3f32d1d4eb321529b74768cc8dd4533bd357da6b7c73e",
+        "unique_identifiers": 18
+      },
+      "evaluation/pbmc_graph_subsampling_gcn/randomized_control/manifest.csv": {
+        "rows": 3,
+        "sha256": "9dd69ea08cdfedfcd55bb9a23e3bbf0a9bc425b3358293fdbe3ed56a1f7bc800",
+        "unique_identifiers": 3
+      },
+      "evaluation/shareseq_gate_stability/manifests/all_runs.csv": {
+        "rows": 192,
+        "sha256": "098d8bfa476d7a4a1c1dc5da4b91cf58f4a45f720b60bc8648bc6b09c1475c27",
+        "unique_identifiers": 192
+      },
+      "evaluation/shareseq_gate_stability/manifests/array_A.csv": {
+        "rows": 144,
+        "sha256": "ff3246edfb628d73a012159c00ee903ac27e3d4dd4116eadef76b1b4d648fb4c",
+        "unique_identifiers": 144
+      },
+      "evaluation/shareseq_gate_stability/manifests/array_B.csv": {
+        "rows": 48,
+        "sha256": "132058052cfabe4402e18e76ccf7587e6253217143d87edc4f8595799a1c897e",
+        "unique_identifiers": 48
+      }
+    }
+  },
+  "gpu_used": false,
+  "original_worktree_protection": {
+    "original_refs_remotes_config_unchanged": true,
+    "original_reports_unchanged": 25,
+    "tracked_files": 4590,
+    "worktrees": 11
+  },
+  "safe_cpu_tests": {
+    "standard_library_tests": [
+      {
+        "exit_code": 0,
+        "passed": true,
+        "script": "experiments/common/test_launch.py",
+        "tests": 10
+      },
+      {
+        "exit_code": 0,
+        "passed": true,
+        "script": "tests/repository/test_release.py",
+        "tests": 6
+      }
+    ],
+    "synthetic_graph_tests": {
+      "passed": true,
+      "scope": "Inspected test module with model/GPU imports blocked; existing preserved interpreter; no environment activation",
+      "seconds": 52.7,
+      "tests": 59
+    }
+  },
+  "scientific_configurations_and_metrics_byte_preserved": true,
+  "scientific_reproduction_verified": false,
+  "scope": "Repository consistency only; scientific/GPU reproduction unverified",
+  "security_history": {
+    "expired_upstream_signed_urls": [
+      {
+        "category": "aws_access_id",
+        "expiry_utc": [
+          "2021-11-08T07:17:28+00:00",
+          "2021-11-08T07:49:00+00:00"
+        ],
+        "note": "Inherited upstream signed URLs; current tip documentation redacts them; history preserved",
+        "path": "data/download/Muto-2021/README.md"
+      }
+    ],
+    "historical_blobs_scanned": 1042,
+    "largest_blob_bytes": 3306926,
+    "scope": "Pattern scan of all source-parent history and bundled vendor archive; not formal privacy/secret certification",
+    "status": "PASS",
+    "uncompressed_blob_bytes": 21208834,
+    "unexpected_findings": [],
+    "vendor_archive_members_inspected": 252
+  },
+  "staged_diff_review": {
+    "historical_whitespace_diagnostics": 102,
+    "new_documentation_or_helper_whitespace_diagnostics": 0,
+    "scientific_source_not_reformatted": true,
+    "status": "Reviewed with inherited whitespace exceptions"
+  },
+  "status": "PASS",
+  "warnings": {
+    "dangling_symlinks": [],
+    "declared_external_R_symlinks": [
+      {
+        "note": "packrat/custom is a tracked placeholder, not a bundled installed R library",
+        "path": "evaluation/custom",
+        "resolves": true
+      },
+      {
+        "note": "packrat/custom is a tracked placeholder, not a bundled installed R library",
+        "path": "experiments/Atlas/custom",
+        "resolves": true
+      }
+    ],
+    "external_planned_or_missing_mapping_targets": [],
+    "inherited_document_links": [],
+    "inherited_python_syntax": [
+      {
+        "line": 71,
+        "message": "expected an indented block after 'if' statement on line 66",
+        "path": "experiments/RegInf/s06_genomic_tracks.py"
+      }
+    ],
+    "runtime": "No scientific execution, GPU verification or numerical reproduction; historical/frozen external dependencies remain"
+  }
+}

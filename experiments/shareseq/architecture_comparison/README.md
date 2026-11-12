@@ -1,44 +1,59 @@
 # SHARE-seq architecture comparison
 
-Question: Compare full-data architectures, GATED subsampling and full-data gate initialization.
+[Thesis map](../../../THESIS_EXPERIMENTS.md) · `REPRODUCIBILITY.md` (external, planned, or unresolved)
 
-## Canonical workflow
+## Scientific objective
 
-From the orchestration checkout, inspect without changing files or contacting Slurm:
+Compare full-data architectures, GATED subsampling and full-data gate initialization.
+
+## Dataset, architectures and conditions
+
+Ma-2020 mouse-skin SHARE-seq, 32,231 paired RNA/ATAC cells in preserved ordering.
+
+GCN/GAT/GATED.
+
+26 rows: three full primary architectures (GATED .95/model0 overlaps initialization), nine GATED cell subsets (8000/16000/24000 × subset seeds 0–2, model0), full GATED .50/.70/.90/.95/.99 × model seeds 0–2. Those views overlap and must not be summed as new runs.
+
+The canonical registry has **26 rows**. Reused rows and overlapping analysis views are not new independent fits.
+
+## Implementation and configuration
+
+| Stage | Source |
+|---|---|
+| Training | [evaluation/shareseq_ma2020/scripts/train_one.sh](../../../evaluation/shareseq_ma2020/scripts/train_one.sh) |
+| Configuration / manifest | [experiments/shareseq/architecture_comparison/config.json](config.json)<br>[experiments/shareseq/architecture_comparison/manifest.csv](manifest.csv) |
+| Preprocessing | Not applicable / no entry point identified |
+| Evaluation | [evaluation/shareseq_ma2020/scripts/evaluate_one.py](../../../evaluation/shareseq_ma2020/scripts/evaluate_one.py) |
+| Plotting / reporting | [evaluation/shareseq_ma2020/scripts/postprocess.py](../../../evaluation/shareseq_ma2020/scripts/postprocess.py)<br>[evaluation/shareseq_ma2020/scripts/build_current_results_report.py](../../../evaluation/shareseq_ma2020/scripts/build_current_results_report.py) |
+| Canonical architecture bindings | `implementations/README.md` (external, planned, or unresolved) |
+
+## Commands and execution boundary
+
+From the repository root, inspect the catalog and this experiment without training or scheduler calls:
 
 ```bash
-python3 -B experiments/launch.py share_primary --dry-run --workspace experiments/workspace.example.json
+python3 -B experiments/launch.py --list
+python3 -B experiments/launch.py share_primary --dry-run
 ```
 
-`config.json` holds fixed settings and explicit resources; `manifest.csv`, when present,
-maps zero-based array indices directly to configurations. It contains 26 rows.
-Use `--task N` to inspect an individual command. Seeds are distinct model and cell-subset fields;
-the latter remains traceable through `source_row` and input-directory identity.
-Use `--phase train` or `--phase evaluate` to select a phase. `all` uses `afterok` dependencies.
-Only `--submit` contacts Slurm; an exclusive external submission record prevents a second dispatch.
-Existing or partial output directories are never overwritten. Preparation, model fitting and metric
-code are the preserved entrypoints, selected explicitly by architecture.
+The default workspace is deliberately a placeholder. `environments/workspace.integration.example.json` (external, planned, or unresolved) binds the three canonical sources explicitly after its paths are replaced in an external copy. A printed historical/frozen plan is not an executable relocation adapter. Do not invoke archived wrappers against active runs.
 
-Status at audit/cleanup review: **26 trained and evaluated**. Manifest status columns in historical designs are
-provenance, not live scheduler state. The clean command path has lightweight validation only;
-no expensive training or end-to-end GPU reproduction was run during cleanup.
+## Artifacts and metrics
 
-Launch blocker: None identified in command construction; compute-node validation still required.
+<output_root>/share_primary/{runs,metrics}/<task_id>; historical B/evaluation/shareseq_ma2020/results/<run_id>; metrics/, analysis/, reports/ under the same historical experiment root.
 
-Evaluation blocker/limit: Metric entrypoints unchanged; no large-data recomputation during cleanup.
+Eight cell-integration metrics below. Gate extraction and feature-consistency claims are separate; matched SHARE evaluation does not calculate feature consistency.
 
-## Implementation and provenance
+Integration keys: `mean_average_precision, normalized_mutual_info, avg_silhouette_width, graph_connectivity, seurat_alignment_score, avg_silhouette_width_batch, neighbor_conservation, foscttm`. Definitions remain in [evaluation/workflow/scripts/cell_integration.py](../../../evaluation/workflow/scripts/cell_integration.py).
 
-* Training: `evaluation/shareseq_ma2020/scripts/train_one.sh`
-* Evaluation/analysis: `unchanged cell_integration.py via shared planner; historical evaluate_one.py/matched_evaluate_one.py`
-* Owner: `orchestration`, preservation `GLUE_EXPERIMENT_ORCHESTRATION` at `88fee7ca07dfa25332d029d136887b651e57d313`.
-* Historical submission files: `evaluation/shareseq_ma2020/slurm/train_array.sbatch`, `evaluation/shareseq_ma2020/slurm/evaluate_array.sbatch`
-* Immutable source configuration: `evaluation/shareseq_ma2020/manifests/master_experiment_manifest.csv`, `evaluation/shareseq_ma2020/manifests/{hyperparameters.yaml,subsampling.yaml,cells_*.txt}`
+`results/README.md` (external, planned, or unresolved) lists external outputs and included compact evidence. No numerical result was changed.
 
-SHARE has 32231 paired cells. Canonical preparation/materialization and RNA PCA / ATAC LSI entrypoints are unchanged. The evaluator reads the exact recorded 50D RNA and ATAC representations. It verifies their SHA256 hashes, observation order, and latent dimensions before computing metrics. Bind the cache files through your workspace configuration. Gate extraction and aggregate reports remain explicitly separate historical analysis entrypoints; the generic EVALUATED marker means integration metrics only. No feature consistency is invented. Full dimension list:16,32,50,64,100,128,200,256,384,512,768,1024. The original 26-row study includes 15 full GATED initialization/seed combinations and nine GATED subsamples; these are reused views, not additional submissions.
+## Reproduction status and limitations
 
-Configure the Python environment, architecture checkout paths, input-prefix bindings,
-partitions and a fresh external output directory in a copy of `workspace.example.json`.
-Prepared inputs and original output directories are read-only dependencies. This launcher
-does not download data or rerun preprocessing implicitly. Follow the preserved preparation
-scripts and source fingerprints in the root reproducibility guide before a fresh replication.
+Historical audit: 26 trained and evaluated. No new runtime reproduction.
+
+Prepared shared cells/graph, ordered cell manifests, pinned architecture sources, exact recorded 50D PCA/LSI in experiments/shareseq/unirep_references.json. Gate extraction is separate from integration evaluation.
+
+Primary study also contains a distinct full-data GATED initialization sensitivity view and a GATED cell-size view. Those are scientific subdesigns, not separate independent task sets. SHARE graph is fixed at corrupt_rate=0; cell subsampling is not graph-edge subsampling.
+
+Historical paths, fingerprints and scientific configurations are retained. Frozen originals remain tied to their original workspace. Environment reconstruction, checkpoint compatibility and GPU convergence/numerical equivalence are unverified. Exact thesis section/figure correspondence requires the manuscript; no chapter or figure number is assigned here.

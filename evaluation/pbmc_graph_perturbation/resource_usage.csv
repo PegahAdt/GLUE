@@ -1,0 +1,10 @@
+job_id,dataset,input_condition,accounting_step,state,exit_code,max_rss_kib,elapsed
+54007911,10x-Multiome-Pbmc10k,original,54007911.batch,COMPLETED,0:0,7203276,00:35:38
+54007910_1,10x-Multiome-Pbmc10k,subsample_size:250-subsample_seed:1,54007910_1.batch,COMPLETED,0:0,6605320,00:47:26
+54007910_2,10x-Multiome-Pbmc10k,subsample_size:250-subsample_seed:2,54007910_2.batch,COMPLETED,0:0,7068556,00:46:53
+54007910_3,10x-Multiome-Pbmc10k,subsample_size:2000-subsample_seed:0,54007910_3.batch,COMPLETED,0:0,6128676,00:31:54
+54007910_4,10x-Multiome-Pbmc10k,subsample_size:2000-subsample_seed:1,54007910_4.batch,COMPLETED,0:0,5785876,00:31:54
+54007910_5,10x-Multiome-Pbmc10k,subsample_size:2000-subsample_seed:2,54007910_5.batch,COMPLETED,0:0,6139504,00:32:07
+54007910_6,10x-Multiome-Pbmc10k,subsample_size:8000-subsample_seed:0,54007910_6.batch,COMPLETED,0:0,7171128,00:35:40
+54007910_7,10x-Multiome-Pbmc10k,subsample_size:8000-subsample_seed:1,54007910_7.batch,COMPLETED,0:0,6850884,00:35:45
+54007910_8,10x-Multiome-Pbmc10k,subsample_size:8000-subsample_seed:2,54007910_8.batch,COMPLETED,0:0,6102392,00:37:36

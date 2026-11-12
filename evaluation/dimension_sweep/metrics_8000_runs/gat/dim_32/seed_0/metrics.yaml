@@ -1,0 +1,21 @@
+avg_silhouette_width: 0.6293226182425449
+avg_silhouette_width_batch: 0.8965775797492334
+cmd: /project/6001426/paa40/GlUE_Exp/GLUE_GAT/evaluation/workflow/scripts/run_GLUE.py
+  --input-rna /project/6001426/paa40/GlUE_Exp/GLUE/evaluation/results_gcn_h100/raw/10x-Multiome-Pbmc10k/subsample_size:8000-subsample_seed:0/rna.h5ad
+  --input-atac /project/6001426/paa40/GlUE_Exp/GLUE/evaluation/results_gcn_h100/raw/10x-Multiome-Pbmc10k/subsample_size:8000-subsample_seed:0/atac.h5ad
+  --prior /project/6001426/paa40/GlUE_Exp/GLUE/evaluation/results_gcn_h100/raw/10x-Multiome-Pbmc10k/subsample_size:8000-subsample_seed:0/gene_region:combined-extend_range:0-corrupt_rate:0.0-corrupt_seed:0/sub.graphml.gz
+  --dim 32 --alt-dim 100 --hidden-depth 2 --hidden-dim 256 --dropout 0.2 --lam-graph
+  0.02 --lam-align 0.05 --lr 0.002 --neg-samples 10 --data-batch-size 128 --graph-encoder
+  gat --gat-negative-slope 0.2 --random-seed 0 --train-dir /project/6001426/paa40/GlUE_Exp/GLUE_GATED/evaluation/results_dimension_sweep/architecture:gat/dim:32/subsample_size:8000-subsample_seed:0/model_seed:0
+  --random-sleep --require-converge --output-rna /project/6001426/paa40/GlUE_Exp/GLUE_GATED/evaluation/results_dimension_sweep/architecture:gat/dim:32/subsample_size:8000-subsample_seed:0/model_seed:0/rna_latent.csv
+  --output-atac /project/6001426/paa40/GlUE_Exp/GLUE_GATED/evaluation/results_dimension_sweep/architecture:gat/dim:32/subsample_size:8000-subsample_seed:0/model_seed:0/atac_latent.csv
+  --output-feature /project/6001426/paa40/GlUE_Exp/GLUE_GATED/evaluation/results_dimension_sweep/architecture:gat/dim:32/subsample_size:8000-subsample_seed:0/model_seed:0/feature_latent.csv
+  --run-info /project/6001426/paa40/GlUE_Exp/GLUE_GATED/evaluation/results_dimension_sweep/architecture:gat/dim:32/subsample_size:8000-subsample_seed:0/model_seed:0/run_info.yaml
+foscttm: 0.03829371875
+graph_connectivity: 0.9793038739827932
+mean_average_precision: 0.86013867304827
+n_cells: 16000
+neighbor_conservation: 0.27228993966711057
+normalized_mutual_info: 0.801886262028317
+seurat_alignment_score: 0.89412890625
+time: 6398.118430376053

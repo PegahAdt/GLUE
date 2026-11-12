@@ -1,0 +1,9 @@
+!manifest.csv
+!graph_conditions.csv
+!resource_usage.csv
+/results/
+/graphs/
+/smoke/
+/reports/
+/logs/*
+!/logs/.gitkeep

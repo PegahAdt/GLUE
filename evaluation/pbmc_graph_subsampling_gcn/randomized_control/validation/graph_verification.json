@@ -1,0 +1,83 @@
+{
+  "randomized": {
+    "attribute_evidence": "Complete attributes reconstructed using the exact hash-verified GATED evaluator, prior, seeded algorithm and saved parameters; checkpoints retain endpoint identities, not provenance attributes such as dist/id. PBMC weight=1 and sign=1 are uniform and carried unchanged.",
+    "biological_pair_sha256": "6c62862dec7b063965c2571557a68357065bbe7813f4d703beea0f3c6db0c76d",
+    "bipartite_and_reciprocal_preserved": true,
+    "complete_attribute_multiset_preserved": true,
+    "directed_edge_count": 42191,
+    "edge_identity_and_attributes_sha256": "ce91deb2bd468d008104383a45437e933fb34e26c43b7aec61680de58fef3b15",
+    "gated_checkpoints": [
+      {
+        "checkpoint": "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/randomized/graph_seed:0/model_seed:0/final.dill",
+        "checkpoint_sha256": "1deae9f6c71b60f2f2c22e95479aba9cb875f527620a2a9aef65cf788a50673d",
+        "exact_checkpoint_edge_identities": true,
+        "exact_reconstructed_edge_attributes": true,
+        "model_seed": 0,
+        "reconstructed_edge_identity_and_attributes_sha256": "ce91deb2bd468d008104383a45437e933fb34e26c43b7aec61680de58fef3b15"
+      },
+      {
+        "checkpoint": "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/randomized/graph_seed:0/model_seed:1/final.dill",
+        "checkpoint_sha256": "6de8c5b85ee17fa44b4dbfafc0fdd0c878f2acf3fd7db5d4d9a59db5a7789a9f",
+        "exact_checkpoint_edge_identities": true,
+        "exact_reconstructed_edge_attributes": true,
+        "model_seed": 1,
+        "reconstructed_edge_identity_and_attributes_sha256": "ce91deb2bd468d008104383a45437e933fb34e26c43b7aec61680de58fef3b15"
+      },
+      {
+        "checkpoint": "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/randomized/graph_seed:0/model_seed:2/final.dill",
+        "checkpoint_sha256": "bc926cea69d6300557898943aaee7bafce66ef8802c39bcfc2b5f47a121a5b3b",
+        "exact_checkpoint_edge_identities": true,
+        "exact_reconstructed_edge_attributes": true,
+        "model_seed": 2,
+        "reconstructed_edge_identity_and_attributes_sha256": "ce91deb2bd468d008104383a45437e933fb34e26c43b7aec61680de58fef3b15"
+      }
+    ],
+    "metadata": {
+      "accepted_swaps": 134930,
+      "attempted_swaps": 135120,
+      "completed": true,
+      "graph_seed": 0,
+      "max_attempts": 13493000,
+      "original_node_count": 15205,
+      "original_relation_count": 13493,
+      "original_relation_overlap": 22,
+      "original_relation_overlap_fraction": 0.0016304750611428147,
+      "relation_count": 13493,
+      "requested_swaps": 134930,
+      "resulting_relation_count": 13493,
+      "termination_reason": "requested_swaps_reached"
+    },
+    "metric_source_equivalence": {
+      "completed_evaluator_sha256": "a9487b82342b31461fec9d7f5cadc2079ee6bc17f78f9fba1ac72bd36e27849c",
+      "current_evaluator_sha256": "834017bfb5d0539d61824dd5669a46026637cd3c8595f48d56a4affd155f35ab",
+      "exact_completed_source_restored": true,
+      "only_change": "Optional include_gates=True switch around the unchanged gate diagnostics block"
+    },
+    "node_count": 15205,
+    "nodes_and_attributes_preserved": true,
+    "original_prior_sha256": "7c426bca7c37f5097203686d172e5e3d2641b639ceaac658113614b24a9d7662",
+    "path": "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_subsampling_gcn/randomized_control/graphs/randomized.graphml.gz",
+    "per_node_nonloop_in_out_degree_preserved": true,
+    "perturbation_code_sha256": "7e96c818f0bff43be537900891786cbcfffe5fabb6164def9e36456e916e9136",
+    "protected_files_sha256": {
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_subsampling_gcn/evaluate.sbatch": "2d5f20509113eeeb8c88a3a13bfc34a622782d249f2ccfa3e7276eaeb7217c54",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_subsampling_gcn/manifest.csv": "a7629c385fbbcc0c82ab59999f10617c0fb66c4c40035254a73a353e699c2d16",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_subsampling_gcn/scripts/common.py": "b723a67150671311fbbd9cfeb2186899658f26d4b4c7ce5edf62433925317ea8",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_subsampling_gcn/scripts/evaluate.py": "1f31e36985243ba01d74e255cea6fcd9d8de094c60427ac57b4af518bcaac677",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_subsampling_gcn/scripts/gcn_report.py": "c903cfb3530fbdd5cbdc163438580fe29e47467fe8ad51b9ac76a7b5006f0937",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_subsampling_gcn/scripts/prepare.py": "a87d213eebc45bd3c412ec38c4e33848daae8059ff9022e4d5665ad9995474c5",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_subsampling_gcn/scripts/submit_pipeline.py": "0727a5fd4453fc4c54cfb45c236c5c6e1cc9fdad087833fc2d0df90d56114dae",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_subsampling_gcn/scripts/train.py": "0e6ccd95795f40dc7fef6b2903d6dbc18052f9fb96d45f864f8938ddd5042e65",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_subsampling_gcn/smoke.sbatch": "64633e65bd78377a39e5d53d9e1d7d12b2713a80d01e638053bbefab274a769d",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_subsampling_gcn/smoke_cpu.sbatch": "e74973c8ec9186516fd96f7b0b3c7819ce74921d14fac1ce3f6414fe0179bd6a",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_subsampling_gcn/submission.json": "c04b9cbe50140ff08f31b5dc191c52d00e811f6f1195ea050e46b3dbb7303834",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_subsampling_gcn/submit_validated.sbatch": "33522e821e4bef0ce170b769fcfc30c453cdf1c7d0bfc99973eeda71ed395784",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_subsampling_gcn/train_array.sbatch": "f7c5040e20c7169cc3af650895e0d2f688d2132a5afeb84b1c44cea6a8f4ebe6",
+      "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_subsampling_gcn/validation/frozen_inputs.json": "5864e8eef59d25039fb832af728b2ebeb21421e91a82d39287376492490fe91d"
+    },
+    "self_loop_count": 15205,
+    "self_loops_and_attributes_preserved": true,
+    "signed_weighted_semantics_preserved": true,
+    "status": "passed"
+  }
+}

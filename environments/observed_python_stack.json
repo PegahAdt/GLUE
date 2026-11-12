@@ -1,0 +1,506 @@
+{
+  "classification": "Environment-observed; not universal historical run pins",
+  "discrepancies": [
+    {
+      "classification": "Environment-observed",
+      "conda": "1.2",
+      "conda_evidence": {
+        "file": "legacy-api-wrap-1.2-py_0.json",
+        "line": 91,
+        "sha256": "e4b5928576be913e03e93bbd4559022e7c545fd64958131340acadec71ea523b"
+      },
+      "distribution": "0.0.0",
+      "distribution_evidence": {
+        "file": "METADATA",
+        "line": 3,
+        "sha256": "ace3f0d0b717a844144a15b5500755de81f7c02ebaa2ba1e261c89cc6cbf022d"
+      },
+      "name": "legacy-api-wrap",
+      "resolution": "Unknown"
+    },
+    {
+      "classification": "Environment-observed",
+      "conda": "0.6.3",
+      "conda_evidence": {
+        "file": "requests-cache-0.6.3-pyhd8ed1ab_1.json",
+        "line": 272,
+        "sha256": "54a76a260b31c187fe8cd910f1b2d81258b1b50f6d1371ea5ac0e7baa039a7f2"
+      },
+      "distribution": "0.4.13",
+      "distribution_evidence": {
+        "file": "METADATA",
+        "line": 3,
+        "sha256": "7da16aca3ae0bbdc75b35cee1535a8a71f89325529b296e542e410c4c9a6db63"
+      },
+      "name": "requests-cache",
+      "resolution": "Unknown"
+    },
+    {
+      "classification": "Environment-observed",
+      "conda": "52.0.0",
+      "conda_evidence": {
+        "file": "setuptools-52.0.0-py38h06a4308_1.json",
+        "line": 2387,
+        "sha256": "9dc4c99ec346345551876d737d510ce8f4bae2d5860f91d920529a3f40c8086b"
+      },
+      "distribution": "52.0.0.post20211006",
+      "distribution_evidence": {
+        "file": "PKG-INFO",
+        "line": 3,
+        "sha256": "331b828043b98bcb3ac6b1c5ff041520f2a2472c6d335b61cb0d9c91d0023add"
+      },
+      "name": "setuptools",
+      "resolution": "Unknown"
+    }
+  ],
+  "installable": false,
+  "packages": [
+    {
+      "build": "h7579374_1",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 15916,
+        "prefix_relative_path": "conda-meta/python-3.8.5-h7579374_1.json",
+        "sha256": "7756e5f4a4d2c68fcbd526ac54c0e50a79e2c66d7bd0e357b493442135f60631"
+      },
+      "name": "python",
+      "version": "3.8.5"
+    },
+    {
+      "build": "py3.8_cuda11.3_cudnn8.2.0_0",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 38212,
+        "prefix_relative_path": "conda-meta/pytorch-1.10.1-py3.8_cuda11.3_cudnn8.2.0_0.json",
+        "sha256": "4f31581c4d604d3ada38d4bb44ca1a51ece61daeb31b9ec837143f1834a3447f"
+      },
+      "name": "pytorch",
+      "version": "1.10.1"
+    },
+    {
+      "build": "h2bc3f7f_2",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 686,
+        "prefix_relative_path": "conda-meta/cudatoolkit-11.3.1-h2bc3f7f_2.json",
+        "sha256": "8e49617f7fa1f851ed182a1d649412aed82051d052cca6f516fc42d0debca87a"
+      },
+      "name": "cudatoolkit",
+      "version": "11.3.1"
+    },
+    {
+      "build": "py38h54aff64_0",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 40,
+        "prefix_relative_path": "conda-meta/numpy-1.19.2-py38h54aff64_0.json",
+        "sha256": "4e0bde6e5e44d3dd01bb0d1d16c7fbaabe1e9b0dcd7d3609a633bf6256099763"
+      },
+      "name": "numpy",
+      "version": "1.19.2"
+    },
+    {
+      "build": "py38hb2138dd_0",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 13893,
+        "prefix_relative_path": "conda-meta/scipy-1.6.1-py38hb2138dd_0.json",
+        "sha256": "0418cde6266d47b7fb21bdf537147193073595005466cb7b50db98b0361b33da"
+      },
+      "name": "scipy",
+      "version": "1.6.1"
+    },
+    {
+      "build": "py38ha9443f7_0",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 16843,
+        "prefix_relative_path": "conda-meta/pandas-1.1.5-py38ha9443f7_0.json",
+        "sha256": "3ff3cc8b38165dc1eb1a668ec0c84055006e1d82e83a0b9e103b99cb2402b074"
+      },
+      "name": "pandas",
+      "version": "1.1.5"
+    },
+    {
+      "build": "py38h578d9bd_1",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 611,
+        "prefix_relative_path": "conda-meta/anndata-0.7.8-py38h578d9bd_1.json",
+        "sha256": "8cb0853806d5de291d910da0eb6842eba81e27842b182f921f728d0cfbeb6284"
+      },
+      "name": "anndata",
+      "version": "0.7.8"
+    },
+    {
+      "build": "pyhd8ed1ab_0",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 1390,
+        "prefix_relative_path": "conda-meta/scanpy-1.8.2-pyhd8ed1ab_0.json",
+        "sha256": "4f33e46955d5b38bc6b111dac8b0a28d07766d8458511bfd7d0df17bf5e2b8fe"
+      },
+      "name": "scanpy",
+      "version": "1.8.2"
+    },
+    {
+      "build": "pyhd3eb1b0_0",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 7892,
+        "prefix_relative_path": "conda-meta/networkx-2.5.1-pyhd3eb1b0_0.json",
+        "sha256": "9b61afcc7f30ae451c1780234d3587214e59cd509d94fa39157000ecf4800dc1"
+      },
+      "name": "networkx",
+      "version": "2.5.1"
+    },
+    {
+      "build": "py38ha9443f7_0",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 9263,
+        "prefix_relative_path": "conda-meta/scikit-learn-0.24.1-py38ha9443f7_0.json",
+        "sha256": "40ea776afb77ba638bb66e7220245bac96febce80d24d0d60969d24e4ae03a1f"
+      },
+      "name": "scikit-learn",
+      "version": "0.24.1"
+    },
+    {
+      "build": "py38h0e9072a_2",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 296,
+        "prefix_relative_path": "conda-meta/scikit-misc-0.1.3-py38h0e9072a_2.json",
+        "sha256": "62413e7cadb5e7c926fde1c3300462e36e79cbcec609a9db804d61b9a824604a"
+      },
+      "name": "scikit-misc",
+      "version": "0.1.3"
+    },
+    {
+      "build": "py38h4bf6c61_0",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 11071,
+        "prefix_relative_path": "conda-meta/numba-0.55.0-py38h4bf6c61_0.json",
+        "sha256": "0998499151d9e8d783bab32336337fb4c6df04e831744cd7928b05359f59891c"
+      },
+      "name": "numba",
+      "version": "0.55.0"
+    },
+    {
+      "build": "py38h4ff587b_0",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 718,
+        "prefix_relative_path": "conda-meta/llvmlite-0.38.0-py38h4ff587b_0.json",
+        "sha256": "c9f55525a03c1b847264fd3441dc5eebd5436df06941721a04e59c3da32a4587"
+      },
+      "name": "llvmlite",
+      "version": "0.38.0"
+    },
+    {
+      "build": "py38ha0f2276_0",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 1182,
+        "prefix_relative_path": "conda-meta/h5py-3.6.0-py38ha0f2276_0.json",
+        "sha256": "06ae48b2799861eff73c3fdebd969c19f686fb47b4b661aec7a953f16360c51d"
+      },
+      "name": "h5py",
+      "version": "3.6.0"
+    },
+    {
+      "build": "py38h5eee18b_3",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 397,
+        "prefix_relative_path": "conda-meta/pyyaml-5.4.1-py38h5eee18b_3.json",
+        "sha256": "785f01101fa4ca368d8589c03ee0bce5bd349b833cc09c7732e12bdfc8e24b6c"
+      },
+      "name": "pyyaml",
+      "version": "5.4.1"
+    },
+    {
+      "build": "pyhd3eb1b0_0",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 545,
+        "prefix_relative_path": "conda-meta/dill-0.3.3-pyhd3eb1b0_0.json",
+        "sha256": "7347a0dfa6f800c09cabc079ce2cac302e7d8d8608202379b5e667b55bd4c612"
+      },
+      "name": "dill",
+      "version": "0.3.3"
+    },
+    {
+      "build": "py_0",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 1241,
+        "prefix_relative_path": "conda-meta/ignite-0.4.4-py_0.json",
+        "sha256": "92c657778ed351e55b740db302dd9b40847c786336dd11a74062481c145e3f60"
+      },
+      "name": "ignite",
+      "version": "0.4.4"
+    },
+    {
+      "build": "py_1",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 137,
+        "prefix_relative_path": "conda-meta/pynvml-8.0.4-py_1.json",
+        "sha256": "05c7a0186c72d9e1b65fa82ea25f31b2840d166953eb5d6de4db38e5ab397073"
+      },
+      "name": "pynvml",
+      "version": "8.0.4"
+    },
+    {
+      "build": "py_0",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 751,
+        "prefix_relative_path": "conda-meta/tensorboardx-2.1-py_0.json",
+        "sha256": "973acea7402c0b20ef6ae42d3f1b985abc2c406023c59ade37cdde571eaab738"
+      },
+      "name": "tensorboardx",
+      "version": "2.1"
+    },
+    {
+      "build": "h06a4308_0",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 35,
+        "prefix_relative_path": "conda-meta/matplotlib-3.3.2-h06a4308_0.json",
+        "sha256": "71e5cc689cb68c40c0cd2043839b7b6d43c0b8c5a6557145877c1f68899dc7e5"
+      },
+      "name": "matplotlib",
+      "version": "3.3.2"
+    },
+    {
+      "build": "py38h817c723_0",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 6398,
+        "prefix_relative_path": "conda-meta/matplotlib-base-3.3.2-py38h817c723_0.json",
+        "sha256": "f9c8075fea09cac1440f9d0fcc27086af3b9361ef38872c05d226c338afaeddf"
+      },
+      "name": "matplotlib-base",
+      "version": "3.3.2"
+    },
+    {
+      "build": "pyhd3eb1b0_0",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 648,
+        "prefix_relative_path": "conda-meta/seaborn-0.11.1-pyhd3eb1b0_0.json",
+        "sha256": "8be293f0b1d5d8af3869d44b6371b6abdeb5d52386414f8373c4ef25880c4ef3"
+      },
+      "name": "seaborn",
+      "version": "0.11.1"
+    },
+    {
+      "build": "py38h27cfd23_0",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 17578,
+        "prefix_relative_path": "conda-meta/statsmodels-0.12.2-py38h27cfd23_0.json",
+        "sha256": "1c8dd6acb938c3e163e6692c68d1c1a4cc4d7010d2e0499cf59f011ab18ccc21"
+      },
+      "name": "statsmodels",
+      "version": "0.12.2"
+    },
+    {
+      "build": "py38h82c7cc0_0",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 194,
+        "prefix_relative_path": "conda-meta/leidenalg-0.8.3-py38h82c7cc0_0.json",
+        "sha256": "7ee2c7f32498fe07d6ac6bd710a2394594e07ba1159142a9b5a2498d2a5eb61d"
+      },
+      "name": "leidenalg",
+      "version": "0.8.3"
+    },
+    {
+      "build": "py38h2af5540_4",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 597,
+        "prefix_relative_path": "conda-meta/python-igraph-0.9.8-py38h2af5540_4.json",
+        "sha256": "86d86b229e58924c3ca33be12fe68b2186f2e42aab64e9775eac0fa72001f120"
+      },
+      "name": "python-igraph",
+      "version": "0.9.8"
+    },
+    {
+      "build": "hdfd78af_0",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 56,
+        "prefix_relative_path": "conda-meta/snakemake-6.12.3-hdfd78af_0.json",
+        "sha256": "ae8ae8fad22360f217584c9e167e5011225be046bcfe9afbd3d9ebb34aaf7f2c"
+      },
+      "name": "snakemake",
+      "version": "6.12.3"
+    },
+    {
+      "build": "pyhdfd78af_0",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 1061,
+        "prefix_relative_path": "conda-meta/snakemake-minimal-6.12.3-pyhdfd78af_0.json",
+        "sha256": "60018224256e0a84ea984b03d60530aab5cfad32b8533224147f9851a18d03df"
+      },
+      "name": "snakemake-minimal",
+      "version": "6.12.3"
+    },
+    {
+      "build": "py38h06a4308_9",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 106,
+        "prefix_relative_path": "conda-meta/jupyter-1.0.0-py38h06a4308_9.json",
+        "sha256": "4d5918a0685f76b82048f972acd534bc138b943c66b9df886603408227c706c9"
+      },
+      "name": "jupyter",
+      "version": "1.0.0"
+    },
+    {
+      "build": "pyh6002c4b_0",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 621,
+        "prefix_relative_path": "conda-meta/jupytext-1.13.4-pyh6002c4b_0.json",
+        "sha256": "2f41bef6a85e11215afe9a752887ff15f10080e52cdaffadb45a2c5a19dfa258"
+      },
+      "name": "jupytext",
+      "version": "1.13.4"
+    },
+    {
+      "build": "py38h69e0bdc_1",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 1250,
+        "prefix_relative_path": "conda-meta/pybedtools-0.8.2-py38h69e0bdc_1.json",
+        "sha256": "1c2a24150ec6564ee4720f81f48e4f9ab74f414ff026cfe41b0ae03e0dced03b"
+      },
+      "name": "pybedtools",
+      "version": "0.8.2"
+    },
+    {
+      "build": "h468198e_3",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 344,
+        "prefix_relative_path": "conda-meta/bedtools-2.30.0-h468198e_3.json",
+        "sha256": "3073d9e381c19c79deed2ae853ebcb233dd118194d21f392633fc252e74e91e4"
+      },
+      "name": "bedtools",
+      "version": "2.30.0"
+    },
+    {
+      "build": "h7d875b9_1",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 1357,
+        "prefix_relative_path": "conda-meta/bedops-2.4.39-h7d875b9_1.json",
+        "sha256": "46ea0ae09d53c5f0da093d670f3cc790c5e02dcb209543ab2788e910a8935b42"
+      },
+      "name": "bedops",
+      "version": "2.4.39"
+    },
+    {
+      "build": "256",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 332,
+        "prefix_relative_path": "conda-meta/mkl-2020.2-256.json",
+        "sha256": "d2fce8260f8764c860f224c0b66abc23b10aa8cac22a50bfbee2faeb61535ce2"
+      },
+      "name": "mkl",
+      "version": "2020.2"
+    },
+    {
+      "build": "py38he904b0f_0",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 111,
+        "prefix_relative_path": "conda-meta/mkl-service-2.3.0-py38he904b0f_0.json",
+        "sha256": "ffd0114e5f202919d464afad545b32cbd6be0ec52b47265e45b296f945176b66"
+      },
+      "name": "mkl-service",
+      "version": "2.3.0"
+    },
+    {
+      "build": "pyhd3eb1b0_0",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 267,
+        "prefix_relative_path": "conda-meta/packaging-20.9-pyhd3eb1b0_0.json",
+        "sha256": "d493e7beecd13d94e2d9f3fd64c7825c6930f34f0dfc25e7484bfa4d00ccd37e"
+      },
+      "name": "packaging",
+      "version": "20.9"
+    },
+    {
+      "build": "pyhd3eb1b0_1",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 519,
+        "prefix_relative_path": "conda-meta/tqdm-4.59.0-pyhd3eb1b0_1.json",
+        "sha256": "6d5c239f14a8749db534f0d7dfa2640f48749a1dc511dda1d4549b1fc3372b78"
+      },
+      "name": "tqdm",
+      "version": "4.59.0"
+    },
+    {
+      "build": "pyh44b312d_0",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 113,
+        "prefix_relative_path": "conda-meta/parse-1.19.0-pyh44b312d_0.json",
+        "sha256": "1119b204895c634cb984761da797a9430a12a0d827264cdaa29f6c7ddd8477c2"
+      },
+      "name": "parse",
+      "version": "1.19.0"
+    },
+    {
+      "build": "pyhd8ed1ab_0",
+      "classification": "Environment-observed",
+      "evidence": {
+        "line": 384,
+        "prefix_relative_path": "conda-meta/sparse-0.13.0-pyhd8ed1ab_0.json",
+        "sha256": "70697193787533860dbef2441f7daa1d923337e8edb20d24de72e1f10c82279d"
+      },
+      "name": "sparse",
+      "version": "0.13.0"
+    }
+  ],
+  "run_verified_scope": "139 retained SHARE gate-stability run headers print Python 3.8.5; exact per-run torch/scientific stacks remain unresolved",
+  "scglue_distribution": {
+    "classification": "Environment-observed",
+    "evidence": {
+      "line": 3,
+      "prefix_relative_path": "lib/python3.8/site-packages/scglue-0.2.0.dist-info/METADATA",
+      "sha256": "226ed0e60f11ae153ee482f6eba53b5be0d865a69ab4579d3bda1212423ff889"
+    },
+    "scope": "Installed scglue distribution metadata; fork identity is separate",
+    "value": "0.2.0"
+  },
+  "source": "Preserved Fir prefix metadata; original metadata files are external, hashes and source lines retained",
+  "status": "Evidence draft, not a Conda/pip recipe",
+  "torch_cuda_build": {
+    "classification": "Environment-observed",
+    "evidence": {
+      "line": 3,
+      "prefix_relative_path": "lib/python3.8/site-packages/torch/version.py",
+      "sha256": "f267f413372233c2fff31d9546e2eed6e43d5efd1913b472ee0ef881da8abe31"
+    },
+    "scope": "Static torch/version.py build field; not a device/driver probe",
+    "value": "11.3"
+  },
+  "unknown": [
+    "Target platform/driver/GPU compatibility",
+    "Effective versions for three metadata discrepancies",
+    "Complete R preprocessing environment",
+    "Per-run source/package history"
+  ]
+}

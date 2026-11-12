@@ -1,0 +1,71 @@
+{
+  "baseline_policy": "Train fresh original baselines for all three seeds; historical preprocessing/source snapshot not frozen",
+  "graph_file_sha256": {
+    "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_subsampling_gcn/graphs/original.graphml.gz": "d5e9efada52ebffd37c96cd69983885e69b2214da23b6bdbbef485a2864a5b29",
+    "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_subsampling_gcn/graphs/retain_10.graphml.gz": "8d186d85a0ff8efa78e051d648dfa9e7e3ff1a3b80cdcdc6e68655aa38172c3a",
+    "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_subsampling_gcn/graphs/retain_25.graphml.gz": "36e9f6a8415a6653b54275693492205981f146a34fcbea5bf0016c2d92a36b7b",
+    "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_subsampling_gcn/graphs/retain_50.graphml.gz": "6a1a6a492ba6110fb4b2e75730cf99db600d139a6b52530008e670fddbce9cec",
+    "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_subsampling_gcn/graphs/retain_75.graphml.gz": "8debf6af57fe08bb0757e79c658f69a44ecda040ae81df6d92a134621cad842f"
+  },
+  "graph_seed": 0,
+  "manifest_sha256": "a7629c385fbbcc0c82ab59999f10617c0fb66c4c40035254a73a353e699c2d16",
+  "model_seeds": [
+    0,
+    1,
+    2
+  ],
+  "n_runs": 15,
+  "original_prior_sha256": "7c426bca7c37f5097203686d172e5e3d2641b639ceaac658113614b24a9d7662",
+  "original_repository": "/project/6001426/paa40/GlUE_Exp/GLUE",
+  "original_source_sha256": {
+    "/project/6001426/paa40/GlUE_Exp/GLUE/evaluation/workflow/scripts/run_GLUE.py": "547153203ecdc3cc775ff172b02f8bc97db7fd1e27e361cb2b26513f4b08f80a",
+    "/project/6001426/paa40/GlUE_Exp/GLUE/scglue/__init__.py": "aafd6a91f2c5087093ddef7e978a1c25ca460c06ab9663c54babe4d99cef8924",
+    "/project/6001426/paa40/GlUE_Exp/GLUE/scglue/check.py": "da104fc8073680a9f2e80c234123b9d343e0d3d6ff0318442d1e1337161bb904",
+    "/project/6001426/paa40/GlUE_Exp/GLUE/scglue/data.py": "cce7d0040fed1add2ea420b89dde8b2434c99cd2187d28fded34be48ebc72711",
+    "/project/6001426/paa40/GlUE_Exp/GLUE/scglue/genomics.py": "bc95eefb3d84d7a63e70d3dce8a4e122959c78aadeb8e27da4f800752c49e800",
+    "/project/6001426/paa40/GlUE_Exp/GLUE/scglue/graph.py": "e00fab3b09f3a9db68e62159cfc5a56915d1e56f8681361e814fde9feec90b08",
+    "/project/6001426/paa40/GlUE_Exp/GLUE/scglue/metrics.py": "59b5f07ebe24a838bf4d4f03eb29df35758e7daac9fa28111e581a86ca26c908",
+    "/project/6001426/paa40/GlUE_Exp/GLUE/scglue/models/__init__.py": "78e76bb811d4381494652c91e19b1cf9f6cf1871a9618a906e8ec8aea828865e",
+    "/project/6001426/paa40/GlUE_Exp/GLUE/scglue/models/base.py": "786b098224ecac49ea4a8ff1dbfab54fc9929fca61053908d1ebf981788e879a",
+    "/project/6001426/paa40/GlUE_Exp/GLUE/scglue/models/data.py": "3e3bbd0739420c733928e38112dd69a333f4727f1ec8186e99180d55b745d3b8",
+    "/project/6001426/paa40/GlUE_Exp/GLUE/scglue/models/dx.py": "d8fd12e40e64181805a57baffa3814c7261988ee3ecb69d7a8d819e62cd597cf",
+    "/project/6001426/paa40/GlUE_Exp/GLUE/scglue/models/glue.py": "5364499c78d19b624425d5317bd486dfc478ac116e7de67c135c23b0477afb86",
+    "/project/6001426/paa40/GlUE_Exp/GLUE/scglue/models/nn.py": "aaf4eaddedca6e45571dbbbb607373b75ab8c796a8cff514001584b0eb653b0d",
+    "/project/6001426/paa40/GlUE_Exp/GLUE/scglue/models/plugins.py": "340851db358fb4db642f0667a7c7057ecc6f4180097f1d21993fb58ae5f0a2f0",
+    "/project/6001426/paa40/GlUE_Exp/GLUE/scglue/models/prob.py": "a6415e93537aa502105736f90d01307cc6049531dee44292564377fa12ea1577",
+    "/project/6001426/paa40/GlUE_Exp/GLUE/scglue/models/sc.py": "381e64bece75fa74448e03fb592681fbd76ea76e8bf26e0c1962307af7487868",
+    "/project/6001426/paa40/GlUE_Exp/GLUE/scglue/models/scclue.py": "4e3c70e4e7783c7a6efc461a8449268fe720db05c383bc0c8f4975a0c4f07593",
+    "/project/6001426/paa40/GlUE_Exp/GLUE/scglue/models/scglue.py": "a33fa4f9e255c7db3df6ede174a49fbc61396068448ee6daaf159b1bdad47659",
+    "/project/6001426/paa40/GlUE_Exp/GLUE/scglue/num.py": "d59cdb3fccb96addb068dea76c3ea796aae8fb8b22bdc89638c16cecb0d84548",
+    "/project/6001426/paa40/GlUE_Exp/GLUE/scglue/plot.py": "4b39962554559ad7ca05acb1f481e1f8ba8bd34b870cee6765a87c564ac761fd",
+    "/project/6001426/paa40/GlUE_Exp/GLUE/scglue/typehint.py": "51858f41ffdc6837dd505704a99b059390510fa52514193058508c8644bba6c7",
+    "/project/6001426/paa40/GlUE_Exp/GLUE/scglue/utils.py": "2c018741b7c12c190c47a50c08b67d6d4471433c9538eaebe92b5766e066ec42"
+  },
+  "perturbation_code_sha256": "7e96c818f0bff43be537900891786cbcfffe5fabb6164def9e36456e916e9136",
+  "raw_inputs": {
+    "/project/6001426/paa40/GlUE_Exp/GLUE/evaluation/results_gcn_h100/raw/10x-Multiome-Pbmc10k/original/atac.h5ad": {
+      "mtime_ns": 1783936190000000000,
+      "size": 153863242
+    },
+    "/project/6001426/paa40/GlUE_Exp/GLUE/evaluation/results_gcn_h100/raw/10x-Multiome-Pbmc10k/original/rna.h5ad": {
+      "mtime_ns": 1783930891000000000,
+      "size": 50668504
+    }
+  },
+  "shared_training_settings": {
+    "alt_dim": 100,
+    "balance_cutoff": 0.5,
+    "balance_power": 4.0,
+    "balance_res": 1.0,
+    "data_batch_size": 128,
+    "dim": 50,
+    "dropout": 0.2,
+    "hidden_depth": 2,
+    "hidden_dim": 256,
+    "lam_align": 0.05,
+    "lam_graph": 0.02,
+    "lr": 0.002,
+    "neg_samples": 10,
+    "val_split": 0.1
+  }
+}

@@ -1,0 +1,6 @@
+condition,requested_fraction,biological_relation_count,node_count,self_loop_count,directed_edge_count,realized_fraction,original_pair_overlap,graph_seed,gated_checkpoint_topology_verified
+original,1.0,13493,15205,15205,42191,1.0,13493,0,True
+retain_75,0.75,10119,15205,15205,35443,0.7499444156229156,10119,0,True
+retain_50,0.5,6746,15205,15205,28697,0.4999629437486104,6746,0,True
+retain_25,0.25,3373,15205,15205,21951,0.2499814718743052,3373,0,True
+retain_10,0.1,1349,15205,15205,17903,0.09997776624916624,1349,0,True

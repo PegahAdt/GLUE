@@ -1,0 +1,8 @@
+# Version these small configuration/evidence CSVs despite the repository rule.
+!manifest.csv
+!resource_usage.csv
+
+# Training results and scheduler logs are generated artifacts.
+/results/
+/logs/*
+!/logs/.gitkeep

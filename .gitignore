@@ -103,3 +103,8 @@ dist
 **/*.out
 **/*.err
 workspace.local.json
+
+# Publication navigation only; generated result contents remain external.
+!/results/
+/results/*
+!/results/README.md

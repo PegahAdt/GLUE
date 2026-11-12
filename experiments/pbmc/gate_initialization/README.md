@@ -1,44 +1,59 @@
 # PBMC gate initialization sensitivity
 
-Question: Does initial gate probability change integration or learned-edge distributions?
+[Thesis map](../../../THESIS_EXPERIMENTS.md) · `REPRODUCIBILITY.md` (external, planned, or unresolved)
 
-## Canonical workflow
+## Scientific objective
 
-From the orchestration checkout, inspect without changing files or contacting Slurm:
+Does initial gate probability change integration or learned-edge distributions?
+
+## Dataset, architectures and conditions
+
+PBMC 10x Multiome: paired human PBMC scRNA-seq + scATAC-seq.
+
+GATED-GLUE.
+
+Gate .50/.70/.90/.95/.99 × sizes 250/2000/8000 × subset seeds 0–2; model seed 0, keep=0. 45 rows: 36 fresh + nine .95 baseline reuses.
+
+The canonical registry has **45 rows**. Reused rows and overlapping analysis views are not new independent fits.
+
+## Implementation and configuration
+
+| Stage | Source |
+|---|---|
+| Training | [evaluation/gate_init_sensitivity/run_training.sbatch](../../../evaluation/gate_init_sensitivity/run_training.sbatch)<br>[implementations/gated/evaluation/workflow/scripts/run_GLUE.py](../../../implementations/gated/evaluation/workflow/scripts/run_GLUE.py) |
+| Configuration / manifest | [experiments/pbmc/gate_initialization/config.json](config.json)<br>[experiments/pbmc/gate_initialization/manifest.csv](manifest.csv) |
+| Preprocessing | Not applicable / no entry point identified |
+| Evaluation | [evaluation/gate_init_sensitivity_metrics/evaluate_missing_metrics.py](../../../evaluation/gate_init_sensitivity_metrics/evaluate_missing_metrics.py)<br>[evaluation/gate_init_sensitivity_metrics/analyze_gate_init_metrics.py](../../../evaluation/gate_init_sensitivity_metrics/analyze_gate_init_metrics.py) |
+| Plotting / reporting | [evaluation/gate_init_sensitivity_metrics/analyze_gate_init_metrics.py](../../../evaluation/gate_init_sensitivity_metrics/analyze_gate_init_metrics.py)<br>[evaluation/gate_init_sensitivity_report/analyze_gate_init_distributions.py](../../../evaluation/gate_init_sensitivity_report/analyze_gate_init_distributions.py) |
+| Canonical architecture bindings | `implementations/README.md` (external, planned, or unresolved) |
+
+## Commands and execution boundary
+
+From the repository root, inspect the catalog and this experiment without training or scheduler calls:
 
 ```bash
-python3 -B experiments/launch.py pbmc_gate_initialization --dry-run --workspace experiments/workspace.example.json
+python3 -B experiments/launch.py --list
+python3 -B experiments/launch.py pbmc_gate_initialization --dry-run
 ```
 
-`config.json` holds fixed settings and explicit resources; `manifest.csv`, when present,
-maps zero-based array indices directly to configurations. It contains 45 rows.
-Use `--task N` to inspect an individual command. Seeds are distinct model and cell-subset fields;
-the latter remains traceable through `source_row` and input-directory identity.
-Use `--phase train` or `--phase evaluate` to select a phase. `all` uses `afterok` dependencies.
-Only `--submit` contacts Slurm; an exclusive external submission record prevents a second dispatch.
-Existing or partial output directories are never overwritten. Preparation, model fitting and metric
-code are the preserved entrypoints, selected explicitly by architecture.
+The default workspace is deliberately a placeholder. `environments/workspace.integration.example.json` (external, planned, or unresolved) binds the three canonical sources explicitly after its paths are replaced in an external copy. A printed historical/frozen plan is not an executable relocation adapter. Do not invoke archived wrappers against active runs.
 
-Status at audit/cleanup review: **45 evaluated configurations; nine reused + 36 fresh**. Manifest status columns in historical designs are
-provenance, not live scheduler state. The clean command path has lightweight validation only;
-no expensive training or end-to-end GPU reproduction was run during cleanup.
+## Artifacts and metrics
 
-Launch blocker: None identified in command construction; compute-node validation still required.
+Historical new fits: /project/6001426/paa40/GlUE_Exp/GLUE_GATED/evaluation/results_gate_init_sensitivity/gate_init:<g>/subsample_size:<n>-subsample_seed:<s>/model_seed:0; .95 reused references: GLUE_GATED/evaluation/results_gated/raw/10x-Multiome-Pbmc10k/... . Distribution/metric reports: /project/6001426/paa40/GlUE_Exp/GLUE/evaluation/gate_init_sensitivity_{report,metrics}/. Clean future runs/metrics use <output_root>/pbmc_gate_initialization/.
 
-Evaluation blocker/limit: Metric entrypoints unchanged; no large-data recomputation during cleanup.
+Eight cell-integration metrics below, plus feature consistency only where the preserved configuration specifies a valid full-feature reference.
 
-## Implementation and provenance
+Integration keys: `mean_average_precision, normalized_mutual_info, avg_silhouette_width, graph_connectivity, seurat_alignment_score, avg_silhouette_width_batch, neighbor_conservation, foscttm`. Definitions remain in [evaluation/workflow/scripts/cell_integration.py](../../../evaluation/workflow/scripts/cell_integration.py).
 
-* Training: `evaluation/gate_init_sensitivity/run_training.sbatch`
-* Evaluation/analysis: `orchestration:evaluation/gate_init_sensitivity_{metrics,report}/*.py`
-* Owner: `gated`, preservation `GATED_SHARE_GATE_STABILITY` at `becf8f758f6d6869511e5d18732ce1f055a3cf03`.
-* Historical submission files: `evaluation/gate_init_sensitivity/run_training.sbatch`
-* Immutable source configuration: `evaluation/gate_init_sensitivity/{all_configurations,training_tasks}.csv`
+`results/README.md` (external, planned, or unresolved) lists external outputs and included compact evidence. No numerical result was changed.
 
-Gates .50,.70,.90,.95,.99; sizes250,2000,8000 x subset seeds0–2; model seed0. This differs from tuning gates (.75 instead of .70 there). Historical 36 directory names carry carriage returns; originals are preserved. Fresh clean output paths contain no CR. Distribution/report scripts are retained at their frozen source paths; the shared evaluator computes integration metrics only.
+## Reproduction status and limitations
 
-Configure the Python environment, architecture checkout paths, input-prefix bindings,
-partitions and a fresh external output directory in a copy of `workspace.example.json`.
-Prepared inputs and original output directories are read-only dependencies. This launcher
-does not download data or rerun preprocessing implicitly. Follow the preserved preparation
-scripts and source fingerprints in the root reproducibility guide before a fresh replication.
+Historical audit: 45 evaluated configurations; nine reused + 36 fresh. No new runtime reproduction.
+
+Read exact preserved all_configurations.csv/training_tasks.csv. Historical source paths may contain carriage-return artifacts; no path normalization was performed. Uses historical GATED full feature reference.
+
+This initialization grid includes .70; Stage-A tuning instead includes .75. Model seeds and subset seeds represent different sources of variation.
+
+Historical paths, fingerprints and scientific configurations are retained. Frozen originals remain tied to their original workspace. Environment reconstruction, checkpoint compatibility and GPU convergence/numerical equivalence are unverified. Exact thesis section/figure correspondence requires the manuscript; no chapter or figure number is assigned here.

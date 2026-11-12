@@ -1,0 +1,106 @@
+{
+  "manuscript": "No MSc thesis manuscript identified in inspected local paths; chapter/figure correspondence unverified",
+  "note": "Input reports inspected locally; reports contain local-only links and were not copied wholesale.",
+  "reports": {
+    "CLEANUP_CONTINUATION_REPORT.md": {
+      "bytes": 9278,
+      "sha256": "2251a3922d7d22603ab19b98d2ffa740e7b592c54f2eb60a23a08976a7c3c8e7"
+    },
+    "architecture_audit/EXECUTION_GRAPH.md": {
+      "bytes": 12357,
+      "sha256": "5f45cb7d7f4ed9ab6a2033094bb8bfa409e32454f0caa9c2dbe94052b14f96cd"
+    },
+    "architecture_audit/EXPERIMENT_MATRIX.md": {
+      "bytes": 184148,
+      "sha256": "0795eb1e003f65ad3f71b933762e96971d5ad03cb772dda0b0f502d181ac963e"
+    },
+    "architecture_audit/ISSUES_AND_RISKS.md": {
+      "bytes": 24670,
+      "sha256": "778ca89d45fa1d2b34c6c09897b8bbfcf43d8fba7105e15ffa3ad5f9c7bfd601"
+    },
+    "architecture_audit/LEGACY_LAUNCHER_REPAIR.md": {
+      "bytes": 280998,
+      "sha256": "d05545a32f7b44e107dfb6241d38627e14f8f065f6632efdfb6b0ce36ec8e7a3"
+    },
+    "architecture_audit/NEXT_ACTIONS.md": {
+      "bytes": 5142,
+      "sha256": "c3325fe5decadacc31a74dc1de74feecda1b334498ff7cf743631528da37e349"
+    },
+    "architecture_audit/PBMC_DIMENSION_MANIFEST_CORRECTION.md": {
+      "bytes": 14334,
+      "sha256": "b0fdd702435fa02d4d339357bf3a688ea1f8b9f747da4659293671f0e7a4908a"
+    },
+    "architecture_audit/PBMC_DIMENSION_RECONCILIATION.md": {
+      "bytes": 176528,
+      "sha256": "9f8d46ecca3f86e9f5541d994ea8f319b13c98bd9175bdc7ed4c4abb2268ecd7"
+    },
+    "architecture_audit/README.md": {
+      "bytes": 6972,
+      "sha256": "f064f94504139d6892ad931b80b1d0d0c3d7fbe7f2480b94d9c8dc3f6c345638"
+    },
+    "architecture_audit/REPOSITORY_MAP.md": {
+      "bytes": 15500,
+      "sha256": "4feadb0cd15e93673d7b3e048300e4e183d1d6deac666562d05fe2a13d2a1623"
+    },
+    "architecture_audit/REPRODUCIBILITY_AUDIT.md": {
+      "bytes": 54520,
+      "sha256": "afa151a011bd45dcee0b25a8b4cf65328ef5bcdce9e6e870ea4bbf9b99bedf7a"
+    },
+    "environment_recovery/DEPENDENCY_COMPATIBILITY.md": {
+      "bytes": 7160,
+      "sha256": "da3b327641b1d88f8588553dcdaef835a70c8e5badb74a608e4753578dd76bd5"
+    },
+    "environment_recovery/ENVIRONMENT_EVIDENCE.md": {
+      "bytes": 29816,
+      "sha256": "5757ef86fe221332f7c00388c4826811dbe2bcdf0bd05395a843e364209471be"
+    },
+    "environment_recovery/EXPERIMENT_ENVIRONMENT_MAPPING.md": {
+      "bytes": 25812,
+      "sha256": "f88c7412313dc9a43aac38dddc44c1f62f973cb99d5ccb64bc327b055b40217f"
+    },
+    "environment_recovery/NEXT_ACTIONS.md": {
+      "bytes": 2588,
+      "sha256": "528433bc55c94b585ed0a6cfe41bcb5832c1214cd3b397b9e849d5e75daf4ff8"
+    },
+    "environment_recovery/NIBI_READINESS.md": {
+      "bytes": 3830,
+      "sha256": "fb7058aa9faf35edc652e5a1ec15e1715ced0a4b71fd47cd558f3d55f6ff8d26"
+    },
+    "environment_recovery/README.md": {
+      "bytes": 6930,
+      "sha256": "e5597d7ebffc9e5927f67271b9b1a78abcf88d6f7270986454005403f5311604"
+    },
+    "environment_recovery/UNRESOLVED_VERSIONS.md": {
+      "bytes": 4305,
+      "sha256": "cf7d6c9c138c6b556aa23b6af7b59c0877ed2589b0c6cf7b4b67434cd963c470"
+    },
+    "historical_submissions.md": {
+      "bytes": 26378,
+      "sha256": "f04e04018f468707291d93aa810fae7b538ff34f75f7246bca4fe4e0e95c6529"
+    },
+    "reproducibility_audit/CLUSTER_PORTABILITY.md": {
+      "bytes": 28580,
+      "sha256": "0a73cb4372578f9f62a92bc8d5a06844ca53d357903e7bb8c3d9d8b5aff4fdce"
+    },
+    "reproducibility_audit/ENVIRONMENT_AND_DEPENDENCIES.md": {
+      "bytes": 13775,
+      "sha256": "d8a29e6288af25c798b6f30ea3bdf1795cc98ba8a17e55f21723879ddfc967b6"
+    },
+    "reproducibility_audit/EXPERIMENT_REPRODUCIBILITY_MATRIX.md": {
+      "bytes": 258629,
+      "sha256": "00f74dca76d2abcd31de16785b3cc4765612610f24c2236d50032579a49a19d3"
+    },
+    "reproducibility_audit/MISSING_PROVENANCE.md": {
+      "bytes": 22027,
+      "sha256": "97bd4622a504be65863e7cbf6ea88506d002080834ac257d922a52f8e851ddce"
+    },
+    "reproducibility_audit/PRIORITIZED_ACTION_PLAN.md": {
+      "bytes": 7975,
+      "sha256": "5186470233e8a947df9a3690a6dbc16aa73f4bcb5f6a9713b05a6b52b0e453f2"
+    },
+    "reproducibility_audit/README.md": {
+      "bytes": 8448,
+      "sha256": "72105b9160e96d56ad77e51c2d49298877e920440774f85538b49cb65fa9c240"
+    }
+  }
+}

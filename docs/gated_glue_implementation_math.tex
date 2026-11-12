@@ -1,0 +1,452 @@
+\documentclass[11pt]{article}
+\usepackage[margin=0.85in]{geometry}
+\usepackage{amsmath,amssymb,booktabs,array,longtable,hyperref,xcolor,listings,microtype}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\hypersetup{colorlinks=true,linkcolor=blue!55!black,urlcolor=blue!55!black}
+\definecolor{codebg}{RGB}{246,248,250}
+\lstset{basicstyle=\ttfamily\small,backgroundcolor=\color{codebg},frame=single,
+  breaklines=true,columns=fullflexible,keepspaces=true}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\pathcode}[1]{\texttt{\detokenize{#1}}}
+\title{GATED GLUE: Implementation Changes and Mathematical Conformance}
+\author{Technical implementation report}
+\date{Branch comparison: \code{master} \texttt{5a30146c} to
+      \code{GATED\_GLUE} \texttt{26946eb}\\Compiled \today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This report explains the static edge-gated extension to GLUE, derives its
+forward propagation and regularized objective, and maps each mathematical
+quantity to the exact implementation.  It also covers graph-topology identity,
+pretrain/fine-tune transfer, serialization, diagnostics, tests, and the matched
+10x benchmark.  The central claim is precise: GATED GLUE retains the original
+signed, normalized GCN propagation, but multiplies every directed non-self-loop
+edge by an independent sigmoid gate without renormalizing after gating.
+The primary benchmark uses gate initialization $0.95$ and retention weight
+$\lambda_{\mathrm{keep}}=0$, isolating the effect of trainable static gating.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+\section{Scope and branch-level summary}
+
+The comparison contains six GATED-specific commits and changes 18 files
+(1,210 insertions and 17 deletions).  Existing GCN behavior remains the default;
+users must explicitly select \code{graph\_encoder="gated"}.  The changes divide
+into four layers:
+\begin{enumerate}
+  \item a low-level signed edge-gated aggregation operator;
+  \item a topology-aware variational graph encoder with trainable gate logits;
+  \item model/trainer lifecycle support and optional retention regularization;
+  \item evaluation, diagnostics, tests, and matched benchmark infrastructure.
+\end{enumerate}
+
+\begin{longtable}{p{0.31\linewidth}p{0.61\linewidth}}
+\toprule
+File & Responsibility \\
+\midrule
+\endhead
+\pathcode{scglue/models/nn.py} & \code{EdgeGatedGraphConv}: gated signed aggregation. \\
+\pathcode{scglue/models/sc.py} & \code{GatedGraphEncoder}: logits, topology identity, activation, keep loss, diagnostics. \\
+\pathcode{scglue/models/glue.py} & Generic trainer integration of the keep penalty. \\
+\pathcode{scglue/models/scglue.py} & Public model selection, graph configuration, transfer, validation, encoding. \\
+\pathcode{scglue/models/__init__.py} & Graph configuration in the high-level two-stage fitting helper. \\
+\pathcode{evaluation/workflow/scripts/run_GLUE.py} & CLI selection, two-stage GATED fitting, saved gate diagnostics. \\
+\pathcode{tests/models/test_gated_graph.py} & Unit and lifecycle conformance tests. \\
+\bottomrule
+\end{longtable}
+
+\section{Reference GCN mathematics}
+
+Let $G=(V,E)$ be the directed graph representation used by GLUE.  Each edge
+$e=(i\!\to\!j)$ has a sign $s_e$ and a precomputed normalization coefficient
+$n_e$.  Let $h_i\in\mathbb{R}^d$ be the source vertex representation.  The
+original GCN aggregation at target $j$ is
+\begin{equation}
+  m_j^{\mathrm{GCN}} = \sum_{e=(i\to j)\in E} s_e n_e h_i.
+  \label{eq:gcn}
+\end{equation}
+The normalization coefficient is supplied to the layer as \code{enorm}; the
+edge sign is \code{esgn}.  The GATED branch does not redefine either quantity.
+This is important for matched comparisons: graph construction, signed edges,
+and the original normalization all remain unchanged.
+
+\section{Static edge-gated propagation}
+
+\subsection{Gate parameterization}
+
+For every directed non-self-loop edge $e$, the model introduces an unconstrained
+trainable logit $a_e\in\mathbb{R}$ and activates it with a sigmoid:
+\begin{equation}
+  g_e = \sigma(a_e)=\frac{1}{1+\exp(-a_e)}, \qquad 0<g_e<1.
+  \label{eq:sigmoid}
+\end{equation}
+Self-loops deliberately have no trainable logit and use
+\begin{equation}
+  g_{(i\to i)}=1.
+  \label{eq:selfloop}
+\end{equation}
+For requested initial probability $p_0$ (\code{gate\_init}), each non-self-loop
+logit is initialized by the inverse sigmoid:
+\begin{equation}
+  a_e^{(0)}=\operatorname{logit}(p_0)
+  =\log\frac{p_0}{1-p_0}.
+  \label{eq:init}
+\end{equation}
+At the benchmark value $p_0=0.95$, $a_e^{(0)}\approx2.944439$ and every
+non-self-loop edge initially retains 95\% of its original normalized message.
+
+\subsection{Forward equation}
+
+GATED propagation is
+\begin{equation}
+  m_j^{\mathrm{GATED}}
+  =\sum_{e=(i\to j)\in E}s_e n_e g_e h_i.
+  \label{eq:gated}
+\end{equation}
+The implementation in \code{EdgeGatedGraphConv.forward} computes
+\begin{lstlisting}[language=Python]
+message = input[sidx] * (esgn * enorm * gate).unsqueeze(1)
+result.scatter_add_(0, tidx.unsqueeze(1).expand_as(message), message)
+\end{lstlisting}
+Thus the exact code correspondence is
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+Mathematics & Tensor/code quantity \\
+\midrule
+$h_i$ & \code{input[sidx]} \\
+$s_e$ & \code{esgn} \\
+$n_e$ & \code{enorm} \\
+$g_e$ & \code{gate} from \code{activated\_gates} \\
+$\sum_{i\to j}$ & target-indexed \code{scatter\_add\_} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{No post-gate renormalization}
+
+Equation~\eqref{eq:gated} uses the original $n_e$ unchanged.  It does
+\emph{not} replace it by a gate-dependent normalization such as
+\begin{equation*}
+  \widetilde n_e = \frac{n_e g_e}{\sum_{e':\,\operatorname{target}(e')=j}n_{e'}g_{e'}}.
+\end{equation*}
+Consequently, reducing one gate attenuates precisely that message and cannot
+inflate neighboring messages through a changed denominator.  This is the
+meaning of ``static edge gating'' here: gates are global learned parameters
+attached to graph edges, not sample-dependent attention coefficients, and they
+directly modulate the already-normalized graph operator.
+
+\subsection{Variational output}
+
+After gated aggregation, the encoder retains the original variational form:
+\begin{align}
+  \mu_j &= W_\mu m_j+b_\mu,\\
+  \sigma_j &= \operatorname{softplus}(W_\sigma m_j+b_\sigma)+\varepsilon,\\
+  q(v_j\mid G)&=\mathcal{N}(\mu_j,\operatorname{diag}(\sigma_j^2)).
+\end{align}
+In code these are \code{loc}, \code{std\_lin}, and the returned
+\code{torch.distributions.Normal}.  Therefore gating changes graph message
+strengths but not the latent distribution family or graph decoder.
+
+\section{Training objective and retention regularization}
+
+Let $\mathcal L_{\mathrm{data}}$ denote the weighted cell-domain ELBO term,
+$\mathcal L_{\mathrm{graph}}$ the graph ELBO term, and
+$\mathcal L_{\mathrm{dsc}}$ the adversarial discriminator loss.  Omitting
+supervised/paired extensions for clarity, the existing generator objective is
+organized as
+\begin{align}
+  \mathcal L_{\mathrm{VAE}}^{\mathrm{base}}
+    &=\lambda_{\mathrm{data}}\mathcal L_{\mathrm{data}}
+      +\lambda_{\mathrm{graph}}D\mathcal L_{\mathrm{graph}},\\
+  \mathcal L_{\mathrm{gen}}^{\mathrm{base}}
+    &=\mathcal L_{\mathrm{VAE}}^{\mathrm{base}}
+      -\lambda_{\mathrm{align}}\mathcal L_{\mathrm{dsc}},
+\end{align}
+where $D$ is the number of data domains.
+
+The branch defines the raw gate-retention penalty over trainable non-self-loop
+edges:
+\begin{equation}
+  \mathcal L_{\mathrm{keep}}=\sum_{e\in E_{\mathrm{nonself}}}(1-g_e)^2.
+  \label{eq:keep}
+\end{equation}
+The modified objective is
+\begin{align}
+  \mathcal L_{\mathrm{VAE}}^{\mathrm{GATED}}
+    &=\mathcal L_{\mathrm{VAE}}^{\mathrm{base}}
+      +\lambda_{\mathrm{keep}}\mathcal L_{\mathrm{keep}},\\
+  \mathcal L_{\mathrm{gen}}^{\mathrm{GATED}}
+    &=\mathcal L_{\mathrm{VAE}}^{\mathrm{GATED}}
+      -\lambda_{\mathrm{align}}\mathcal L_{\mathrm{dsc}}.
+  \label{eq:objective}
+\end{align}
+This term is added consistently to generic GLUE, SCGLUE, independent SCGLUE,
+and paired SCGLUE trainers.  The code computes
+\code{((1 - sigmoid(gate\_logits)) ** 2).sum()} and then adds
+\code{self.lam\_keep * gate\_keep\_loss} to \code{vae\_loss}.
+
+The sign of the regularizer is correct for a retention prior: minimizing it
+pushes $g_e$ toward one.  It does not promote sparsity.  The derivative with
+respect to a logit is
+\begin{equation}
+  \frac{\partial\mathcal L_{\mathrm{keep}}}{\partial a_e}
+  =-2(1-g_e)g_e(1-g_e),
+\end{equation}
+which is non-positive for $0<g_e<1$ and therefore increases the gate under
+gradient descent.
+
+For the primary matched benchmark,
+\begin{equation}
+  \boxed{\lambda_{\mathrm{keep}}=0},
+\end{equation}
+so Equation~\eqref{eq:objective} reduces to the original GLUE objective while
+the graph operator remains Equation~\eqref{eq:gated}.  This isolates the
+architectural effect of learned edge attenuation from retention regularization.
+
+\section{Topology identity and invariants}
+
+Independent gates are meaningful only if logit $a_e$ remains attached to the
+same directed edge.  The implementation therefore persists the configured
+edge index tensor and enforces the following invariants:
+\begin{enumerate}
+  \item edge indices have shape $2\times |E|$ and valid vertex bounds;
+  \item duplicate directed edges are rejected;
+  \item reconfiguration is allowed only for the same directed topology;
+  \item reordered but equivalent edge lists are aligned by integer edge IDs;
+  \item changed topology is rejected during compilation, adoption, fitting,
+        loss evaluation, and graph encoding.
+\end{enumerate}
+For $|V|=N$, directed edge $(i,j)$ is represented by the collision-free ID
+$iN+j$.  Sorting these IDs yields the permutation between equivalent edge
+orders.  This makes the gate vector order-invariant without weakening topology
+validation.
+
+Graph configuration occurs before compilation because \code{gate\_logits} is
+created when the topology is known.  Creating it after compilation would omit
+the parameter from the optimizer.  The branch explicitly rejects compilation
+of an unconfigured gated model and tests that gate logits occur in the VAE
+optimizer parameter groups.
+
+\section{Pretraining, fine-tuning, and serialization}
+
+The existing GLUE workflow trains two models:
+\begin{enumerate}
+  \item pretraining with alignment burn-in disabled via an infinite burn-in;
+  \item fine-tuning after estimating balancing weights from pretrained cell
+        embeddings.
+\end{enumerate}
+Both GATED models are configured with the same graph before compilation.
+During \code{adopt\_pretrained\_model}, architecture equality and topology
+equivalence are checked, then learned gate logits are copied using edge
+identity rather than raw array position.  This ensures that pretraining gates
+survive into fine-tuning even if equivalent graphs enumerate edges differently.
+
+The configured edge tensor, non-self-loop mask, and gate logits are included in
+model state.  Save/load tests verify exact recovery.  Cross-architecture
+adoption (GCN to GATED or GATED to GCN) is rejected rather than partially
+copying an incompatible graph encoder.
+
+\section{Backward compatibility}
+
+The API defaults are
+\begin{lstlisting}[language=Python]
+graph_encoder = "gcn"
+gate_init = 0.95
+lam_keep = 0.0
+\end{lstlisting}
+When \code{graph\_encoder="gcn"}, the original \code{GraphEncoder} and
+\code{GraphConv} are constructed.  The trainer's \code{gate\_keep\_loss}
+returns a scalar zero for encoders without gates.  Therefore the new objective
+term is exactly zero for GCN, and existing calls preserve their architecture
+and numerical path except for graph-configuration calls that are no-ops for
+GCN.
+
+\section{Evaluation command and diagnostics}
+
+The evaluation runner adds three validated options:
+\begin{lstlisting}
+--graph-encoder {gcn,gated}
+--gate-init PROBABILITY_IN_(0,1)
+--lam-keep FINITE_NONNEGATIVE_FLOAT
+\end{lstlisting}
+The same values are used in both training stages.  GATED runs save
+\code{gate\_diagnostics.yaml} with
+\begin{itemize}
+  \item number of trainable non-self-loop gates;
+  \item initial gate mean;
+  \item final gate minimum, mean, and maximum;
+  \item maximum absolute change in gate logits.
+\end{itemize}
+These are architectural diagnostics and are not mixed into biological or
+integration scores.
+
+\section{Mathematical conformance tests}
+
+The new tests provide executable checks of the equations:
+\begin{longtable}{p{0.34\linewidth}p{0.57\linewidth}}
+\toprule
+Tested property & Mathematical guarantee \\
+\midrule
+\endhead
+Signed weighted example & Directly verifies Equation~\eqref{eq:gated}. \\
+Fixed denominator after gate change & Confirms no post-gate renormalization. \\
+Initialization at $0.95$ & Verifies Equation~\eqref{eq:init}. \\
+Self-loop fixed at one & Verifies Equation~\eqref{eq:selfloop}. \\
+Finite nonzero logit gradients & Gates participate in differentiable training. \\
+Keep loss numeric example & Verifies Equation~\eqref{eq:keep}. \\
+Optimizer membership & Topology is configured before optimizer construction. \\
+Reordered edge adoption & Gate identity follows directed edges, not list position. \\
+Changed/duplicate topology rejection & Prevents silent gate-to-edge corruption. \\
+Serialization round trip & Preserves topology and gate values. \\
+GCN unchanged/default & Preserves backward-compatible model selection. \\
+CLI validation & Rejects invalid probabilities and negative keep weights. \\
+\bottomrule
+\end{longtable}
+
+\section{Matched 10x benchmark design}
+
+The branch adds nine GATED subsample runs for sizes 250, 2,000, and 8,000 with
+subsample seeds 0, 1, and 2.  They reuse the exact prepared GCN/GAT cell subsets,
+validated by ordered cell-ID hashes.  Only the graph encoder changes.  The
+matched configuration is
+\begin{center}
+\begin{tabular}{lr}
+\toprule
+Parameter & Value \\
+\midrule
+Learning rate & 0.002 \\
+$\lambda_{\mathrm{graph}}$ & 0.02 \\
+$\lambda_{\mathrm{align}}$ & 0.05 \\
+Latent / alternative dimension & 50 / 100 \\
+Hidden depth / dimension & 2 / 256 \\
+Dropout & 0.2 \\
+Negative samples per edge & 10 \\
+Data batch size & 128 \\
+Graph encoder & gated \\
+Gate initialization & 0.95 \\
+$\lambda_{\mathrm{keep}}$ & 0.0 \\
+Model seed & 0 \\
+\bottomrule
+\end{tabular}
+\end{center}
+Preprocessing, guidance graph construction, two-stage fitting, automatic graph
+batching, balancing weights, convergence requirements, and early stopping are
+the same as the matched benchmark.
+
+Feature consistency requires an architecture-specific full-data feature
+embedding.  The branch therefore adds one full-data GATED seed-0 reference.
+For every subsample, the metric compares its GATED \code{feature\_latent.csv}
+against the full GATED \code{feature\_latent.csv}; it explicitly rejects a
+symlinked substitute.  GCN and GAT retain their own full architecture-specific
+references.
+
+\section{Interpretation and limitations}
+
+The learned $g_e$ should be interpreted as a global edge-retention multiplier,
+not a probability that an edge is sampled, a causal importance score, or a
+cell-specific attention coefficient.  Gates can attenuate but cannot reverse
+an edge sign or amplify it above its original normalized strength.  Because
+self-loops remain one, each vertex always retains its original self-message.
+
+With $\lambda_{\mathrm{keep}}=0$, gates are controlled only by the original
+training objective.  This is appropriate for isolating the gating architecture,
+but it does not impose sparsity or guarantee gates remain near one.  Future
+retention experiments may vary $\lambda_{\mathrm{keep}}$, but those constitute
+a different comparison and should not replace the primary matched benchmark.
+
+\section{Conclusion}
+
+The implementation conforms to the specified mathematics at each layer:
+sigmoid logits provide bounded independent non-self-loop gates;
+Equation~\eqref{eq:gated} is implemented as direct signed normalized message
+multiplication with no renormalization; Equation~\eqref{eq:keep} is included
+with the correct sign and weight; topology-aware lifecycle code preserves the
+edge-to-gate mapping across training stages and serialization; and the benchmark
+changes only the intended architecture-specific quantities.  The default GCN
+path remains available and is the default model selection.
+
+\appendix
+\section{Relevant implementation code}
+
+This appendix reproduces the relevant source directly from the compared
+\code{GATED\_GLUE} branch.  The displayed line numbers are repository source
+line numbers, allowing every equation in the main report to be audited against
+the implementation.
+
+\subsection{Signed gated aggregation}
+
+This is the complete low-level operator implementing
+$s_e n_e g_e h_i$ followed by target-indexed summation.  Notice that
+\code{enorm} is multiplied by \code{gate} and is never recomputed.
+
+\lstinputlisting[language=Python,numbers=left,firstnumber=57,firstline=57,lastline=87]{scglue/models/nn.py}
+
+\subsection{Gate construction, topology identity, activation, and encoder output}
+
+The following listing contains the trainable-logit construction, inverse
+sigmoid initialization, fixed self-loops, edge-ID permutation, retention loss,
+gate accessor, and variational forward pass.
+
+\lstinputlisting[language=Python,numbers=left,firstnumber=52,firstline=52,lastline=183]{scglue/models/sc.py}
+
+\subsection{Retention penalty in the GLUE objective}
+
+The generic trainer returns zero for a non-gated encoder and otherwise obtains
+the raw penalty from the gated encoder.  Lines 422--426 show its exact placement
+in the VAE and generator objectives.
+
+\lstinputlisting[language=Python,numbers=left,firstnumber=346,firstline=346,lastline=350]{scglue/models/glue.py}
+\lstinputlisting[language=Python,numbers=left,firstnumber=390,firstline=390,lastline=431]{scglue/models/glue.py}
+
+\subsection{Public model selection and graph configuration}
+
+The constructor preserves GCN as the default and selects GATED explicitly.
+The graph configuration method converts the full graph into the exact directed
+edge representation used during fitting before creating the optimizer.
+
+\lstinputlisting[language=Python,numbers=left,firstnumber=1278,firstline=1278,lastline=1302]{scglue/models/scglue.py}
+\lstinputlisting[language=Python,numbers=left,firstnumber=1357,firstline=1357,lastline=1385]{scglue/models/scglue.py}
+
+\subsection{Compilation guard and objective wiring}
+
+This code prevents gated compilation before graph configuration and passes the
+validated \code{lam\_keep} value into the trainer.
+
+\lstinputlisting[language=Python,numbers=left,firstnumber=1463,firstline=1463,lastline=1511]{scglue/models/scglue.py}
+
+\subsection{Two-stage evaluation workflow}
+
+The evaluation workflow uses identical gated settings in pretraining and
+fine-tuning, configures the graph before each compilation, and transfers the
+pretrained model before the second optimizer is constructed.
+
+\lstinputlisting[language=Python,numbers=left,firstnumber=205,firstline=205,lastline=272]{evaluation/workflow/scripts/run_GLUE.py}
+
+\subsection{Saved gate diagnostics}
+
+The final model exposes its activated gates and the workflow saves architectural
+diagnostics separately from integration metrics.
+
+\lstinputlisting[language=Python,numbers=left,firstnumber=274,firstline=274,lastline=317]{evaluation/workflow/scripts/run_GLUE.py}
+
+\subsection{Executable mathematical checks}
+
+These tests numerically verify signed gated propagation, the fixed normalization
+denominator, inverse-sigmoid initialization, fixed self-loops, the keep loss,
+and differentiable gate updates.
+
+\lstinputlisting[language=Python,numbers=left,firstnumber=18,firstline=18,lastline=78]{tests/models/test_gated_graph.py}
+
+The lifecycle test below verifies optimizer membership, pretrain/fine-tune
+adoption, edge-order alignment, serialization, and rejection of incompatible
+topologies or architectures.
+
+\lstinputlisting[language=Python,numbers=left,firstnumber=136,firstline=136,lastline=205]{tests/models/test_gated_graph.py}
+
+\end{document}

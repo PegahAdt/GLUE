@@ -1,106 +1,70 @@
-# GLUE (Graph-Linked Unified Embedding)
+# GLUE Graph Architectures and Guidance-Graph Robustness
 
-[![license-badge](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![pypi-badge](https://img.shields.io/pypi/v/scglue)](https://pypi.org/project/scglue)
-[![conda-badge](https://anaconda.org/scglue/scglue/badges/version.svg)](https://anaconda.org/scglue/scglue)
-[![docs-badge](https://readthedocs.org/projects/scglue/badge/?version=latest)](https://scglue.readthedocs.io/en/latest/?badge=latest)
-[![build-badge](https://github.com/gao-lab/GLUE/actions/workflows/build.yml/badge.svg)](https://github.com/gao-lab/GLUE/actions/workflows/build.yml)
-[![coverage-badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/Jeff1995/e704b2f886ff6a37477311b90fdf7efa/raw/coverage.json)](https://github.com/gao-lab/GLUE/actions/workflows/build.yml)
+MSc research on how graph neural network architectures and guidance-graph structure affect single-cell multi-omics integration. This repository extends **Gao Lab's GLUE**; it does not claim authorship of the original framework.
 
-Graph-linked unified embedding for single-cell multi-omics data integration
+The research asks whether learned graph attention or static edge-retention gates improve the use of a potentially imperfect guidance graph, and how architecture, training-cell count, latent dimension and graph perturbations affect integration and learned-edge stability. Datasets are paired RNA/ATAC PBMC and mouse-skin SHARE-seq. No unsupported performance ranking or biological-causality claim is made here.
 
-![Model architecture](docs/_static/architecture.svg)
+**This is the `integration/thesis-release-candidate` branch: a proposed research landing branch, not an approved replacement for main.** Repository consistency has a separate validation record; GPU reproduction, migration and scientific completeness remain unverified. All historical source implementations and scientific configurations are preserved.
 
-For more details, please check out our [preprint](https://www.biorxiv.org/content/10.1101/2021.08.22.457275).
+## Start here
 
-## Directory structure
+| Question | Guide |
+|---|---|
+| What changed relative to upstream GLUE? | [Contributions and authorship evidence](CONTRIBUTIONS.md) |
+| How do GCN, GAT and GATED differ? | [Architecture and isolated implementations](ARCHITECTURE.md) |
+| Which experiment supports each research question? | [Thesis-to-code map](THESIS_EXPERIMENTS.md) |
+| How do I inspect or reconstruct an experiment? | [Reproducibility guide](REPRODUCIBILITY.md) and [experiment catalog](experiments/README.md) |
+| Where are the existing results and figures? | [Artifact index](results/README.md) |
+| What can be checked without GPUs? | [Validation scope](docs/research/VALIDATION.md) |
+| What is inherited and how is it licensed? | [License and attribution](LICENSE_AND_ATTRIBUTION.md) |
 
-```
-.
-├── scglue                  # Main Python package
-├── data                    # Data files
-├── evaluation              # Method evaluation pipelines
-├── experiments             # Experiments and case studies
-├── tests                   # Unit tests for the Python package
-├── docs                    # Documentation files
-├── custom                  # Customized third-party packages
-├── packrat                 # Reproducible R environment via packrat
-├── env.yaml                # Reproducible Python environment via conda
-├── pyproject.toml          # Python package metadata
-├── LICENSE
-└── README.md
-```
+## Research contributions
 
-## Installation
+- A signed, prior-weighted GAT encoder within the existing GLUE variational/adversarial framework.
+- Static trainable GATED edge-retention probabilities, topology-aligned model state and gate diagnostics.
+- Matched architecture/data-size/dimension studies, gate-initialization and stability investigations, and PBMC guidance-graph retention/randomization controls.
+- A shared experiment registry, explicit source fingerprints, guarded planning/dispatch, frozen provenance and experiment-specific evaluation/reporting.
 
-The `scglue` package can be installed either via conda:
+Git history supports the architecture modifications under Pegah Aryadoost's author identity. Bulk-preserved scripts do not establish sole line-level authorship. See the evidence and limitations in [CONTRIBUTIONS.md](CONTRIBUTIONS.md).
 
-```sh
-conda install -c defaults -c pytorch -c bioconda -c conda-forge -c scglue scglue
-```
+## Repository organization
 
-Or via pip:
-
-```sh
-pip install scglue
-```
-
-> Installing within a
-> [conda environment](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html)
-> is recommended.
-
-## Usage
-
-Please checkout the documentations and tutorials at
-[scglue.readthedocs.io](https://scglue.readthedocs.io).
-
-## Development
-
-Install scglue in editable form via flit (first install flit via conda or pip
-if not installed already):
-
-```sh
-flit install -s
+```text
+scglue/                   Original GCN-GLUE package, unchanged
+implementations/          Pinned GAT/GATED/normalized-GAT packages and distinct PBMC runner
+experiments/              PBMC/SHARE-seq designs, manifests and shared planner
+evaluation/               Shared metrics, graph utilities and preserved study pipelines
+data/                     Upstream acquisition/preprocessing recipes; no prepared datasets
+environments/             Evidence-based environment notes and non-installable observations
+results/README.md         Index of external results and figures
+provenance/               Source hashes, integration decisions and experiment mappings
+scripts/                  Standard-library repository validation
+tests/                    Upstream, graph-control and repository checks
+historical/               Factored workflow history, historical notes and upstream CI
+docs/                     Upstream API docs, GATED math note and research documentation
 ```
 
-Run unit tests:
+Original workflow paths are retained where source/provenance depends on them. Experiments are organized as directories; there is no need to check out an experiment branch to read the thesis-focused code. The original architecture/development branches remain available as historical development lines, including the distinct [original reproduction archive](historical/reproduction/README.md). The 880 factored historical workflow files are not expanded back into this tree.
 
-```sh
-pytest --cov="scglue" --cov-report="term-missing" tests [--cpu-only]
+## Safe inspection
+
+From the repository root, with standard-library Python:
+
+```bash
+python3 -B scripts/validate_release.py
+python3 -I -B experiments/common/test_launch.py
+python3 -B experiments/launch.py --list
+python3 -B experiments/launch.py pbmc_dimensions --dry-run --task 27
 ```
 
-Build documentation:
+These checks/plans do not run an experiment or contact Slurm. The launcher defaults to dry-run; execution requires an external workspace, verified inputs, a compatible environment and explicit submission. [REPRODUCIBILITY.md](REPRODUCIBILITY.md) explains the boundaries. Installing published `scglue` alone does not select the GAT or GATED source.
 
-```sh
-sphinx-build -a -b html docs docs/_build
-```
+## Current scientific limits
 
-## Reproduce results
+The PBMC dimension registry contains all 30 conditions, including six reused 50D references. Dedicated original-GCN graph controls use the baseline implementation; fresh PBMC dimension GCN rows use the GAT branch in GCN mode. These are distinct source roles.
 
-1. Checkout the repository to v0.2.0:
+Matched SHARE GCN evaluation coverage, full gate-stability analysis, historical per-run source/environment provenance and frozen-pipeline relocation remain incomplete or unverified. A dedicated SHARE guidance-edge-subsampling study was not located; SHARE cell subsampling is a different intervention. No thesis manuscript was supplied, so exact chapter/figure correspondence is pending.
 
-   ```sh
-   git checkout tags/v0.2.0
-   ```
+## Attribution
 
-2. Create a local conda environment using the `env.yaml` file,
-and then install scglue:
-
-   ```sh
-   conda env create -p conda -f env.yaml && conda activate ./conda
-   flit install -s
-   ```
-
-3. Set up a project-specific R environment:
-
-   ```R
-   packrat::restore()  # Packrat should be automatically installed if not available.
-   install.packages("data/download/Saunders-2018/DropSeq.util_2.0.tar.gz", repos = NULL)
-   install.packages("custom/Seurat_4.0.2.tar.gz", lib = "packrat/custom", repos = NULL)
-   ```
-
-   > R 4.0.2 was used during the project, but any version above 4.0.0 should be compatible.
-
-4. Follow instructions in `data` to prepare the necessary data.
-5. Follow instructions in `evaluation` for method evaluation.
-6. Follow instructions in `experiments` for case studies.
+Original GLUE: Gao Lab, [upstream repository](https://github.com/gao-lab/GLUE), [original project preprint](https://doi.org/10.1101/2021.08.22.457275). The upstream MIT [LICENSE](LICENSE) is retained. Bundled third-party packages retain their own notices; see [LICENSE_AND_ATTRIBUTION.md](LICENSE_AND_ATTRIBUTION.md).

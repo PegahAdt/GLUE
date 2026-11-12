@@ -1,0 +1,9 @@
+*** Begin Patch
+*** Update File: /project/6001426/paa40/GlUE_Exp/GLUE/evaluation/shareseq_ma2020/scripts/full_dimension.py
+@@
+- for k,v in dict(FIXED,dim=d).items(): assert a[k]==v,(r['run_id'],k,a.get(k),v)
++ for k,v in dict(FIXED,dim=d,random_seed=int(r['model_seed'])).items(): assert a[k]==v,(r['run_id'],k,a.get(k),v)
+@@
+- if r['architecture']=='gated': assert a['gate_init']==.95 and a['lam_keep']==0 and 'GLUE_GATED/' in info(r)['cmd']
++ if r['architecture']=='gated': assert a['gate_init']==float(r['gate_init']) and a['lam_keep']==0 and 'GLUE_GATED/' in info(r)['cmd']
+*** End Patch

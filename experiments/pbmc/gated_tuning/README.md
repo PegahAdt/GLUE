@@ -1,44 +1,59 @@
 # PBMC bounded GATED tuning, Stage A
 
-Question: How do initial gate values and keep penalties affect integration?
+[Thesis map](../../../THESIS_EXPERIMENTS.md) · `REPRODUCIBILITY.md` (external, planned, or unresolved)
 
-## Canonical workflow
+## Scientific objective
 
-From the orchestration checkout, inspect without changing files or contacting Slurm:
+How do initial gate values and keep penalties affect integration?
+
+## Dataset, architectures and conditions
+
+PBMC 10x Multiome: paired human PBMC scRNA-seq + scATAC-seq.
+
+GATED-GLUE.
+
+Gate .50/.75/.90/.95/.99 × keep 0/1e-5/1e-4; size 2000/subset seed 0/model seed 0; 15 rows, one historical .95/0 reuse.
+
+The canonical registry has **15 rows**. Reused rows and overlapping analysis views are not new independent fits.
+
+## Implementation and configuration
+
+| Stage | Source |
+|---|---|
+| Training | [implementations/gated/evaluation/workflow/scripts/run_GLUE.py](../../../implementations/gated/evaluation/workflow/scripts/run_GLUE.py)<br>[evaluation/run_gated_tuning_stageA.sbatch](../../../evaluation/run_gated_tuning_stageA.sbatch) |
+| Configuration / manifest | [experiments/pbmc/gated_tuning/config.json](config.json)<br>[experiments/pbmc/gated_tuning/manifest.csv](manifest.csv) |
+| Preprocessing | Not applicable / no entry point identified |
+| Evaluation | [evaluation/run_gated_tuning_stageA_metrics.sbatch](../../../evaluation/run_gated_tuning_stageA_metrics.sbatch)<br>[evaluation/collect_gated_tuning_stageA.py](../../../evaluation/collect_gated_tuning_stageA.py)<br>[evaluation/select_gated_tuning_stageA.py](../../../evaluation/select_gated_tuning_stageA.py) |
+| Plotting / reporting | [evaluation/collect_gated_tuning_stageA.py](../../../evaluation/collect_gated_tuning_stageA.py) |
+| Canonical architecture bindings | `implementations/README.md` (external, planned, or unresolved) |
+
+## Commands and execution boundary
+
+From the repository root, inspect the catalog and this experiment without training or scheduler calls:
 
 ```bash
-python3 -B experiments/launch.py pbmc_gated_tuning --dry-run --workspace experiments/workspace.example.json
+python3 -B experiments/launch.py --list
+python3 -B experiments/launch.py pbmc_gated_tuning --dry-run
 ```
 
-`config.json` holds fixed settings and explicit resources; `manifest.csv`, when present,
-maps zero-based array indices directly to configurations. It contains 15 rows.
-Use `--task N` to inspect an individual command. Seeds are distinct model and cell-subset fields;
-the latter remains traceable through `source_row` and input-directory identity.
-Use `--phase train` or `--phase evaluate` to select a phase. `all` uses `afterok` dependencies.
-Only `--submit` contacts Slurm; an exclusive external submission record prevents a second dispatch.
-Existing or partial output directories are never overwritten. Preparation, model fitting and metric
-code are the preserved entrypoints, selected explicitly by architecture.
+The default workspace is deliberately a placeholder. `environments/workspace.integration.example.json` (external, planned, or unresolved) binds the three canonical sources explicitly after its paths are replaced in an external copy. A printed historical/frozen plan is not an executable relocation adapter. Do not invoke archived wrappers against active runs.
 
-Status at audit/cleanup review: **15 Stage A configurations: 14 trained + one reused baseline; metrics not run; Stage B not designed**. Manifest status columns in historical designs are
-provenance, not live scheduler state. The clean command path has lightweight validation only;
-no expensive training or end-to-end GPU reproduction was run during cleanup.
+## Artifacts and metrics
 
-Launch blocker: None identified in command construction; compute-node validation still required.
+<output_root>/pbmc_gated_tuning/{runs,metrics}/<task_id>; historical /project/6001426/paa40/GlUE_Exp/GLUE_GATED/evaluation/results_gated_tuning/stageA/<tag>/
 
-Evaluation blocker/limit: Stage A uses the original prepared RNA and ATAC as evaluation inputs, as specified in its batch script. Feature consistency is deferred until matched references exist. Stage B requires selected finalists.
+Eight cell-integration metrics below. Gate extraction and feature-consistency claims are separate; matched SHARE evaluation does not calculate feature consistency.
 
-## Implementation and provenance
+Integration keys: `mean_average_precision, normalized_mutual_info, avg_silhouette_width, graph_connectivity, seurat_alignment_score, avg_silhouette_width_batch, neighbor_conservation, foscttm`. Definitions remain in [evaluation/workflow/scripts/cell_integration.py](../../../evaluation/workflow/scripts/cell_integration.py).
 
-* Training: `evaluation/run_gated_tuning_stageA.sbatch -> workflow/scripts/run_GLUE.py`
-* Evaluation/analysis: `evaluation/run_gated_tuning_stageA_metrics.sbatch; select_gated_tuning_stageA.py`
-* Owner: `gated`, preservation `GATED_SHARE_GATE_STABILITY` at `becf8f758f6d6869511e5d18732ce1f055a3cf03`.
-* Historical submission files: `evaluation/run_gated_tuning_stage{A,A_metrics,B,B_metrics}.sbatch`
-* Immutable source configuration: `evaluation/gated_tuning_stageA_configs.tsv`
+`results/README.md` (external, planned, or unresolved) lists external outputs and included compact evidence. No numerical result was changed.
 
-Stage A gates .50,.75,.90,.95,.99 crossed with keep penalties 0,1e-5,1e-4; size2000/subset0/model0. The clean plan reads the historical .95/0 reference as a reused run. Stage B up to three finalists x subset seeds0–2 is planned only.
+## Reproduction status and limitations
 
-Configure the Python environment, architecture checkout paths, input-prefix bindings,
-partitions and a fresh external output directory in a copy of `workspace.example.json`.
-Prepared inputs and original output directories are read-only dependencies. This launcher
-does not download data or rerun preprocessing implicitly. Follow the preserved preparation
-scripts and source fingerprints in the root reproducibility guide before a fresh replication.
+Historical audit: 15 Stage A configurations: 14 trained + one reused baseline; metrics not run; Stage B not designed. No new runtime reproduction.
+
+Prepared RNA/ATAC are used directly for the historical Stage-A integration metric; feature consistency deferred. Stage-B finalist table depends on selector output.
+
+
+
+Historical paths, fingerprints and scientific configurations are retained. Frozen originals remain tied to their original workspace. Environment reconstruction, checkpoint compatibility and GPU convergence/numerical equivalence are unverified. Exact thesis section/figure correspondence requires the manuscript; no chapter or figure number is assigned here.

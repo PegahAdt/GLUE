@@ -1,0 +1,1014 @@
+[
+  {
+    "architectures": "GCN-GLUE",
+    "configuration": [
+      "experiments/pbmc/gcn_comparison/config.json",
+      "experiments/pbmc/gcn_comparison/manifest.csv"
+    ],
+    "dataset": "PBMC 10x Multiome: paired human PBMC scRNA-seq + scATAC-seq",
+    "evaluate": [
+      "evaluation/workflow/scripts/cell_integration.py",
+      "evaluation/workflow/scripts/feature_consistency.py",
+      "evaluation/workflow/scripts/combine_metrics.py"
+    ],
+    "id": "pbmc_gcn_comparison",
+    "kind": "catalog",
+    "notes": "Historical GCN/GAT wrappers reference factored workflow directories and cluster paths; the clean launcher selects an explicit runner. Different prepared-input prefixes are recorded for GAT versus GCN/GATED; byte-equivalence of those input files was not assessed here.",
+    "objective": "How does integration quality change across matched architectures and paired-cell subset sizes?",
+    "outputs": "<output_root>/pbmc_gcn_comparison/runs/<task_id> and metrics/<task_id>; historical B/evaluation/results_gcn_h100/raw/10x-Multiome-Pbmc10k/",
+    "plots": [
+      "evaluation/collect_10x_gcn_gat_gated_comparison.py",
+      "evaluation/generate_gcn_gat_gated_metric_comparisons.py",
+      "evaluation/compare_10x_gcn_vs_gat.py",
+      "evaluation/analyze_10x_gcn_vs_gat_statistics.py"
+    ],
+    "prep_entrypoints": [],
+    "readme": "experiments/pbmc/gcn_comparison/README.md",
+    "status": "Historical audit: 48 subsets evaluated + full reference. No new runtime reproduction.",
+    "thesis_section": "Manuscript verification required",
+    "title": "PBMC GCN architecture comparison and cell subsampling",
+    "train": [
+      "evaluation/workflow/scripts/run_GLUE.py"
+    ]
+  },
+  {
+    "architectures": "GAT-GLUE",
+    "configuration": [
+      "experiments/pbmc/gat_comparison/config.json",
+      "experiments/pbmc/gat_comparison/manifest.csv"
+    ],
+    "dataset": "PBMC 10x Multiome: paired human PBMC scRNA-seq + scATAC-seq",
+    "evaluate": [
+      "evaluation/workflow/scripts/cell_integration.py",
+      "evaluation/workflow/scripts/feature_consistency.py",
+      "evaluation/workflow/scripts/combine_metrics.py"
+    ],
+    "id": "pbmc_gat_comparison",
+    "kind": "catalog",
+    "notes": "Historical GCN/GAT wrappers reference factored workflow directories and cluster paths; the clean launcher selects an explicit runner. Different prepared-input prefixes are recorded for GAT versus GCN/GATED; byte-equivalence of those input files was not assessed here.",
+    "objective": "How does integration quality change across matched architectures and paired-cell subset sizes?",
+    "outputs": "<output_root>/pbmc_gat_comparison/runs/<task_id> and metrics/<task_id>; historical B/evaluation/results_gat/raw/10x-Multiome-Pbmc10k/",
+    "plots": [
+      "evaluation/collect_10x_gcn_gat_gated_comparison.py",
+      "evaluation/generate_gcn_gat_gated_metric_comparisons.py",
+      "evaluation/compare_10x_gcn_vs_gat.py",
+      "evaluation/analyze_10x_gcn_vs_gat_statistics.py"
+    ],
+    "prep_entrypoints": [],
+    "readme": "experiments/pbmc/gat_comparison/README.md",
+    "status": "Historical audit: 48 subsets evaluated + full reference; historical GAT Snakemake binding broken. No new runtime reproduction.",
+    "thesis_section": "Manuscript verification required",
+    "title": "PBMC GAT architecture comparison and cell subsampling",
+    "train": [
+      "implementations/gat/evaluation/workflow/scripts/run_GLUE.py"
+    ]
+  },
+  {
+    "architectures": "GATED-GLUE",
+    "configuration": [
+      "experiments/pbmc/gated_comparison/config.json",
+      "experiments/pbmc/gated_comparison/manifest.csv"
+    ],
+    "dataset": "PBMC 10x Multiome: paired human PBMC scRNA-seq + scATAC-seq",
+    "evaluate": [
+      "evaluation/workflow/scripts/cell_integration.py",
+      "evaluation/workflow/scripts/feature_consistency.py",
+      "evaluation/workflow/scripts/combine_metrics.py"
+    ],
+    "id": "pbmc_gated_comparison",
+    "kind": "catalog",
+    "notes": "Historical GCN/GAT wrappers reference factored workflow directories and cluster paths; the clean launcher selects an explicit runner. Different prepared-input prefixes are recorded for GAT versus GCN/GATED; byte-equivalence of those input files was not assessed here.",
+    "objective": "How does integration quality change across matched architectures and paired-cell subset sizes?",
+    "outputs": "<output_root>/pbmc_gated_comparison/runs/<task_id> and metrics/<task_id>; historical /project/6001426/paa40/GlUE_Exp/GLUE_GATED/evaluation/results_gated/raw/10x-Multiome-Pbmc10k/",
+    "plots": [
+      "evaluation/collect_10x_gcn_gat_gated_comparison.py",
+      "evaluation/generate_gcn_gat_gated_metric_comparisons.py",
+      "evaluation/compare_10x_gcn_vs_gat.py",
+      "evaluation/analyze_10x_gcn_vs_gat_statistics.py"
+    ],
+    "prep_entrypoints": [],
+    "readme": "experiments/pbmc/gated_comparison/README.md",
+    "status": "Historical audit: 9 subsets evaluated + full reference. No new runtime reproduction.",
+    "thesis_section": "Manuscript verification required",
+    "title": "PBMC GATED architecture comparison and cell subsampling",
+    "train": [
+      "implementations/gated/evaluation/workflow/scripts/run_GLUE.py"
+    ]
+  },
+  {
+    "architectures": "Raw-prior GAT-GLUE",
+    "configuration": [
+      "experiments/pbmc/gat_tuning/config.json",
+      "experiments/pbmc/gat_tuning/manifest.csv"
+    ],
+    "dataset": "PBMC 10x Multiome: paired human PBMC scRNA-seq + scATAC-seq",
+    "evaluate": [
+      "evaluation/workflow/scripts/cell_integration.py",
+      "evaluation/workflow/scripts/feature_consistency.py",
+      "evaluation/workflow/scripts/combine_metrics.py"
+    ],
+    "id": "pbmc_gat_tuning",
+    "kind": "catalog",
+    "notes": "v2 is authoritative; v1 is provenance. Catalog reports 97/100 historical targets, not verified completion during this audit.",
+    "objective": "Which learning rate, loss weight or attention slope improves the matched comparison?",
+    "outputs": "<output_root>/pbmc_gat_tuning/{runs,metrics}/<task_id>; historical B/evaluation/results_gat_tuning/screen_v2/<config>/raw/\u2026",
+    "plots": [
+      "evaluation/generate_gat_tuning_metrics_tex.py",
+      "evaluation/generate_best_gat_vs_gcn_metrics_tex.py"
+    ],
+    "prep_entrypoints": [],
+    "readme": "experiments/pbmc/gat_tuning/README.md",
+    "status": "Historical audit: v2: 97/100 requested targets; three missing; v1 no requested outputs. No new runtime reproduction.",
+    "thesis_section": "Manuscript verification required",
+    "title": "PBMC GAT one-factor tuning",
+    "train": [
+      "implementations/gat/evaluation/workflow/scripts/run_GLUE.py",
+      "historical/gat_tuning/run_one_config.sbatch"
+    ]
+  },
+  {
+    "architectures": "Raw-prior GAT-GLUE; adaptive plan only",
+    "configuration": [
+      "experiments/pbmc/gat_manual_search/config.json"
+    ],
+    "dataset": "PBMC 10x Multiome: paired human PBMC scRNA-seq + scATAC-seq",
+    "evaluate": [
+      "evaluation/run_gat_manual_search.py"
+    ],
+    "id": "pbmc_gat_manual",
+    "kind": "catalog",
+    "notes": "Candidate graph/align pairs (.04,.05),(.05,.04),(.05,.05),(.05,.06),(.06,.05), all slope .10 and LR .002. No independent reporting entry point identified; script writes winner JSON.",
+    "objective": "Can a five-candidate screen followed by four validation runs improve integration?",
+    "outputs": "O/evaluation/results_gat_manual_search/<candidate>/<size-and-seed>/\u2026; search_summary.json is intended winner record.",
+    "plots": [],
+    "prep_entrypoints": [],
+    "readme": "experiments/pbmc/gat_manual_search/README.md",
+    "status": "Adaptive plan/source retained; finalized execution and feature-reference policy unresolved.",
+    "thesis_section": "Manuscript verification required",
+    "title": "Planned adaptive GAT search",
+    "train": [
+      "evaluation/run_gat_manual_search.py"
+    ]
+  },
+  {
+    "architectures": "GATED-GLUE",
+    "configuration": [
+      "experiments/pbmc/gated_tuning/config.json",
+      "experiments/pbmc/gated_tuning/manifest.csv"
+    ],
+    "dataset": "PBMC 10x Multiome: paired human PBMC scRNA-seq + scATAC-seq",
+    "evaluate": [
+      "evaluation/run_gated_tuning_stageA_metrics.sbatch",
+      "evaluation/collect_gated_tuning_stageA.py",
+      "evaluation/select_gated_tuning_stageA.py"
+    ],
+    "id": "pbmc_gated_tuning",
+    "kind": "catalog",
+    "notes": "",
+    "objective": "How do initial gate values and keep penalties affect integration?",
+    "outputs": "<output_root>/pbmc_gated_tuning/{runs,metrics}/<task_id>; historical /project/6001426/paa40/GlUE_Exp/GLUE_GATED/evaluation/results_gated_tuning/stageA/<tag>/",
+    "plots": [
+      "evaluation/collect_gated_tuning_stageA.py"
+    ],
+    "prep_entrypoints": [],
+    "readme": "experiments/pbmc/gated_tuning/README.md",
+    "status": "Historical audit: 15 Stage A configurations: 14 trained + one reused baseline; metrics not run; Stage B not designed. No new runtime reproduction.",
+    "thesis_section": "Manuscript verification required",
+    "title": "PBMC bounded GATED tuning, Stage A",
+    "train": [
+      "implementations/gated/evaluation/workflow/scripts/run_GLUE.py",
+      "evaluation/run_gated_tuning_stageA.sbatch"
+    ]
+  },
+  {
+    "architectures": "GCN mode of GAT branch for fresh GCN dimension jobs, raw GAT, and GATED; historical 50D sources are reused separately.",
+    "configuration": [
+      "experiments/pbmc/latent_dimensions/config.json",
+      "experiments/pbmc/latent_dimensions/manifest.csv"
+    ],
+    "dataset": "PBMC 10x Multiome: paired human PBMC scRNA-seq + scATAC-seq",
+    "evaluate": [
+      "evaluation/dimension_sweep/run_stageA_metrics.sbatch",
+      "evaluation/dimension_sweep/run_8000_metrics.sbatch",
+      "evaluation/dimension_sweep/collect_stageA.py",
+      "evaluation/dimension_sweep/collect_8000_metrics.py"
+    ],
+    "id": "pbmc_dimensions",
+    "kind": "catalog",
+    "notes": "Coverage corrected in commit 649b9b8; all original 27 rows unchanged. Historical 50D per-run source commits remain unknown. The fresh GCN dimension runner uses the GAT implementation in GCN mode, unlike the original-GCN graph controls.",
+    "objective": "How does embedding dimension affect each architecture at 2000 and 8000 paired cells?",
+    "outputs": "<output_root>/pbmc_dimensions/{runs,metrics}/<task_id>; historical /project/6001426/paa40/GlUE_Exp/GLUE_GATED/evaluation/results_dimension_sweep/architecture:<arch>/dim:<d>/subsample_size:<n>-subsample_seed:0/model_seed:0; summary files under evaluation/dimension_sweep/.",
+    "plots": [
+      "evaluation/dimension_sweep/generate_dimension_model_report.py",
+      "evaluation/dimension_sweep/generate_combined_report.py"
+    ],
+    "prep_entrypoints": [],
+    "readme": "experiments/pbmc/latent_dimensions/README.md",
+    "status": "30 registered conditions: 24 non-50D and six reused 50D references. Registry correction complete; no fresh GPU reproduction.",
+    "thesis_section": "Manuscript verification required",
+    "title": "PBMC latent dimension comparison",
+    "train": [
+      "evaluation/dimension_sweep/run_dimension_train_array.sbatch",
+      "implementations/gat/evaluation/workflow/scripts/run_GLUE.py",
+      "implementations/gated/evaluation/workflow/scripts/run_GLUE.py"
+    ]
+  },
+  {
+    "architectures": "GATED-GLUE",
+    "configuration": [
+      "experiments/pbmc/gate_initialization/config.json",
+      "experiments/pbmc/gate_initialization/manifest.csv"
+    ],
+    "dataset": "PBMC 10x Multiome: paired human PBMC scRNA-seq + scATAC-seq",
+    "evaluate": [
+      "evaluation/gate_init_sensitivity_metrics/evaluate_missing_metrics.py",
+      "evaluation/gate_init_sensitivity_metrics/analyze_gate_init_metrics.py"
+    ],
+    "id": "pbmc_gate_initialization",
+    "kind": "catalog",
+    "notes": "This initialization grid includes .70; Stage-A tuning instead includes .75. Model seeds and subset seeds represent different sources of variation.",
+    "objective": "Does initial gate probability change integration or learned-edge distributions?",
+    "outputs": "Historical new fits: /project/6001426/paa40/GlUE_Exp/GLUE_GATED/evaluation/results_gate_init_sensitivity/gate_init:<g>/subsample_size:<n>-subsample_seed:<s>/model_seed:0; .95 reused references: GLUE_GATED/evaluation/results_gated/raw/10x-Multiome-Pbmc10k/... . Distribution/metric reports: /project/6001426/paa40/GlUE_Exp/GLUE/evaluation/gate_init_sensitivity_{report,metrics}/. Clean future runs/metrics use <output_root>/pbmc_gate_initialization/.",
+    "plots": [
+      "evaluation/gate_init_sensitivity_metrics/analyze_gate_init_metrics.py",
+      "evaluation/gate_init_sensitivity_report/analyze_gate_init_distributions.py"
+    ],
+    "prep_entrypoints": [],
+    "readme": "experiments/pbmc/gate_initialization/README.md",
+    "status": "Historical audit: 45 evaluated configurations; nine reused + 36 fresh. No new runtime reproduction.",
+    "thesis_section": "Manuscript verification required",
+    "title": "PBMC gate initialization sensitivity",
+    "train": [
+      "evaluation/gate_init_sensitivity/run_training.sbatch",
+      "implementations/gated/evaluation/workflow/scripts/run_GLUE.py"
+    ]
+  },
+  {
+    "architectures": "Read-only scientific analysis of ten historical GATED models",
+    "configuration": [
+      "experiments/pbmc/learned_edge_analysis/config.json"
+    ],
+    "dataset": "PBMC 10x Multiome: paired human PBMC scRNA-seq + scATAC-seq",
+    "evaluate": [
+      "evaluation/extract_gated_edge_analysis.py"
+    ],
+    "id": "pbmc_gate_analysis",
+    "kind": "catalog",
+    "notes": "Report builder reads precomputed CSVs; it is not a second model/evaluation implementation.",
+    "objective": "Which prior edges are down-weighted and how stable are gates across subsamples?",
+    "outputs": "G/evaluation/gate_analysis/: gates_<model>.csv, gate_distribution_summary.csv, ranked/suppressed-edge/correlation tables, gate_stability_size*.csv and TeX report.",
+    "plots": [
+      "evaluation/gate_analysis/build_gated_edge_analysis_report.py"
+    ],
+    "prep_entrypoints": [],
+    "readme": "experiments/pbmc/learned_edge_analysis/README.md",
+    "status": "Historical audit: Ten reused models analyzed; generated reports excluded. No new runtime reproduction.",
+    "thesis_section": "Manuscript verification required",
+    "title": "PBMC learned edge analysis",
+    "train": []
+  },
+  {
+    "architectures": "GCN/GAT/GATED",
+    "configuration": [
+      "experiments/shareseq/architecture_comparison/config.json",
+      "experiments/shareseq/architecture_comparison/manifest.csv"
+    ],
+    "dataset": "Ma-2020 mouse-skin SHARE-seq, 32,231 paired RNA/ATAC cells in preserved ordering",
+    "evaluate": [
+      "evaluation/shareseq_ma2020/scripts/evaluate_one.py"
+    ],
+    "id": "share_primary",
+    "kind": "catalog",
+    "notes": "Primary study also contains a distinct full-data GATED initialization sensitivity view and a GATED cell-size view. Those are scientific subdesigns, not separate independent task sets. SHARE graph is fixed at corrupt_rate=0; cell subsampling is not graph-edge subsampling.",
+    "objective": "Compare full-data architectures, GATED subsampling and full-data gate initialization.",
+    "outputs": "<output_root>/share_primary/{runs,metrics}/<task_id>; historical B/evaluation/shareseq_ma2020/results/<run_id>; metrics/, analysis/, reports/ under the same historical experiment root.",
+    "plots": [
+      "evaluation/shareseq_ma2020/scripts/postprocess.py",
+      "evaluation/shareseq_ma2020/scripts/build_current_results_report.py"
+    ],
+    "prep_entrypoints": [],
+    "readme": "experiments/shareseq/architecture_comparison/README.md",
+    "status": "Historical audit: 26 trained and evaluated. No new runtime reproduction.",
+    "thesis_section": "Manuscript verification required",
+    "title": "SHARE-seq architecture comparison",
+    "train": [
+      "evaluation/shareseq_ma2020/scripts/train_one.sh"
+    ]
+  },
+  {
+    "architectures": "GCN/GAT/GATED across the study; matched manifest itself contains GCN/GAT and joins GATED references from share_primary.",
+    "configuration": [
+      "experiments/shareseq/matched_cell_subsampling/config.json",
+      "experiments/shareseq/matched_cell_subsampling/manifest.csv"
+    ],
+    "dataset": "Ma-2020 mouse-skin SHARE-seq, 32,231 paired RNA/ATAC cells in preserved ordering",
+    "evaluate": [
+      "evaluation/shareseq_ma2020/scripts/matched_evaluate_one.py"
+    ],
+    "id": "share_matched_cells",
+    "kind": "catalog",
+    "notes": "Catalog notes incorrectly describe newly generated isolated 50D evaluation representations; launch.py actually reads and verifies the recorded representations. Historical matched_postprocess.py claims feature consistency in prose although matched_evaluate_one.py validates only eight integration metrics. Full-dimension submission used recorded inline sbatch commands rather than a reusable full-array batch file.",
+    "objective": "Compare all architectures on identical 8000/16000/24000-cell subsets and subset seeds0\u20132.",
+    "outputs": "<output_root>/share_matched_cells/{runs,metrics}/<task_id>; historical B/evaluation/shareseq_ma2020/results/<run_id>; metrics/, analysis/, reports/ under the same historical experiment root.",
+    "plots": [
+      "evaluation/shareseq_ma2020/scripts/matched_postprocess.py"
+    ],
+    "prep_entrypoints": [],
+    "readme": "experiments/shareseq/matched_cell_subsampling/README.md",
+    "status": "Dated audit: 18 checkpoint paths; nine GAT metric files and no matching GCN metric files. Evaluation incomplete.",
+    "thesis_section": "Manuscript verification required",
+    "title": "SHARE-seq matched cell subsampling",
+    "train": [
+      "evaluation/shareseq_ma2020/scripts/matched_train_one.sh"
+    ]
+  },
+  {
+    "architectures": "GCN/GAT/GATED",
+    "configuration": [
+      "experiments/shareseq/full_data_dimensions/config.json",
+      "experiments/shareseq/full_data_dimensions/manifest.csv"
+    ],
+    "dataset": "Ma-2020 mouse-skin SHARE-seq, 32,231 paired RNA/ATAC cells in preserved ordering",
+    "evaluate": [
+      "evaluation/shareseq_ma2020/scripts/full_dimension.py"
+    ],
+    "id": "share_dimensions",
+    "kind": "catalog",
+    "notes": "Catalog notes incorrectly describe newly generated isolated 50D evaluation representations; launch.py actually reads and verifies the recorded representations. Historical matched_postprocess.py claims feature consistency in prose although matched_evaluate_one.py validates only eight integration metrics. Full-dimension submission used recorded inline sbatch commands rather than a reusable full-array batch file.",
+    "objective": "Compare 12 full-data latent dimensions across GCN/GAT/GATED, model seed0.",
+    "outputs": "<output_root>/share_dimensions/{runs,metrics}/<task_id>; historical B/evaluation/shareseq_ma2020/results/<run_id>; metrics/, analysis/, reports/ under the same historical experiment root.",
+    "plots": [
+      "evaluation/shareseq_ma2020/scripts/full_dimension_report.py"
+    ],
+    "prep_entrypoints": [],
+    "readme": "experiments/shareseq/full_data_dimensions/README.md",
+    "status": "Historical audit: 36 validated metric directories; three reused 50D. No new runtime reproduction.",
+    "thesis_section": "Manuscript verification required",
+    "title": "SHARE-seq full data dimensions",
+    "train": [
+      "evaluation/shareseq_ma2020/scripts/full_dimension_train_one.sh"
+    ]
+  },
+  {
+    "architectures": "GATED-GLUE",
+    "configuration": [
+      "experiments/shareseq/gate_stability/config.json",
+      "evaluation/shareseq_gate_stability/manifests/all_runs.csv",
+      "evaluation/shareseq_gate_stability/manifests/array_A.csv",
+      "evaluation/shareseq_gate_stability/manifests/array_B.csv",
+      "evaluation/shareseq_gate_stability/manifests/edges.csv",
+      "evaluation/shareseq_gate_stability/preflight.json"
+    ],
+    "dataset": "Full paired Ma-2020 SHARE-seq, fixed cell order and fixed graph",
+    "evaluate": [
+      "evaluation/shareseq_gate_stability/analyze.py"
+    ],
+    "id": "share_gate_stability",
+    "kind": "catalog",
+    "notes": "",
+    "objective": "Are learned gates stable across initialization, model seeds and latent dimension?",
+    "outputs": "/project/6001426/paa40/GlUE_Exp/GLUE_GATED/evaluation/shareseq_gate_stability/dim_<d>/gateinit_<p>/seed_<s>/; analysis destination supplied to analyze.py.",
+    "plots": [
+      "evaluation/shareseq_gate_stability/analyze.py"
+    ],
+    "prep_entrypoints": [],
+    "readme": "experiments/shareseq/gate_stability/README.md",
+    "status": "192 planned conditions; 139 retained checkpoint paths and matching Python-version/job provenance in the dated audits. Aggregate analysis incomplete; frozen portability blocked.",
+    "thesis_section": "Manuscript verification required",
+    "title": "SHARE-seq GATED gate stability",
+    "train": [
+      "evaluation/shareseq_gate_stability/experiment.py"
+    ]
+  },
+  {
+    "architectures": "GATED-GLUE",
+    "configuration": [
+      "experiments/pbmc/gated_graph_perturbation/config.json",
+      "evaluation/pbmc_graph_perturbation/manifest.csv",
+      "evaluation/pbmc_graph_perturbation/provenance/completed_evaluation_config.json"
+    ],
+    "dataset": "PBMC 10x Multiome: paired human PBMC scRNA-seq + scATAC-seq",
+    "evaluate": [
+      "evaluation/pbmc_graph_perturbation/scripts/evaluate.py"
+    ],
+    "id": "pbmc_gated_graph",
+    "kind": "catalog",
+    "notes": "Full evaluation is CPU Slurm work but is prohibited in this audit. Fixed graph_seed=0 means these designs do not assess variation across graph seeds.",
+    "objective": "How does guidance-graph structure affect integration under matched architecture and data?",
+    "outputs": "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/<condition>/graph_seed:0/model_seed:<s>; reports/full/{per_run_metrics,summary_metrics,baseline_comparison,metric_availability,graph_statistics}.csv plus figures/report. Randomized GCN run directories actually live in the parent original-GCN results tree, as recorded in its manifest.",
+    "plots": [
+      "evaluation/pbmc_graph_perturbation/scripts/reporting.py"
+    ],
+    "prep_entrypoints": [],
+    "readme": "experiments/pbmc/gated_graph_perturbation/README.md",
+    "status": "Historical audit: 18 trained and evaluated. No new runtime reproduction.",
+    "thesis_section": "Manuscript verification required",
+    "title": "PBMC gated graph perturbation",
+    "train": [
+      "evaluation/pbmc_graph_perturbation/run_array.sbatch",
+      "implementations/gated_pbmc/evaluation/workflow/scripts/run_GLUE.py"
+    ]
+  },
+  {
+    "architectures": "Original baseline GCN-GLUE",
+    "configuration": [
+      "experiments/pbmc/gcn_graph_subsampling/config.json",
+      "evaluation/pbmc_graph_subsampling_gcn/manifest.csv",
+      "evaluation/pbmc_graph_subsampling_gcn/validation/frozen_inputs.json"
+    ],
+    "dataset": "PBMC 10x Multiome: paired human PBMC scRNA-seq + scATAC-seq",
+    "evaluate": [
+      "evaluation/pbmc_graph_subsampling_gcn/scripts/evaluate.py"
+    ],
+    "id": "pbmc_gcn_graph_subsampling",
+    "kind": "catalog",
+    "notes": "Full evaluation is CPU Slurm work but is prohibited in this audit. Fixed graph_seed=0 means these designs do not assess variation across graph seeds.",
+    "objective": "How does guidance-graph structure affect integration under matched architecture and data?",
+    "outputs": "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_subsampling_gcn/results/10x-Multiome-Pbmc10k/<condition>/graph_seed:0/model_seed:<s>; reports/full/{per_run_metrics,summary_metrics,baseline_comparison,metric_availability,graph_statistics}.csv plus figures/report. Randomized GCN run directories actually live in the parent original-GCN results tree, as recorded in its manifest.",
+    "plots": [
+      "evaluation/pbmc_graph_subsampling_gcn/scripts/gcn_report.py"
+    ],
+    "prep_entrypoints": [],
+    "readme": "experiments/pbmc/gcn_graph_subsampling/README.md",
+    "status": "15 registered conditions; 14 checkpoint paths in the dated audit. Frozen pipeline; no fresh reproduction.",
+    "thesis_section": "Manuscript verification required",
+    "title": "PBMC gcn graph subsampling",
+    "train": [
+      "evaluation/pbmc_graph_subsampling_gcn/scripts/train.py"
+    ]
+  },
+  {
+    "architectures": "Original baseline GCN-GLUE",
+    "configuration": [
+      "experiments/pbmc/gcn_graph_randomization/config.json",
+      "evaluation/pbmc_graph_subsampling_gcn/randomized_control/manifest.csv",
+      "evaluation/pbmc_graph_subsampling_gcn/randomized_control/combined_manifest.csv",
+      "evaluation/pbmc_graph_subsampling_gcn/randomized_control/validation/frozen_inputs.json"
+    ],
+    "dataset": "PBMC 10x Multiome: paired human PBMC scRNA-seq + scATAC-seq",
+    "evaluate": [
+      "evaluation/pbmc_graph_subsampling_gcn/randomized_control/scripts/evaluate.py"
+    ],
+    "id": "pbmc_gcn_randomized",
+    "kind": "catalog",
+    "notes": "Completed-evaluator snapshot in randomized_control/validation is immutable scientific provenance; it is intentionally retained. Randomized submit_pipeline.py hardcodes original dependency 64840335; historical job numbers are not portable. Metadata dist attributes after rewiring are provenance, not new genomic distances.",
+    "objective": "How does guidance-graph structure affect integration under matched architecture and data?",
+    "outputs": "Checkpoints: /project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_subsampling_gcn/results/10x-Multiome-Pbmc10k/randomized/graph_seed:0/model_seed:<s>/. Evaluator default: randomized_control/reports/full. Preserved batch explicitly overrides output to the parent pbmc_graph_subsampling_gcn/reports/combined_randomized_job_<SLURM_JOB_ID>/.",
+    "plots": [
+      "evaluation/pbmc_graph_subsampling_gcn/randomized_control/scripts/gcn_report.py"
+    ],
+    "prep_entrypoints": [],
+    "readme": "experiments/pbmc/gcn_graph_randomization/README.md",
+    "status": "Historical audit: 3/3 trained; combined18-run evaluation waits on retention task7. No new runtime reproduction.",
+    "thesis_section": "Manuscript verification required",
+    "title": "PBMC gcn graph randomization",
+    "train": [
+      "evaluation/pbmc_graph_subsampling_gcn/randomized_control/scripts/train.py"
+    ]
+  },
+  {
+    "architectures": "Historical original GCN and GAT smoke/reproduction views",
+    "configuration": [
+      "experiments/pbmc/historical_smoke/config.json"
+    ],
+    "dataset": "PBMC 10x Multiome: paired human PBMC scRNA-seq + scATAC-seq",
+    "evaluate": [
+      "evaluation/collect_metrics_from_targets.py"
+    ],
+    "id": "pbmc_historical_smoke",
+    "kind": "catalog",
+    "notes": "No smoke, help, status or validation mode was executed during this audit.",
+    "objective": "Establish original GLUE and GAT environment/training viability.",
+    "outputs": "Historical original checkout data/dataset/*-glue-ready.h5ad and smoke output paths; B/evaluation/results*/raw/\u2026; curated reproduction-view metrics are external to these three clean trees.",
+    "plots": [
+      "evaluation/print_completed_latex_table.py"
+    ],
+    "prep_entrypoints": [],
+    "readme": "experiments/pbmc/historical_smoke/README.md",
+    "status": "Historical audit: Original 1000-cell smoke and baseline smoke/full/GAT smoke artifacts exist; size250 eight seeds evaluated. No new runtime reproduction.",
+    "thesis_section": "Manuscript verification required",
+    "title": "Historical PBMC smoke and size250 reproduction",
+    "train": [
+      "historical/original_glue_checkout/smoke_train_10x_glue.sh",
+      "evaluation/run_10x_seed0_size250.sh",
+      "evaluation/run_10x_size250_allseeds.sh"
+    ]
+  },
+  {
+    "architectures": "Normalized-prior GAT variant; architecture option without a local scientific experiment manifest",
+    "configuration": [
+      "experiments/pbmc/normalized_gat/config.json"
+    ],
+    "dataset": "PBMC 10x Multiome: paired human PBMC scRNA-seq + scATAC-seq",
+    "evaluate": [],
+    "id": "gat_normalized",
+    "kind": "catalog",
+    "notes": "",
+    "objective": "How would normalized rather than raw prior weights affect GAT?",
+    "outputs": "No experiment-specific output contract identified; generic runner could emit standard latents/checkpoints if a design were created.",
+    "plots": [],
+    "prep_entrypoints": [],
+    "readme": "experiments/pbmc/normalized_gat/README.md",
+    "status": "Implementation and test source only; no verified thesis experiment manifest or results.",
+    "thesis_section": "Manuscript verification required",
+    "title": "Normalized guidance-edge GAT variant",
+    "train": [
+      "implementations/gat_normalized/evaluation/workflow/scripts/run_GLUE.py"
+    ]
+  },
+  {
+    "architectures": "Original GCN-GLUE plus configured external benchmark methods; five upstream case-study families",
+    "configuration": [
+      "experiments/common/upstream_suites/config.json"
+    ],
+    "dataset": "Five configured RNA/ATAC datasets plus case-study-specific inputs",
+    "evaluate": [
+      "evaluation/workflow/rules/utils.smk"
+    ],
+    "id": "upstream_suites",
+    "kind": "catalog",
+    "notes": "",
+    "objective": "Configured GLUE benchmarking, preprocessing/HVG/prior ablations and case studies.",
+    "outputs": "O/evaluation/results/{raw,*.csv,*.pdf,umap_grid}; case studies emit stage directories under O/experiments/<case>/.",
+    "plots": [
+      "evaluation/workflow/scripts/benchmark.R"
+    ],
+    "prep_entrypoints": [],
+    "readme": "experiments/common/upstream_suites/README.md",
+    "status": "Historical audit: Configured source; no verified local case-study model outputs. No new runtime reproduction.",
+    "thesis_section": "Manuscript verification required",
+    "title": "Inherited upstream experimental suites",
+    "train": [
+      "evaluation/workflow/Snakefile"
+    ]
+  },
+  {
+    "architectures": "GATED-GLUE",
+    "configuration": [
+      "evaluation/gated_tuning_design.md"
+    ],
+    "dataset": "PBMC RNA/ATAC, size2000 validation design in selector/source",
+    "evaluate": [
+      "evaluation/run_gated_tuning_stageB_metrics.sbatch"
+    ],
+    "id": "pbmc_gated_stageB_plan",
+    "kind": "additional plan",
+    "notes": "This is an explicit planned descendant, not evidence of completed Stage-B models.",
+    "objective": "Validate up to three Stage-A finalists across subset seeds.",
+    "outputs": "Historical GLUE_GATED/evaluation/results_gated_tuning/stageB/<tag>/",
+    "plots": [
+      "evaluation/select_gated_tuning_stageA.py"
+    ],
+    "prep_entrypoints": [],
+    "readme": "experiments/pbmc/gated_stage_b_plan/README.md",
+    "status": "Plan only: finalized selector output and approved finalist conditions not established.",
+    "thesis_section": "Manuscript verification required",
+    "title": "PBMC selected-finalist GATED Stage B (planned)",
+    "train": [
+      "evaluation/run_gated_tuning_stageB.sbatch"
+    ]
+  },
+  {
+    "architectures": "GLUE",
+    "configuration": [
+      "evaluation/config/config.yaml",
+      "evaluation/workflow/hyperparam.smk"
+    ],
+    "dataset": "Chen-2019, Ma-2020 SHARE-seq, 10x PBMC, Muto-2021, Yao-2021; RNA/ATAC and FRAGS2RNA feature mapping; first three marked paired.",
+    "evaluate": [
+      "evaluation/workflow/rules/utils.smk"
+    ],
+    "id": "upstream_hyperparam",
+    "kind": "upstream suite",
+    "notes": "Ma-2020 is configured here, but no dedicated cleaned SHARE-seq reciprocal-edge retention manifest was found. The standalone feature configuration block is not connected to a Snakefile module/targets.",
+    "objective": "Vary latent/alternative dimension, depth/width, dropout and graph/alignment/negative-sampling settings.",
+    "outputs": "O/evaluation/results/raw/<dataset>/<data_conf>/<prior_conf>/<method>/<hyperparam_conf>/seed:<seed>; results/hyperparam.csv and metric PDFs.",
+    "plots": [
+      "evaluation/workflow/hyperparam.smk",
+      "evaluation/workflow/scripts/hyperparam.R"
+    ],
+    "prep_entrypoints": [],
+    "readme": null,
+    "status": "Historical audit: Configured inherited source; local completion not established.. No new runtime reproduction.",
+    "thesis_section": "Manuscript verification required",
+    "title": "Upstream hyperparameter stability",
+    "train": [
+      "evaluation/workflow/Snakefile",
+      "evaluation/workflow/rules/methods.smk"
+    ]
+  },
+  {
+    "architectures": "GLUE",
+    "configuration": [
+      "evaluation/config/config.yaml",
+      "evaluation/workflow/hvg.smk"
+    ],
+    "dataset": "Chen-2019, Ma-2020 SHARE-seq, 10x PBMC, Muto-2021, Yao-2021; RNA/ATAC and FRAGS2RNA feature mapping; first three marked paired.",
+    "evaluate": [
+      "evaluation/workflow/rules/utils.smk"
+    ],
+    "id": "upstream_hvg",
+    "kind": "upstream suite",
+    "notes": "Ma-2020 is configured here, but no dedicated cleaned SHARE-seq reciprocal-edge retention manifest was found. The standalone feature configuration block is not connected to a Snakefile module/targets.",
+    "objective": "Assess integration across 500/1000/2000/4000/8000 highly variable genes.",
+    "outputs": "O/evaluation/results/raw/<dataset>/<data_conf>/<prior_conf>/<method>/<hyperparam_conf>/seed:<seed>; results/hvg.csv and metric PDFs.",
+    "plots": [
+      "evaluation/workflow/hvg.smk",
+      "evaluation/workflow/scripts/hvg.R"
+    ],
+    "prep_entrypoints": [],
+    "readme": null,
+    "status": "Historical audit: Configured inherited source; local completion not established.. No new runtime reproduction.",
+    "thesis_section": "Manuscript verification required",
+    "title": "Upstream HVG stability",
+    "train": [
+      "evaluation/workflow/Snakefile",
+      "evaluation/workflow/rules/methods.smk"
+    ]
+  },
+  {
+    "architectures": "GLUE, UnionCom, Pamona, MMD_MA, iNMF/FiG, LIGER/FiG, Harmony, bindSC, CCA_anchor",
+    "configuration": [
+      "evaluation/config/config.yaml",
+      "evaluation/workflow/benchmark.smk"
+    ],
+    "dataset": "Chen-2019, Ma-2020 SHARE-seq, 10x PBMC, Muto-2021, Yao-2021; RNA/ATAC and FRAGS2RNA feature mapping; first three marked paired.",
+    "evaluate": [
+      "evaluation/workflow/rules/utils.smk"
+    ],
+    "id": "upstream_benchmark",
+    "kind": "upstream suite",
+    "notes": "Ma-2020 is configured here, but no dedicated cleaned SHARE-seq reciprocal-edge retention manifest was found. The standalone feature configuration block is not connected to a Snakefile module/targets.",
+    "objective": "Compare matched methods with unimodal preprocessing.",
+    "outputs": "O/evaluation/results/raw/<dataset>/<data_conf>/<prior_conf>/<method>/<hyperparam_conf>/seed:<seed>; results/benchmark.csv and metric PDFs.",
+    "plots": [
+      "evaluation/workflow/benchmark.smk",
+      "evaluation/workflow/scripts/benchmark.R"
+    ],
+    "prep_entrypoints": [],
+    "readme": null,
+    "status": "Historical audit: Configured inherited source; local completion not established.. No new runtime reproduction.",
+    "thesis_section": "Manuscript verification required",
+    "title": "Upstream multi-method benchmark",
+    "train": [
+      "evaluation/workflow/Snakefile",
+      "evaluation/workflow/rules/methods.smk"
+    ]
+  },
+  {
+    "architectures": "Same benchmark method family",
+    "configuration": [
+      "evaluation/config/config.yaml",
+      "evaluation/workflow/benchmark_noprep.smk"
+    ],
+    "dataset": "Chen-2019, Ma-2020 SHARE-seq, 10x PBMC, Muto-2021, Yao-2021; RNA/ATAC and FRAGS2RNA feature mapping; first three marked paired.",
+    "evaluate": [
+      "evaluation/workflow/rules/utils.smk"
+    ],
+    "id": "upstream_benchmark_noprep",
+    "kind": "upstream suite",
+    "notes": "Ma-2020 is configured here, but no dedicated cleaned SHARE-seq reciprocal-edge retention manifest was found. The standalone feature configuration block is not connected to a Snakefile module/targets.",
+    "objective": "Compare methods with GLUE alt_dim=0.",
+    "outputs": "O/evaluation/results/raw/<dataset>/<data_conf>/<prior_conf>/<method>/<hyperparam_conf>/seed:<seed>; results/benchmark_noprep.csv and metric PDFs.",
+    "plots": [
+      "evaluation/workflow/benchmark_noprep.smk",
+      "evaluation/workflow/scripts/benchmark.R"
+    ],
+    "prep_entrypoints": [],
+    "readme": null,
+    "status": "Historical audit: Configured inherited source; local completion not established.. No new runtime reproduction.",
+    "thesis_section": "Manuscript verification required",
+    "title": "Upstream benchmark without alternative representations",
+    "train": [
+      "evaluation/workflow/Snakefile",
+      "evaluation/workflow/rules/methods.smk"
+    ]
+  },
+  {
+    "architectures": "GLUE, iNMF, LIGER, Harmony, bindSC, CCA_anchor",
+    "configuration": [
+      "evaluation/config/config.yaml",
+      "evaluation/workflow/prior_corrupt.smk"
+    ],
+    "dataset": "Chen-2019, Ma-2020 SHARE-seq, 10x PBMC, Muto-2021, Yao-2021; RNA/ATAC and FRAGS2RNA feature mapping; first three marked paired.",
+    "evaluate": [
+      "evaluation/workflow/rules/utils.smk"
+    ],
+    "id": "upstream_prior_corrupt",
+    "kind": "upstream suite",
+    "notes": "Ma-2020 is configured here, but no dedicated cleaned SHARE-seq reciprocal-edge retention manifest was found. The standalone feature configuration block is not connected to a Snakefile module/targets.",
+    "objective": "Replace prior edges at rates .2/.4/.6/.8/.9/1.0 and compare with baseline. This is edge corruption, not reciprocal-edge retention subsampling.",
+    "outputs": "O/evaluation/results/raw/<dataset>/<data_conf>/<prior_conf>/<method>/<hyperparam_conf>/seed:<seed>; results/prior_corrupt.csv and metric PDFs.",
+    "plots": [
+      "evaluation/workflow/prior_corrupt.smk",
+      "evaluation/workflow/scripts/prior_corrupt.R"
+    ],
+    "prep_entrypoints": [],
+    "readme": null,
+    "status": "Historical audit: Configured inherited source; local completion not established.. No new runtime reproduction.",
+    "thesis_section": "Manuscript verification required",
+    "title": "Upstream guidance-prior corruption robustness",
+    "train": [
+      "evaluation/workflow/Snakefile",
+      "evaluation/workflow/rules/methods.smk"
+    ]
+  },
+  {
+    "architectures": "GLUE, iNMF, LIGER, Harmony, bindSC, CCA_anchor",
+    "configuration": [
+      "evaluation/config/config.yaml",
+      "evaluation/workflow/prior_alt.smk"
+    ],
+    "dataset": "Chen-2019, Ma-2020 SHARE-seq, 10x PBMC, Muto-2021, Yao-2021; RNA/ATAC and FRAGS2RNA feature mapping; first three marked paired.",
+    "evaluate": [
+      "evaluation/workflow/rules/utils.smk"
+    ],
+    "id": "upstream_prior_alt",
+    "kind": "upstream suite",
+    "notes": "Ma-2020 is configured here, but no dedicated cleaned SHARE-seq reciprocal-edge retention manifest was found. The standalone feature configuration block is not connected to a Snakefile module/targets.",
+    "objective": "Compare combined gene region at 0 extension with promoter at 150000 extension.",
+    "outputs": "O/evaluation/results/raw/<dataset>/<data_conf>/<prior_conf>/<method>/<hyperparam_conf>/seed:<seed>; results/prior_alt.csv and metric PDFs.",
+    "plots": [
+      "evaluation/workflow/prior_alt.smk",
+      "evaluation/workflow/scripts/prior_alt.R"
+    ],
+    "prep_entrypoints": [],
+    "readme": null,
+    "status": "Historical audit: Configured inherited source; local completion not established.. No new runtime reproduction.",
+    "thesis_section": "Manuscript verification required",
+    "title": "Upstream prior-definition sensitivity",
+    "train": [
+      "evaluation/workflow/Snakefile",
+      "evaluation/workflow/rules/methods.smk"
+    ]
+  },
+  {
+    "architectures": "Benchmark method family",
+    "configuration": [
+      "evaluation/config/config.yaml",
+      "evaluation/workflow/subsample.smk"
+    ],
+    "dataset": "Chen-2019, Ma-2020 SHARE-seq, 10x PBMC, Muto-2021, Yao-2021; RNA/ATAC and FRAGS2RNA feature mapping; first three marked paired.",
+    "evaluate": [
+      "evaluation/workflow/rules/utils.smk"
+    ],
+    "id": "upstream_subsample",
+    "kind": "upstream suite",
+    "notes": "Ma-2020 is configured here, but no dedicated cleaned SHARE-seq reciprocal-edge retention manifest was found. The standalone feature configuration block is not connected to a Snakefile module/targets.",
+    "objective": "Compare cells 250/500/1000/2000/4000/8000, retaining pairing when configured.",
+    "outputs": "O/evaluation/results/raw/<dataset>/<data_conf>/<prior_conf>/<method>/<hyperparam_conf>/seed:<seed>; results/subsample.csv and metric PDFs.",
+    "plots": [
+      "evaluation/workflow/subsample.smk",
+      "evaluation/workflow/scripts/subsample.R"
+    ],
+    "prep_entrypoints": [],
+    "readme": null,
+    "status": "Historical audit: Configured inherited source; local completion not established.. No new runtime reproduction.",
+    "thesis_section": "Manuscript verification required",
+    "title": "Upstream training-cell subsampling",
+    "train": [
+      "evaluation/workflow/Snakefile",
+      "evaluation/workflow/rules/methods.smk"
+    ]
+  },
+  {
+    "architectures": "GCN-GLUE plus CCA/iNMF and scaling-method comparisons",
+    "configuration": [
+      "experiments/Atlas/Snakefile",
+      "experiments/Atlas/config.yaml"
+    ],
+    "dataset": "Cao-2020 RNA and Domcke-2020 ATAC human atlas; aggregated and full data",
+    "evaluate": [
+      "experiments/Atlas/s05_verify.py",
+      "experiments/Atlas/s07_metrics.py"
+    ],
+    "id": "case_atlas",
+    "kind": "upstream case-study family",
+    "notes": "Core integration stages s01\u2192s02\u2192s03 balancing\u2192s04; t01/t02/t03 encode an additional scalability substudy; auxiliary e01/e02/e03 compare external methods.",
+    "objective": "Human atlas integration and runtime/scaling studies",
+    "outputs": "O/experiments/Atlas/<stage>/ with final.dill/H5AD/CSV/PDF/HTML as declared in Snakefile and paired notebook source; OverCorrection final integration_consistency.pdf.",
+    "plots": [
+      "experiments/Atlas/s06_sankey.py",
+      "experiments/Atlas/e03_visualize.py",
+      "experiments/Atlas/scalability.R"
+    ],
+    "prep_entrypoints": [
+      "experiments/Atlas/s01_preprocessing.py",
+      "experiments/Atlas/t01_preprocessing.py",
+      "experiments/Atlas/e01_preprocessing.py"
+    ],
+    "readme": null,
+    "status": "Historical audit: Preserved upstream source; no local completion established.. No new runtime reproduction.",
+    "thesis_section": "Manuscript verification required",
+    "title": "Human atlas integration and runtime/scaling studies",
+    "train": [
+      "experiments/Atlas/s02_glue_pretrain.py",
+      "experiments/Atlas/s04_glue_final.py"
+    ]
+  },
+  {
+    "architectures": "GCN-GLUE plus Cicero and external regulatory inference references",
+    "configuration": [
+      "experiments/RegInf/Snakefile"
+    ],
+    "dataset": "PBMC RNA/ATAC + promoter-capture Hi-C, GTEx whole-blood eQTL, ENCODE TF peaks and TRRUST",
+    "evaluate": [
+      "experiments/RegInf/s03_peak_gene_validation.py",
+      "experiments/RegInf/s05_evaluate_gene_tf.py",
+      "experiments/RegInf/s09_recovery.py"
+    ],
+    "id": "case_reginf",
+    "kind": "upstream case-study family",
+    "notes": "Includes peak-gene AUROC/AP, rank associations, TF/regulatory enrichment, corruption and recovery; source syntax defect blocks genomic tracks. CellOracle source exists but is not wired into the default Snakefile.",
+    "objective": "PBMC regulatory inference and corruption/recovery",
+    "outputs": "O/experiments/RegInf/<stage>/ with final.dill/H5AD/CSV/PDF/HTML as declared in Snakefile and paired notebook source; OverCorrection final integration_consistency.pdf.",
+    "plots": [
+      "experiments/RegInf/s06_genomic_tracks.py",
+      "experiments/RegInf/s07_violin.py"
+    ],
+    "prep_entrypoints": [
+      "experiments/RegInf/s01_preprocessing.py",
+      "experiments/RegInf/s08_corrupt.py"
+    ],
+    "readme": null,
+    "status": "Historical audit: Preserved upstream source; no local completion established.. No new runtime reproduction.",
+    "thesis_section": "Manuscript verification required",
+    "title": "PBMC regulatory inference and corruption/recovery",
+    "train": [
+      "experiments/RegInf/s02_glue.py"
+    ]
+  },
+  {
+    "architectures": "GCN-GLUE and iNMF reference",
+    "configuration": [
+      "experiments/TripleOmics/Snakefile",
+      "experiments/TripleOmics/manual_colors.yaml"
+    ],
+    "dataset": "Saunders-2018 RNA + Luo-2017 methylation + 10x ATAC-Brain5k",
+    "evaluate": [
+      "experiments/TripleOmics/s03_markers.py",
+      "experiments/TripleOmics/s04_reg_contrib.py",
+      "experiments/TripleOmics/s05_clusterability.py",
+      "experiments/TripleOmics/e02_comparison.py"
+    ],
+    "id": "case_tripleomics",
+    "kind": "upstream case-study family",
+    "notes": "Three modalities; pretrain\u2192balancing\u2192fine-tune; manual_colors.yaml defines label/color conventions; R/iNMF and Jupytext are external execution dependencies.",
+    "objective": "Mouse-cortex triple-omics integration",
+    "outputs": "O/experiments/TripleOmics/<stage>/ with final.dill/H5AD/CSV/PDF/HTML as declared in Snakefile and paired notebook source; OverCorrection final integration_consistency.pdf.",
+    "plots": [
+      "experiments/TripleOmics/s03_markers.py",
+      "experiments/TripleOmics/s04_reg_contrib.py",
+      "experiments/TripleOmics/s05_clusterability.py",
+      "experiments/TripleOmics/e02_comparison.py"
+    ],
+    "prep_entrypoints": [
+      "experiments/TripleOmics/s01_preprocessing.py"
+    ],
+    "readme": null,
+    "status": "Historical audit: Preserved upstream source; no local completion established.. No new runtime reproduction.",
+    "thesis_section": "Manuscript verification required",
+    "title": "Mouse-cortex triple-omics integration",
+    "train": [
+      "experiments/TripleOmics/s02_glue.py"
+    ]
+  },
+  {
+    "architectures": "GCN-GLUE with and without shared_batches",
+    "configuration": [
+      "experiments/BatchEffect/Snakefile"
+    ],
+    "dataset": "Ma-2020, Muto-2021, Yao-2021 RNA/ATAC with available batch metadata",
+    "evaluate": [
+      "experiments/BatchEffect/Ma-2020.py",
+      "experiments/BatchEffect/Muto-2021.py",
+      "experiments/BatchEffect/Yao-2021.py"
+    ],
+    "id": "case_batcheffect",
+    "kind": "upstream case-study family",
+    "notes": "Reuses saved upstream original models; trains shared-batch variants and compares MAP/SAS and visualizations. No distinct clean experiment manifest.",
+    "objective": "Shared-batch correction case studies",
+    "outputs": "O/experiments/BatchEffect/<stage>/ with final.dill/H5AD/CSV/PDF/HTML as declared in Snakefile and paired notebook source; OverCorrection final integration_consistency.pdf.",
+    "plots": [
+      "experiments/BatchEffect/Ma-2020.py",
+      "experiments/BatchEffect/Muto-2021.py",
+      "experiments/BatchEffect/Yao-2021.py"
+    ],
+    "prep_entrypoints": [
+      "evaluation/workflow/rules/utils.smk"
+    ],
+    "readme": null,
+    "status": "Historical audit: Preserved upstream source; no local completion established.. No new runtime reproduction.",
+    "thesis_section": "Manuscript verification required",
+    "title": "Shared-batch correction case studies",
+    "train": [
+      "experiments/BatchEffect/Ma-2020.py",
+      "experiments/BatchEffect/Muto-2021.py",
+      "experiments/BatchEffect/Yao-2021.py"
+    ]
+  },
+  {
+    "architectures": "GCN-GLUE",
+    "configuration": [
+      "experiments/OverCorrection/Snakefile"
+    ],
+    "dataset": "Same-dataset controls and cross-dataset RNA/ATAC combinations of five upstream datasets",
+    "evaluate": [
+      "experiments/OverCorrection/control.py",
+      "experiments/OverCorrection/over_correction.py"
+    ],
+    "id": "case_overcorrection",
+    "kind": "upstream case-study family",
+    "notes": "control.py loads upstream models and computes integration_consistency; cross-dataset over_correction.py trains and computes the same statistic; plot.py reads all CSVs.",
+    "objective": "Integration overcorrection and self-pair controls",
+    "outputs": "O/experiments/OverCorrection/<stage>/ with final.dill/H5AD/CSV/PDF/HTML as declared in Snakefile and paired notebook source; OverCorrection final integration_consistency.pdf.",
+    "plots": [
+      "experiments/OverCorrection/plot.py"
+    ],
+    "prep_entrypoints": [
+      "experiments/OverCorrection/control.py",
+      "experiments/OverCorrection/over_correction.py"
+    ],
+    "readme": null,
+    "status": "Historical audit: Preserved upstream source; no local completion established.. No new runtime reproduction.",
+    "thesis_section": "Manuscript verification required",
+    "title": "Integration overcorrection and self-pair controls",
+    "train": [
+      "experiments/OverCorrection/over_correction.py"
+    ]
+  },
+  {
+    "architectures": "GATED-GLUE",
+    "configuration": [
+      "experiments/shareseq/architecture_comparison/config.json",
+      "experiments/shareseq/architecture_comparison/manifest.csv"
+    ],
+    "dataset": "Ma-2020 mouse-skin SHARE-seq, 32,231 paired RNA/ATAC cells in preserved ordering",
+    "evaluate": [
+      "evaluation/shareseq_ma2020/scripts/evaluate_one.py"
+    ],
+    "id": "share_primary_gate_initialization",
+    "kind": "overlapping_subdesign",
+    "notes": "View of share_primary; uses the same manifest, inputs and execution chain. Not an additional independent task set.",
+    "objective": "Compare full-data architectures, GATED subsampling and full-data gate initialization.",
+    "outputs": "<output_root>/share_primary/{runs,metrics}/<task_id>; historical B/evaluation/shareseq_ma2020/results/<run_id>; metrics/, analysis/, reports/ under the same historical experiment root.",
+    "plots": [
+      "evaluation/shareseq_ma2020/scripts/postprocess.py",
+      "evaluation/shareseq_ma2020/scripts/build_current_results_report.py"
+    ],
+    "prep_entrypoints": [],
+    "readme": null,
+    "status": "Historical audit: 26 trained and evaluated. No new runtime reproduction.",
+    "thesis_section": "Manuscript verification required",
+    "title": "SHARE full-data gate-initialization sensitivity",
+    "train": [
+      "evaluation/shareseq_ma2020/scripts/train_one.sh"
+    ]
+  },
+  {
+    "architectures": "GATED-GLUE",
+    "configuration": [
+      "experiments/shareseq/architecture_comparison/config.json",
+      "experiments/shareseq/architecture_comparison/manifest.csv"
+    ],
+    "dataset": "Ma-2020 mouse-skin SHARE-seq, 32,231 paired RNA/ATAC cells in preserved ordering",
+    "evaluate": [
+      "evaluation/shareseq_ma2020/scripts/evaluate_one.py"
+    ],
+    "id": "share_primary_gated_cells",
+    "kind": "overlapping_subdesign",
+    "notes": "View of share_primary; uses the same manifest, inputs and execution chain. Not an additional independent task set.",
+    "objective": "Compare full-data architectures, GATED subsampling and full-data gate initialization.",
+    "outputs": "<output_root>/share_primary/{runs,metrics}/<task_id>; historical B/evaluation/shareseq_ma2020/results/<run_id>; metrics/, analysis/, reports/ under the same historical experiment root.",
+    "plots": [
+      "evaluation/shareseq_ma2020/scripts/postprocess.py",
+      "evaluation/shareseq_ma2020/scripts/build_current_results_report.py"
+    ],
+    "prep_entrypoints": [],
+    "readme": null,
+    "status": "Historical audit: 26 trained and evaluated. No new runtime reproduction.",
+    "thesis_section": "Manuscript verification required",
+    "title": "SHARE GATED training-cell-size sensitivity",
+    "train": [
+      "evaluation/shareseq_ma2020/scripts/train_one.sh"
+    ]
+  },
+  {
+    "architectures": "Unknown for a dedicated graph-retention study",
+    "configuration": [],
+    "dataset": "SHARE-seq Ma-2020 RNA/ATAC expected from task context; dedicated study not identified.",
+    "evaluate": [],
+    "id": "share_graph_retention_unlocated",
+    "kind": "unlocated",
+    "notes": "Absence from inspected trees is not proof no external study exists.",
+    "objective": "Determine whether a standalone SHARE edge-retention study exists.",
+    "outputs": "No dedicated manifest, checkpoint/result mapping or retention-fraction output contract identified in inspected trees.",
+    "plots": [],
+    "prep_entrypoints": [],
+    "readme": null,
+    "status": "No dedicated SHARE guidance-edge-retention design or result located. Do not substitute a cell-subsampling experiment.",
+    "thesis_section": "Manuscript verification required",
+    "title": "SHARE guidance-graph edge-retention experiment (not located)",
+    "train": []
+  }
+]

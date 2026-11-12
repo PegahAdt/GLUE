@@ -1,44 +1,57 @@
 # Normalized guidance-edge GAT variant
 
-Question: How would normalized rather than raw prior weights affect GAT?
+[Thesis map](../../../THESIS_EXPERIMENTS.md) · `REPRODUCIBILITY.md` (external, planned, or unresolved)
 
-## Canonical workflow
+## Scientific objective
 
-From the orchestration checkout, inspect without changing files or contacting Slurm:
+How would normalized rather than raw prior weights affect GAT?
+
+## Dataset, architectures and conditions
+
+PBMC 10x Multiome: paired human PBMC scRNA-seq + scATAC-seq.
+
+Normalized-prior GAT variant; architecture option without a local scientific experiment manifest.
+
+Runner defaults exist; no experiment seeds or dataset/task mapping specified.
+
+## Implementation and configuration
+
+| Stage | Source |
+|---|---|
+| Training | [implementations/gat_normalized/evaluation/workflow/scripts/run_GLUE.py](../../../implementations/gat_normalized/evaluation/workflow/scripts/run_GLUE.py) |
+| Configuration / manifest | [experiments/pbmc/normalized_gat/config.json](config.json) |
+| Preprocessing | Not applicable / no entry point identified |
+| Evaluation | Not applicable / no entry point identified |
+| Plotting / reporting | Not applicable / no entry point identified |
+| Canonical architecture bindings | `implementations/README.md` (external, planned, or unresolved) |
+
+## Commands and execution boundary
+
+From the repository root, inspect the catalog and this experiment without training or scheduler calls:
 
 ```bash
-python3 -B experiments/launch.py gat_normalized --dry-run --workspace experiments/workspace.example.json
+python3 -B experiments/launch.py --list
+python3 -B experiments/launch.py gat_normalized --dry-run
 ```
 
-`config.json` holds fixed settings and explicit resources; `manifest.csv`, when present,
-maps zero-based array indices directly to configurations. It contains 0 rows.
-Use `--task N` to inspect an individual command. Seeds are distinct model and cell-subset fields;
-the latter remains traceable through `source_row` and input-directory identity.
-Use `--phase train` or `--phase evaluate` to select a phase. `all` uses `afterok` dependencies.
-Only `--submit` contacts Slurm; an exclusive external submission record prevents a second dispatch.
-Existing or partial output directories are never overwritten. Preparation, model fitting and metric
-code are the preserved entrypoints, selected explicitly by architecture.
+The default workspace is deliberately a placeholder. `environments/workspace.integration.example.json` (external, planned, or unresolved) binds the three canonical sources explicitly after its paths are replaced in an external copy. A printed historical/frozen plan is not an executable relocation adapter. Do not invoke archived wrappers against active runs.
 
-Status at audit/cleanup review: **Implementation and unit tests only; no verified local experiment design or outputs**. Manifest status columns in historical designs are
-provenance, not live scheduler state. The clean command path has lightweight validation only;
-no expensive training or end-to-end GPU reproduction was run during cleanup.
+**launch_blocker:** No experiment manifest or verified execution; do not invent a scientific configuration.
 
-Launch blocker: No experiment manifest or verified execution; do not invent a scientific configuration.
+## Artifacts and metrics
 
-Evaluation blocker/limit: Metric entrypoints unchanged; no large-data recomputation during cleanup.
+No experiment-specific output contract identified; generic runner could emit standard latents/checkpoints if a design were created.
 
-## Implementation and provenance
+No experiment-specific metric/result contract established.
 
-* Training: `GAT_NORM_GLUE:evaluation/workflow/scripts/run_GLUE.py`
-* Evaluation/analysis: `no executed experiment evaluator`
-* Owner: `orchestration`, preservation `GLUE_EXPERIMENT_ORCHESTRATION` at `88fee7ca07dfa25332d029d136887b651e57d313`.
-* Historical submission files: 
-* Immutable source configuration: 
+`results/README.md` (external, planned, or unresolved) lists external outputs and included compact evidence. No numerical result was changed.
 
-Architecture commit5ac0b073a5f0a372a472605d8fc61a39def55b31; unit test tests/test_gat_normalized_weights.py. This is an architecture option, not completed experiment evidence.
+## Reproduction status and limitations
 
-Configure the Python environment, architecture checkout paths, input-prefix bindings,
-partitions and a fresh external output directory in a copy of `workspace.example.json`.
-Prepared inputs and original output directories are read-only dependencies. This launcher
-does not download data or rerun preprocessing implicitly. Follow the preserved preparation
-scripts and source fingerprints in the root reproducibility guide before a fresh replication.
+Implementation and test source only; no verified thesis experiment manifest or results.
+
+Separate GAT_NORM_GLUE branch, not the raw-prior GAT source pinned by the clean catalog fingerprints.
+
+
+
+Historical paths, fingerprints and scientific configurations are retained. Frozen originals remain tied to their original workspace. Environment reconstruction, checkpoint compatibility and GPU convergence/numerical equivalence are unverified. Exact thesis section/figure correspondence requires the manuscript; no chapter or figure number is assigned here.

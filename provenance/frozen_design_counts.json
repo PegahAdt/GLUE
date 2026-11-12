@@ -1,0 +1,40 @@
+{
+  "scope": "Static design coverage only, not training/evaluation completion",
+  "tables": {
+    "evaluation/pbmc_graph_perturbation/manifest.csv": {
+      "rows": 18,
+      "sha256": "d49081da099abb1ef8ae9c392cd3d055247489f6645fec51b22b8c64fb436972",
+      "unique_identifiers": 18
+    },
+    "evaluation/pbmc_graph_subsampling_gcn/manifest.csv": {
+      "rows": 15,
+      "sha256": "a7629c385fbbcc0c82ab59999f10617c0fb66c4c40035254a73a353e699c2d16",
+      "unique_identifiers": 15
+    },
+    "evaluation/pbmc_graph_subsampling_gcn/randomized_control/combined_manifest.csv": {
+      "rows": 18,
+      "sha256": "18ca13d66cc4888c97e3f32d1d4eb321529b74768cc8dd4533bd357da6b7c73e",
+      "unique_identifiers": 18
+    },
+    "evaluation/pbmc_graph_subsampling_gcn/randomized_control/manifest.csv": {
+      "rows": 3,
+      "sha256": "9dd69ea08cdfedfcd55bb9a23e3bbf0a9bc425b3358293fdbe3ed56a1f7bc800",
+      "unique_identifiers": 3
+    },
+    "evaluation/shareseq_gate_stability/manifests/all_runs.csv": {
+      "rows": 192,
+      "sha256": "098d8bfa476d7a4a1c1dc5da4b91cf58f4a45f720b60bc8648bc6b09c1475c27",
+      "unique_identifiers": 192
+    },
+    "evaluation/shareseq_gate_stability/manifests/array_A.csv": {
+      "rows": 144,
+      "sha256": "ff3246edfb628d73a012159c00ee903ac27e3d4dd4116eadef76b1b4d648fb4c",
+      "unique_identifiers": 144
+    },
+    "evaluation/shareseq_gate_stability/manifests/array_B.csv": {
+      "rows": 48,
+      "sha256": "132058052cfabe4402e18e76ccf7587e6253217143d87edc4f8595799a1c897e",
+      "unique_identifiers": 48
+    }
+  }
+}

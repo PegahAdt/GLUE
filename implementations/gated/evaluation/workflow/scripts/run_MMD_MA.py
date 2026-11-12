@@ -1,0 +1,1 @@
+../../../../../evaluation/workflow/scripts/run_MMD_MA.py

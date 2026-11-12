@@ -1,44 +1,57 @@
 # Inherited upstream experimental suites
 
-Question: Configured GLUE benchmarking, preprocessing/HVG/prior ablations and case studies.
+[Thesis map](../../../THESIS_EXPERIMENTS.md) · `REPRODUCIBILITY.md` (external, planned, or unresolved)
 
-## Canonical workflow
+## Scientific objective
 
-From the orchestration checkout, inspect without changing files or contacting Slurm:
+Configured GLUE benchmarking, preprocessing/HVG/prior ablations and case studies.
+
+## Dataset, architectures and conditions
+
+Five configured RNA/ATAC datasets plus case-study-specific inputs.
+
+Original GCN-GLUE plus configured external benchmark methods; five upstream case-study families.
+
+Seed counts are expanded by workflow/utils.py; see the seven suite records and five case-study records below.
+
+## Implementation and configuration
+
+| Stage | Source |
+|---|---|
+| Training | [evaluation/workflow/Snakefile](../../../evaluation/workflow/Snakefile) |
+| Configuration / manifest | [experiments/common/upstream_suites/config.json](config.json) |
+| Preprocessing | Not applicable / no entry point identified |
+| Evaluation | [evaluation/workflow/rules/utils.smk](../../../evaluation/workflow/rules/utils.smk) |
+| Plotting / reporting | [evaluation/workflow/scripts/benchmark.R](../../../evaluation/workflow/scripts/benchmark.R) |
+| Canonical architecture bindings | `implementations/README.md` (external, planned, or unresolved) |
+
+## Commands and execution boundary
+
+From the repository root, inspect the catalog and this experiment without training or scheduler calls:
 
 ```bash
-python3 -B experiments/launch.py upstream_suites --dry-run --workspace experiments/workspace.example.json
+python3 -B experiments/launch.py --list
+python3 -B experiments/launch.py upstream_suites --dry-run
 ```
 
-`config.json` holds fixed settings and explicit resources; `manifest.csv`, when present,
-maps zero-based array indices directly to configurations. It contains 0 rows.
-Use `--task N` to inspect an individual command. Seeds are distinct model and cell-subset fields;
-the latter remains traceable through `source_row` and input-directory identity.
-Use `--phase train` or `--phase evaluate` to select a phase. `all` uses `afterok` dependencies.
-Only `--submit` contacts Slurm; an exclusive external submission record prevents a second dispatch.
-Existing or partial output directories are never overwritten. Preparation, model fitting and metric
-code are the preserved entrypoints, selected explicitly by architecture.
+The default workspace is deliberately a placeholder. `environments/workspace.integration.example.json` (external, planned, or unresolved) binds the three canonical sources explicitly after its paths are replaced in an external copy. A printed historical/frozen plan is not an executable relocation adapter. Do not invoke archived wrappers against active runs.
 
-Status at audit/cleanup review: **Configured source; no verified local case-study model outputs**. Manifest status columns in historical designs are
-provenance, not live scheduler state. The clean command path has lightweight validation only;
-no expensive training or end-to-end GPU reproduction was run during cleanup.
+**launch_blocker:** Historical upstream site profile uses gaog_g1/cn_icg/gpu_4l, not Fir; no local execution is established.
 
-Launch blocker: Historical upstream site profile uses gaog_g1/cn_icg/gpu_4l, not Fir; no local execution is established.
+## Artifacts and metrics
 
-Evaluation blocker/limit: Metric entrypoints unchanged; no large-data recomputation during cleanup.
+O/evaluation/results/{raw,*.csv,*.pdf,umap_grid}; case studies emit stage directories under O/experiments/<case>/.
 
-## Implementation and provenance
+Inherited method-specific benchmarking and case-study metrics; thesis use is unverified.
 
-* Training: `evaluation/workflow/Snakefile; Atlas/RegInf/TripleOmics/BatchEffect/OverCorrection`
-* Evaluation/analysis: `upstream workflow and case-study code`
-* Owner: `orchestration`, preservation `GLUE_EXPERIMENT_ORCHESTRATION` at `88fee7ca07dfa25332d029d136887b651e57d313`.
-* Historical submission files: `evaluation/profiles/cls/config.yaml`
-* Immutable source configuration: `evaluation/config/config.yaml`
+`results/README.md` (external, planned, or unresolved) lists external outputs and included compact evidence. No numerical result was changed.
 
-Keep upstream source for lineage and preprocessing. The 240-target five-dataset official subsampling list is a plan, not completion evidence.
+## Reproduction status and limitations
 
-Configure the Python environment, architecture checkout paths, input-prefix bindings,
-partitions and a fresh external output directory in a copy of `workspace.example.json`.
-Prepared inputs and original output directories are read-only dependencies. This launcher
-does not download data or rerun preprocessing implicitly. Follow the preserved preparation
-scripts and source fingerprints in the root reproducibility guide before a fresh replication.
+Historical audit: Configured source; no verified local case-study model outputs. No new runtime reproduction.
+
+Snakemake module support, Jupytext/Jupyter, R/packrat, prepared H5AD, genomes/annotations and optional external integration methods.
+
+
+
+Historical paths, fingerprints and scientific configurations are retained. Frozen originals remain tied to their original workspace. Environment reconstruction, checkpoint compatibility and GPU convergence/numerical equivalence are unverified. Exact thesis section/figure correspondence requires the manuscript; no chapter or figure number is assigned here.

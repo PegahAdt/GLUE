@@ -1,0 +1,8 @@
+current_stage: training_submitted
+configuration_count: 45
+reused_count: 9
+new_training_count: 36
+training_job_ids: [54449966]
+metric_job_ids: []
+failed_tasks: []
+report_status: not_started

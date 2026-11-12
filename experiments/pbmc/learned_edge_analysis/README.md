@@ -1,44 +1,57 @@
 # PBMC learned edge analysis
 
-Question: Which prior edges are down-weighted and how stable are gates across subsamples?
+[Thesis map](../../../THESIS_EXPERIMENTS.md) · `REPRODUCIBILITY.md` (external, planned, or unresolved)
 
-## Canonical workflow
+## Scientific objective
 
-From the orchestration checkout, inspect without changing files or contacting Slurm:
+Which prior edges are down-weighted and how stable are gates across subsamples?
+
+## Dataset, architectures and conditions
+
+PBMC 10x Multiome: paired human PBMC scRNA-seq + scATAC-seq.
+
+Read-only scientific analysis of ten historical GATED models.
+
+Full reference plus 3 sizes × 3 subset seeds, all model seed 0; no new model design.
+
+## Implementation and configuration
+
+| Stage | Source |
+|---|---|
+| Training | Not applicable / no entry point identified |
+| Configuration / manifest | [experiments/pbmc/learned_edge_analysis/config.json](config.json) |
+| Preprocessing | Not applicable / no entry point identified |
+| Evaluation | [evaluation/extract_gated_edge_analysis.py](../../../evaluation/extract_gated_edge_analysis.py) |
+| Plotting / reporting | [evaluation/gate_analysis/build_gated_edge_analysis_report.py](../../../evaluation/gate_analysis/build_gated_edge_analysis_report.py) |
+| Canonical architecture bindings | `implementations/README.md` (external, planned, or unresolved) |
+
+## Commands and execution boundary
+
+From the repository root, inspect the catalog and this experiment without training or scheduler calls:
 
 ```bash
-python3 -B experiments/launch.py pbmc_gate_analysis --dry-run --workspace experiments/workspace.example.json
+python3 -B experiments/launch.py --list
+python3 -B experiments/launch.py pbmc_gate_analysis --dry-run
 ```
 
-`config.json` holds fixed settings and explicit resources; `manifest.csv`, when present,
-maps zero-based array indices directly to configurations. It contains 0 rows.
-Use `--task N` to inspect an individual command. Seeds are distinct model and cell-subset fields;
-the latter remains traceable through `source_row` and input-directory identity.
-Use `--phase train` or `--phase evaluate` to select a phase. `all` uses `afterok` dependencies.
-Only `--submit` contacts Slurm; an exclusive external submission record prevents a second dispatch.
-Existing or partial output directories are never overwritten. Preparation, model fitting and metric
-code are the preserved entrypoints, selected explicitly by architecture.
+The default workspace is deliberately a placeholder. `environments/workspace.integration.example.json` (external, planned, or unresolved) binds the three canonical sources explicitly after its paths are replaced in an external copy. A printed historical/frozen plan is not an executable relocation adapter. Do not invoke archived wrappers against active runs.
 
-Status at audit/cleanup review: **Ten reused models analyzed; generated reports excluded**. Manifest status columns in historical designs are
-provenance, not live scheduler state. The clean command path has lightweight validation only;
-no expensive training or end-to-end GPU reproduction was run during cleanup.
+**launch_blocker:** Analysis-only workflow: preserved report generator has fixed historical source/output paths; no new training design.
 
-Launch blocker: Analysis-only workflow: preserved report generator has fixed historical source/output paths; no new training design.
+## Artifacts and metrics
 
-Evaluation blocker/limit: Metric entrypoints unchanged; no large-data recomputation during cleanup.
+G/evaluation/gate_analysis/: gates_<model>.csv, gate_distribution_summary.csv, ranked/suppressed-edge/correlation tables, gate_stability_size*.csv and TeX report.
 
-## Implementation and provenance
+This analysis extracts learned directed-edge gate values, topology-aligned edge metadata and gate diagnostics from existing GATED checkpoints. The exact distribution/edge-comparison summaries are defined by `extract_gated_edge_analysis.py` and `build_gated_edge_analysis_report.py`; no new integration metric or training task is introduced.
 
-* Training: `reuse ten GATED models`
-* Evaluation/analysis: `evaluation/extract_gated_edge_analysis.py; evaluation/gate_analysis/build_gated_edge_analysis_report.py`
-* Owner: `gated`, preservation `GATED_SHARE_GATE_STABILITY` at `becf8f758f6d6869511e5d18732ce1f055a3cf03`.
-* Historical submission files: `evaluation/extract_gated_edge_analysis.sbatch`
-* Immutable source configuration: 
+`results/README.md` (external, planned, or unresolved) lists external outputs and included compact evidence. No numerical result was changed.
 
-The report generator was incorrectly ignored before preservation. It remains tracked; learned gate tables and PDF/HTML output remain external.
+## Reproduction status and limitations
 
-Configure the Python environment, architecture checkout paths, input-prefix bindings,
-partitions and a fresh external output directory in a copy of `workspace.example.json`.
-Prepared inputs and original output directories are read-only dependencies. This launcher
-does not download data or rerun preprocessing implicitly. Follow the preserved preparation
-scripts and source fingerprints in the root reproducibility guide before a fresh replication.
+Historical audit: Ten reused models analyzed; generated reports excluded. No new runtime reproduction.
+
+Requires final.dill, original graph topology, gate diagnostics and model sources from GATED comparison. Checkpoint deserialization would import model dependencies and was not attempted.
+
+Report builder reads precomputed CSVs; it is not a second model/evaluation implementation.
+
+Historical paths, fingerprints and scientific configurations are retained. Frozen originals remain tied to their original workspace. Environment reconstruction, checkpoint compatibility and GPU convergence/numerical equivalence are unverified. Exact thesis section/figure correspondence requires the manuscript; no chapter or figure number is assigned here.

@@ -1,46 +1,61 @@
 # PBMC GAT one-factor tuning
 
-Question: Which learning rate, loss weight or attention slope improves the matched comparison?
+[Thesis map](../../../THESIS_EXPERIMENTS.md) · `REPRODUCIBILITY.md` (external, planned, or unresolved)
 
-## Canonical workflow
+## Scientific objective
 
-From the orchestration checkout, inspect without changing files or contacting Slurm:
+Which learning rate, loss weight or attention slope improves the matched comparison?
+
+## Dataset, architectures and conditions
+
+PBMC 10x Multiome: paired human PBMC scRNA-seq + scATAC-seq.
+
+Raw-prior GAT-GLUE.
+
+10 one-factor configurations × (one full + 3 sizes 250/2000/8000 × subset seeds 0–2) = 100 targets; model seed 0.
+
+The canonical registry has **100 rows**. Reused rows and overlapping analysis views are not new independent fits.
+
+## Implementation and configuration
+
+| Stage | Source |
+|---|---|
+| Training | [implementations/gat/evaluation/workflow/scripts/run_GLUE.py](../../../implementations/gat/evaluation/workflow/scripts/run_GLUE.py)<br>[historical/gat_tuning/run_one_config.sbatch](../../../historical/gat_tuning/run_one_config.sbatch) |
+| Configuration / manifest | [experiments/pbmc/gat_tuning/config.json](config.json)<br>[experiments/pbmc/gat_tuning/manifest.csv](manifest.csv) |
+| Preprocessing | Not applicable / no entry point identified |
+| Evaluation | [evaluation/workflow/scripts/cell_integration.py](../../../evaluation/workflow/scripts/cell_integration.py)<br>[evaluation/workflow/scripts/feature_consistency.py](../../../evaluation/workflow/scripts/feature_consistency.py)<br>[evaluation/workflow/scripts/combine_metrics.py](../../../evaluation/workflow/scripts/combine_metrics.py) |
+| Plotting / reporting | [evaluation/generate_gat_tuning_metrics_tex.py](../../../evaluation/generate_gat_tuning_metrics_tex.py)<br>[evaluation/generate_best_gat_vs_gcn_metrics_tex.py](../../../evaluation/generate_best_gat_vs_gcn_metrics_tex.py) |
+| Canonical architecture bindings | `implementations/README.md` (external, planned, or unresolved) |
+
+## Commands and execution boundary
+
+From the repository root, inspect the catalog and this experiment without training or scheduler calls:
 
 ```bash
-python3 -B experiments/launch.py pbmc_gat_tuning --dry-run --workspace experiments/workspace.example.json
+python3 -B experiments/launch.py --list
+python3 -B experiments/launch.py pbmc_gat_tuning --dry-run
 ```
 
-`config.json` holds fixed settings and explicit resources; `manifest.csv`, when present,
-maps zero-based array indices directly to configurations. It contains 100 rows.
-Use `--task N` to inspect an individual command. Seeds are distinct model and cell-subset fields;
-the latter remains traceable through `source_row` and input-directory identity.
-Use `--phase train` or `--phase evaluate` to select a phase. `all` uses `afterok` dependencies.
-Only `--submit` contacts Slurm; an exclusive external submission record prevents a second dispatch.
-Existing or partial output directories are never overwritten. Preparation, model fitting and metric
-code are the preserved entrypoints, selected explicitly by architecture.
+The default workspace is deliberately a placeholder. `environments/workspace.integration.example.json` (external, planned, or unresolved) binds the three canonical sources explicitly after its paths are replaced in an external copy. A printed historical/frozen plan is not an executable relocation adapter. Do not invoke archived wrappers against active runs.
 
-Status at audit/cleanup review: **v2: 97/100 requested targets; three missing; v1 no requested outputs**. Manifest status columns in historical designs are
-provenance, not live scheduler state. The clean command path has lightweight validation only;
-no expensive training or end-to-end GPU reproduction was run during cleanup.
+**evaluation_blocker:** Historical rule derives default-parameter full feature references; five extra full models exist. Review the exact historical reference mapping before selecting a clean metric policy. No silent replacement is made.
 
-Launch blocker: None identified in command construction; compute-node validation still required.
+## Artifacts and metrics
 
-Evaluation blocker/limit: Historical rule derives default-parameter full feature references; five extra full models exist. Review the exact historical reference mapping before selecting a clean metric policy. No silent replacement is made.
+<output_root>/pbmc_gat_tuning/{runs,metrics}/<task_id>; historical B/evaluation/results_gat_tuning/screen_v2/<config>/raw/…
 
-## Implementation and provenance
+Eight cell-integration metrics below, plus feature consistency only where the preserved configuration specifies a valid full-feature reference.
 
-* Training: `GAT_GLUE:evaluation/workflow/scripts/run_GLUE.py`
-* Evaluation/analysis: `historical Snakemake metric/reference rules; review reference selection before new evaluation`
-* Owner: `orchestration`, preservation `GLUE_EXPERIMENT_ORCHESTRATION` at `88fee7ca07dfa25332d029d136887b651e57d313`.
-* Historical submission files: `historical/gat_tuning/{submit.sh,run_one_config.sbatch}`
-* Immutable source configuration: `evaluation/gat_tuning_10x/screen_v2/configs.tsv`, `evaluation/gat_tuning_10x/screen_v{1,2}/manifest.tsv`, `evaluation/gat_tuning_10x/screen_v{1,2}/configs/*/targets.txt`
+Integration keys: `mean_average_precision, normalized_mutual_info, avg_silhouette_width, graph_connectivity, seurat_alignment_score, avg_silhouette_width_batch, neighbor_conservation, foscttm`. Definitions remain in [evaluation/workflow/scripts/cell_integration.py](../../../evaluation/workflow/scripts/cell_integration.py).
 
-Canonical design is v2. The old workers and wrappers are retained once under historical/gat_tuning. Use common/restore_workflow.py for byte-exact snapshots; restored launchers retain their historical blockers. New array mapping is config-major: full reference, then 3 sizes x 3 subset seeds, 100 rows total; historical mapping was 10 configuration jobs with 10 targets each.
+`results/README.md` (external, planned, or unresolved) lists external outputs and included compact evidence. No numerical result was changed.
 
-Configure the Python environment, architecture checkout paths, input-prefix bindings,
-partitions and a fresh external output directory in a copy of `workspace.example.json`.
-Prepared inputs and original output directories are read-only dependencies. This launcher
-does not download data or rerun preprocessing implicitly. Follow the preserved preparation
-scripts and source fingerprints in the root reproducibility guide before a fresh replication.
+## Reproduction status and limitations
 
-The v1 parameter files match v2 byte for byte. v1 keeps distinct target paths and remains restorable from the preservation parent.
+Historical audit: v2: 97/100 requested targets; three missing; v1 no requested outputs. No new runtime reproduction.
+
+Defaults LR .002, lam_graph .02, lam_align .05, slope .2; varied LR .001/.0005, graph .01/.05, align .03/.08/.10, slope .05/.10/.40. Feature metric requires an explicit full-reference mapping.
+
+v2 is authoritative; v1 is provenance. Catalog reports 97/100 historical targets, not verified completion during this audit.
+
+Historical paths, fingerprints and scientific configurations are retained. Frozen originals remain tied to their original workspace. Environment reconstruction, checkpoint compatibility and GPU convergence/numerical equivalence are unverified. Exact thesis section/figure correspondence requires the manuscript; no chapter or figure number is assigned here.

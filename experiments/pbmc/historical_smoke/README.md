@@ -1,44 +1,59 @@
 # Historical PBMC smoke and size250 reproduction
 
-Question: Establish original GLUE and GAT environment/training viability.
+[Thesis map](../../../THESIS_EXPERIMENTS.md) · `REPRODUCIBILITY.md` (external, planned, or unresolved)
 
-## Canonical workflow
+## Scientific objective
 
-From the orchestration checkout, inspect without changing files or contacting Slurm:
+Establish original GLUE and GAT environment/training viability.
+
+## Dataset, architectures and conditions
+
+PBMC 10x Multiome: paired human PBMC scRNA-seq + scATAC-seq.
+
+Historical original GCN and GAT smoke/reproduction views.
+
+Size250 wrappers specify subset seeds via target lists; eight-seed reproduction view is historical. Smoke scripts select limited datasets/iterations and must not be treated as a final scientific protocol.
+
+## Implementation and configuration
+
+| Stage | Source |
+|---|---|
+| Training | [historical/original_glue_checkout/smoke_train_10x_glue.sh](../../../historical/original_glue_checkout/smoke_train_10x_glue.sh)<br>[evaluation/run_10x_seed0_size250.sh](../../../evaluation/run_10x_seed0_size250.sh)<br>[evaluation/run_10x_size250_allseeds.sh](../../../evaluation/run_10x_size250_allseeds.sh) |
+| Configuration / manifest | [experiments/pbmc/historical_smoke/config.json](config.json) |
+| Preprocessing | Not applicable / no entry point identified |
+| Evaluation | [evaluation/collect_metrics_from_targets.py](../../../evaluation/collect_metrics_from_targets.py) |
+| Plotting / reporting | [evaluation/print_completed_latex_table.py](../../../evaluation/print_completed_latex_table.py) |
+| Canonical architecture bindings | `implementations/README.md` (external, planned, or unresolved) |
+
+## Commands and execution boundary
+
+From the repository root, inspect the catalog and this experiment without training or scheduler calls:
 
 ```bash
-python3 -B experiments/launch.py pbmc_historical_smoke --dry-run --workspace experiments/workspace.example.json
+python3 -B experiments/launch.py --list
+python3 -B experiments/launch.py pbmc_historical_smoke --dry-run
 ```
 
-`config.json` holds fixed settings and explicit resources; `manifest.csv`, when present,
-maps zero-based array indices directly to configurations. It contains 0 rows.
-Use `--task N` to inspect an individual command. Seeds are distinct model and cell-subset fields;
-the latter remains traceable through `source_row` and input-directory identity.
-Use `--phase train` or `--phase evaluate` to select a phase. `all` uses `afterok` dependencies.
-Only `--submit` contacts Slurm; an exclusive external submission record prevents a second dispatch.
-Existing or partial output directories are never overwritten. Preparation, model fitting and metric
-code are the preserved entrypoints, selected explicitly by architecture.
+The default workspace is deliberately a placeholder. `environments/workspace.integration.example.json` (external, planned, or unresolved) binds the three canonical sources explicitly after its paths are replaced in an external copy. A printed historical/frozen plan is not an executable relocation adapter. Do not invoke archived wrappers against active runs.
 
-Status at audit/cleanup review: **Original 1000-cell smoke and baseline smoke/full/GAT smoke artifacts exist; size250 eight seeds evaluated**. Manifest status columns in historical designs are
-provenance, not live scheduler state. The clean command path has lightweight validation only;
-no expensive training or end-to-end GPU reproduction was run during cleanup.
+**launch_blocker:** Historical setup/reproduction view; use the canonical architecture comparison for new replication.
 
-Launch blocker: Historical setup/reproduction view; use the canonical architecture comparison for new replication.
+## Artifacts and metrics
 
-Evaluation blocker/limit: Metric entrypoints unchanged; no large-data recomputation during cleanup.
+Historical original checkout data/dataset/*-glue-ready.h5ad and smoke output paths; B/evaluation/results*/raw/…; curated reproduction-view metrics are external to these three clean trees.
 
-## Implementation and provenance
+Use the preserved evaluator and its metric-availability records; no new metric was inferred.
 
-* Training: `historical/original_glue_checkout/smoke_train_10x_glue.sh; smoke_train_10x_gat.sh`
-* Evaluation/analysis: `Run_On_fir historical metric workflow`
-* Owner: `orchestration`, preservation `GLUE_EXPERIMENT_ORCHESTRATION` at `88fee7ca07dfa25332d029d136887b651e57d313`.
-* Historical submission files: `historical/original_glue_checkout/*.sh`, `GLUE_Reproduction:Run_On_fir/**/*.sh`
-* Immutable source configuration: 
+`results/README.md` (external, planned, or unresolved) lists external outputs and included compact evidence. No numerical result was changed.
 
-Unique independent environment recipes remain in historical/original_glue_checkout. Reproduction commit731f9ba stores eight curated metric files. Some historical scripts source missing Run_On_fir/activate_glue.sh. No files are deleted because of age.
+## Reproduction status and limitations
 
-Configure the Python environment, architecture checkout paths, input-prefix bindings,
-partitions and a fresh external output directory in a copy of `workspace.example.json`.
-Prepared inputs and original output directories are read-only dependencies. This launcher
-does not download data or rerun preprocessing implicitly. Follow the preserved preparation
-scripts and source fingerprints in the root reproducibility guide before a fresh replication.
+Historical audit: Original 1000-cell smoke and baseline smoke/full/GAT smoke artifacts exist; size250 eight seeds evaluated. No new runtime reproduction.
+
+Archived environment/prepare recipes and external original/reproduction checkouts. Size250 wrappers source missing Run_On_fir/activate_glue.sh; archive retains activate_glue.sh at a different path.
+
+No smoke, help, status or validation mode was executed during this audit.
+
+Historical paths, fingerprints and scientific configurations are retained. Frozen originals remain tied to their original workspace. Environment reconstruction, checkpoint compatibility and GPU convergence/numerical equivalence are unverified. Exact thesis section/figure correspondence requires the manuscript; no chapter or figure number is assigned here.
+
+The separate [original reproduction archive](../../../historical/reproduction/README.md) preserves the older cluster recipes and eight compact metric YAMLs without reviving their activation or launch contracts.

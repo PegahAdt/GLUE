@@ -1,0 +1,74 @@
+{
+  "original": {
+    "biological_pair_sha256": "25a96cc475b9825301d738e6dd95da0a75b09ccc6288ef3efa8bcc364e5d48cc",
+    "edge_identity_and_attributes_sha256": "657575587c9b47383f1baf52fd18f8c750e3953f5502374b9f85c3d0e5311b5b",
+    "gated_checkpoint_topology_verified": true,
+    "metadata": {
+      "graph_seed": 0,
+      "original_node_count": 15205,
+      "original_relation_count": 13493,
+      "resulting_relation_count": 13493
+    },
+    "path": "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_subsampling_gcn/graphs/original.graphml.gz"
+  },
+  "retain_10": {
+    "biological_pair_sha256": "fbb0395bc51a5bccae797285981fb20752414ae66f70bd85ddb50259483936c3",
+    "edge_identity_and_attributes_sha256": "7f88de2cbf35613a2976e047bab7fb99f8b28f9c2d789d59ddc371ae0c7822af",
+    "gated_checkpoint_topology_verified": true,
+    "metadata": {
+      "graph_seed": 0,
+      "original_node_count": 15205,
+      "original_relation_count": 13493,
+      "realized_fraction": 0.09997776624916624,
+      "requested_fraction": 0.1,
+      "resulting_relation_count": 1349,
+      "retained_relation_count": 1349
+    },
+    "path": "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_subsampling_gcn/graphs/retain_10.graphml.gz"
+  },
+  "retain_25": {
+    "biological_pair_sha256": "73c019d09032d252271425ecb566daa888e6ce4cc0efeab39ee275e13836c2ec",
+    "edge_identity_and_attributes_sha256": "38cb3194202a316214207ee7712ddedb5e8ea765edf9d7a6101e741660c86656",
+    "gated_checkpoint_topology_verified": true,
+    "metadata": {
+      "graph_seed": 0,
+      "original_node_count": 15205,
+      "original_relation_count": 13493,
+      "realized_fraction": 0.2499814718743052,
+      "requested_fraction": 0.25,
+      "resulting_relation_count": 3373,
+      "retained_relation_count": 3373
+    },
+    "path": "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_subsampling_gcn/graphs/retain_25.graphml.gz"
+  },
+  "retain_50": {
+    "biological_pair_sha256": "86b29a45a79776ecc8e0a7d4eb3ab99d5d8a517ebf909580054a91a721d34891",
+    "edge_identity_and_attributes_sha256": "b9c60d6191fb6ca3e5a887660f971728f07edd55a843eafd415df4f0767f3e83",
+    "gated_checkpoint_topology_verified": true,
+    "metadata": {
+      "graph_seed": 0,
+      "original_node_count": 15205,
+      "original_relation_count": 13493,
+      "realized_fraction": 0.4999629437486104,
+      "requested_fraction": 0.5,
+      "resulting_relation_count": 6746,
+      "retained_relation_count": 6746
+    },
+    "path": "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_subsampling_gcn/graphs/retain_50.graphml.gz"
+  },
+  "retain_75": {
+    "biological_pair_sha256": "257f62f38b99a32d30f0db48b68ad3e3788340e7ad59624e59e302d80e32fc8e",
+    "edge_identity_and_attributes_sha256": "07d0603a8c4511d1f9d0a2c70f3f00e0c85db18646340843bdbd77364ad7a10f",
+    "gated_checkpoint_topology_verified": true,
+    "metadata": {
+      "graph_seed": 0,
+      "original_node_count": 15205,
+      "original_relation_count": 13493,
+      "realized_fraction": 0.7499444156229156,
+      "requested_fraction": 0.75,
+      "resulting_relation_count": 10119,
+      "retained_relation_count": 10119
+    },
+    "path": "/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_subsampling_gcn/graphs/retain_75.graphml.gz"
+  }
+}

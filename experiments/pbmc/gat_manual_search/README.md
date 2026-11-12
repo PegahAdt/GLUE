@@ -1,44 +1,57 @@
 # Planned adaptive GAT search
 
-Question: Can a five-candidate screen followed by four validation runs improve integration?
+[Thesis map](../../../THESIS_EXPERIMENTS.md) · `REPRODUCIBILITY.md` (external, planned, or unresolved)
 
-## Canonical workflow
+## Scientific objective
 
-From the orchestration checkout, inspect without changing files or contacting Slurm:
+Can a five-candidate screen followed by four validation runs improve integration?
+
+## Dataset, architectures and conditions
+
+PBMC 10x Multiome: paired human PBMC scRNA-seq + scATAC-seq.
+
+Raw-prior GAT-GLUE; adaptive plan only.
+
+Five candidates at 2,000 cells/subset seed 0/model seed 0; chosen winner validates (2000,1),(2000,2),(250,0),(8000,0).
+
+## Implementation and configuration
+
+| Stage | Source |
+|---|---|
+| Training | [evaluation/run_gat_manual_search.py](../../../evaluation/run_gat_manual_search.py) |
+| Configuration / manifest | [experiments/pbmc/gat_manual_search/config.json](config.json) |
+| Preprocessing | Not applicable / no entry point identified |
+| Evaluation | [evaluation/run_gat_manual_search.py](../../../evaluation/run_gat_manual_search.py) |
+| Plotting / reporting | Not applicable / no entry point identified |
+| Canonical architecture bindings | `implementations/README.md` (external, planned, or unresolved) |
+
+## Commands and execution boundary
+
+From the repository root, inspect the catalog and this experiment without training or scheduler calls:
 
 ```bash
-python3 -B experiments/launch.py pbmc_gat_manual --dry-run --workspace experiments/workspace.example.json
+python3 -B experiments/launch.py --list
+python3 -B experiments/launch.py pbmc_gat_manual --dry-run
 ```
 
-`config.json` holds fixed settings and explicit resources; `manifest.csv`, when present,
-maps zero-based array indices directly to configurations. It contains 0 rows.
-Use `--task N` to inspect an individual command. Seeds are distinct model and cell-subset fields;
-the latter remains traceable through `source_row` and input-directory identity.
-Use `--phase train` or `--phase evaluate` to select a phase. `all` uses `afterok` dependencies.
-Only `--submit` contacts Slurm; an exclusive external submission record prevents a second dispatch.
-Existing or partial output directories are never overwritten. Preparation, model fitting and metric
-code are the preserved entrypoints, selected explicitly by architecture.
+The default workspace is deliberately a placeholder. `environments/workspace.integration.example.json` (external, planned, or unresolved) binds the three canonical sources explicitly after its paths are replaced in an external copy. A printed historical/frozen plan is not an executable relocation adapter. Do not invoke archived wrappers against active runs.
 
-Status at audit/cleanup review: **Planned only; output directory absent**. Manifest status columns in historical designs are
-provenance, not live scheduler state. The clean command path has lightweight validation only;
-no expensive training or end-to-end GPU reproduction was run during cleanup.
+**launch_blocker:** Historical manual search uses an unmatched feature reference. Adaptive winner selection must not be precomputed or silently repaired during cleanup.
 
-Launch blocker: Historical manual search uses an unmatched feature reference. Adaptive winner selection must not be precomputed or silently repaired during cleanup.
+## Artifacts and metrics
 
-Evaluation blocker/limit: Metric entrypoints unchanged; no large-data recomputation during cleanup.
+O/evaluation/results_gat_manual_search/<candidate>/<size-and-seed>/…; search_summary.json is intended winner record.
 
-## Implementation and provenance
+Use the preserved evaluator and its metric-availability records; no new metric was inferred.
 
-* Training: `evaluation/run_gat_manual_search.py`
-* Evaluation/analysis: `same adaptive search script`
-* Owner: `orchestration`, preservation `GLUE_EXPERIMENT_ORCHESTRATION` at `88fee7ca07dfa25332d029d136887b651e57d313`.
-* Historical submission files: `evaluation/wait_and_launch_gat_manual_search.sh`, `evaluation/run_gat_manual_search_in_allocation.sh`
-* Immutable source configuration: 
+`results/README.md` (external, planned, or unresolved) lists external outputs and included compact evidence. No numerical result was changed.
 
-Candidates (graph,align,slope): (.04,.05,.10),(.05,.04,.10),(.05,.05,.10),(.05,.06,.10),(.06,.05,.10). Screen size2000/subset0, then winner at (2000,1),(2000,2),(250,0),(8000,0).
+## Reproduction status and limitations
 
-Configure the Python environment, architecture checkout paths, input-prefix bindings,
-partitions and a fresh external output directory in a copy of `workspace.example.json`.
-Prepared inputs and original output directories are read-only dependencies. This launcher
-does not download data or rerun preprocessing implicitly. Follow the preserved preparation
-scripts and source fingerprints in the root reproducibility guide before a fresh replication.
+Adaptive plan/source retained; finalized execution and feature-reference policy unresolved.
+
+SOURCE uses tuning graph_0p05 raw inputs; REFERENCE_FEATURE selects a default graph .02/align .05 full model. Rank combines nine metrics including feature consistency, so reference choice can affect winner selection.
+
+Candidate graph/align pairs (.04,.05),(.05,.04),(.05,.05),(.05,.06),(.06,.05), all slope .10 and LR .002. No independent reporting entry point identified; script writes winner JSON.
+
+Historical paths, fingerprints and scientific configurations are retained. Frozen originals remain tied to their original workspace. Environment reconstruction, checkpoint compatibility and GPU convergence/numerical equivalence are unverified. Exact thesis section/figure correspondence requires the manuscript; no chapter or figure number is assigned here.

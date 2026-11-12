@@ -1,44 +1,62 @@
 # PBMC gated graph perturbation
 
-Question: How does guidance-graph structure affect integration under matched architecture and data?
+[Thesis map](../../../THESIS_EXPERIMENTS.md) · `REPRODUCIBILITY.md` (external, planned, or unresolved)
 
-## Canonical workflow
+## Scientific objective
 
-From the orchestration checkout, inspect without changing files or contacting Slurm:
+How does guidance-graph structure affect integration under matched architecture and data?
+
+## Dataset, architectures and conditions
+
+PBMC 10x Multiome: paired human PBMC scRNA-seq + scATAC-seq.
+
+GATED-GLUE.
+
+six conditions × model seeds 0–2: original, retain .75/.50/.25/.10, degree-preserving randomized; graph seed0, model seeds0/1/2, dimension50. Retention helper floors fraction × reciprocal-pair count and uses nested subsets. Randomization requests ceil(10 × original relations) accepted double-edge swaps, with a bounded attempt counter.
+
+## Implementation and configuration
+
+| Stage | Source |
+|---|---|
+| Training | [evaluation/pbmc_graph_perturbation/run_array.sbatch](../../../evaluation/pbmc_graph_perturbation/run_array.sbatch)<br>[implementations/gated_pbmc/evaluation/workflow/scripts/run_GLUE.py](../../../implementations/gated_pbmc/evaluation/workflow/scripts/run_GLUE.py) |
+| Configuration / manifest | [experiments/pbmc/gated_graph_perturbation/config.json](config.json) |
+| Preprocessing | Not applicable / no entry point identified |
+| Evaluation | [evaluation/pbmc_graph_perturbation/scripts/evaluate.py](../../../evaluation/pbmc_graph_perturbation/scripts/evaluate.py) |
+| Plotting / reporting | [evaluation/pbmc_graph_perturbation/scripts/reporting.py](../../../evaluation/pbmc_graph_perturbation/scripts/reporting.py) |
+| Canonical architecture bindings | `implementations/README.md` (external, planned, or unresolved) |
+
+## Preserved design and freeze records
+
+- [evaluation/pbmc_graph_perturbation/manifest.csv](../../../evaluation/pbmc_graph_perturbation/manifest.csv)
+- [evaluation/pbmc_graph_perturbation/provenance/completed_evaluation_config.json](../../../evaluation/pbmc_graph_perturbation/provenance/completed_evaluation_config.json)
+
+## Commands and execution boundary
+
+From the repository root, inspect the catalog and this experiment without training or scheduler calls:
 
 ```bash
-python3 -B experiments/launch.py pbmc_gated_graph --dry-run --workspace experiments/workspace.example.json
+python3 -B experiments/launch.py --list
+python3 -B experiments/launch.py pbmc_gated_graph --dry-run
 ```
 
-`config.json` holds fixed settings and explicit resources; `manifest.csv`, when present,
-maps zero-based array indices directly to configurations. It contains 0 rows.
-Use `--task N` to inspect an individual command. Seeds are distinct model and cell-subset fields;
-the latter remains traceable through `source_row` and input-directory identity.
-Use `--phase train` or `--phase evaluate` to select a phase. `all` uses `afterok` dependencies.
-Only `--submit` contacts Slurm; an exclusive external submission record prevents a second dispatch.
-Existing or partial output directories are never overwritten. Preparation, model fitting and metric
-code are the preserved entrypoints, selected explicitly by architecture.
+The default workspace is deliberately a placeholder. `environments/workspace.integration.example.json` (external, planned, or unresolved) binds the three canonical sources explicitly after its paths are replaced in an external copy. A printed historical/frozen plan is not an executable relocation adapter. Do not invoke archived wrappers against active runs.
 
-Status at audit/cleanup review: **18 trained and evaluated**. Manifest status columns in historical designs are
-provenance, not live scheduler state. The clean command path has lightweight validation only;
-no expensive training or end-to-end GPU reproduction was run during cleanup.
+**launch_blocker:** Frozen cluster pipeline retained byte-for-byte. Its absolute-path/source-hash guards must be preserved; a fresh portable freeze and validated smoke are required before dispatch from a relocated checkout.
 
-Launch blocker: Frozen cluster pipeline retained byte-for-byte. Its absolute-path/source-hash guards must be preserved; a fresh portable freeze and validated smoke are required before dispatch from a relocated checkout.
+## Artifacts and metrics
 
-Evaluation blocker/limit: Metric entrypoints unchanged; no large-data recomputation during cleanup.
+/project/6001426/paa40/GlUE_Exp/GLUE_GATED_PBMC/evaluation/pbmc_graph_perturbation/results/10x-Multiome-Pbmc10k/<condition>/graph_seed:0/model_seed:<s>; reports/full/{per_run_metrics,summary_metrics,baseline_comparison,metric_availability,graph_statistics}.csv plus figures/report. Randomized GCN run directories actually live in the parent original-GCN results tree, as recorded in its manifest.
 
-## Implementation and provenance
+Graph-study-specific pairing/FOSCTTM, cell-type/modality integration, reference-neighbour, graph overlap/degree, gate and availability diagnostics. Exact definitions and N/A rules are in the preserved evaluator; do not interchange with the generic metric pipeline.
 
-* Training: `evaluation/pbmc_graph_perturbation/run_array.sbatch`
-* Evaluation/analysis: `evaluation/pbmc_graph_perturbation/scripts/evaluate.py`
-* Owner: `pbmc`, preservation `GATED_PBMC_GRAPH_EXPERIMENTS` at `2ead2851a06b3aaec969e83c61eccb05b1d0c5dd`.
-* Historical submission files: `evaluation/pbmc_graph_perturbation/run_array.sbatch`, `evaluation/pbmc_graph_perturbation/evaluate.sbatch`
-* Immutable source configuration: `evaluation/pbmc_graph_perturbation/manifest.csv`, `evaluation/pbmc_graph_perturbation/provenance/completed_evaluation_config.json`
+`results/README.md` (external, planned, or unresolved) lists external outputs and included compact evidence. No numerical result was changed.
 
-Six conditions original,retain75/50/25/10,randomized x model seeds0–2. Graph seed0; 13493 reciprocal biological relations. Degree-preserving randomization10 accepted swaps per original relation, 134930 swaps;22 original relations remain. Full evaluator uses WNN reference annotations, not independent ground truth; canonical R kBET and independent donor batch measures unavailable.
+## Reproduction status and limitations
 
-Configure the Python environment, architecture checkout paths, input-prefix bindings,
-partitions and a fresh external output directory in a copy of `workspace.example.json`.
-Prepared inputs and original output directories are read-only dependencies. This launcher
-does not download data or rerun preprocessing implicitly. Follow the preserved preparation
-scripts and source fingerprints in the root reproducibility guide before a fresh replication.
+Historical audit: 18 trained and evaluated. No new runtime reproduction.
+
+Shared reciprocal-edge helper P/evaluation/workflow/scripts/graph_perturbation.py; existing PBMC prepared inputs/graph. GCN evaluators import the GATED evaluator metric core but require gate-free original GCN models. GCN reference and evaluation settings are read from completed GATED report provenance at original absolute paths.
+
+Full evaluation is CPU Slurm work but is prohibited in this audit. Fixed graph_seed=0 means these designs do not assess variation across graph seeds.
+
+Historical paths, fingerprints and scientific configurations are retained. Frozen originals remain tied to their original workspace. Environment reconstruction, checkpoint compatibility and GPU convergence/numerical equivalence are unverified. Exact thesis section/figure correspondence requires the manuscript; no chapter or figure number is assigned here.

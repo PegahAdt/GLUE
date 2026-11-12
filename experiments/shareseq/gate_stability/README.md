@@ -1,44 +1,65 @@
 # SHARE-seq GATED gate stability
 
-Question: Are learned gates stable across initialization, model seeds and latent dimension?
+[Thesis map](../../../THESIS_EXPERIMENTS.md) · `REPRODUCIBILITY.md` (external, planned, or unresolved)
 
-## Canonical workflow
+## Scientific objective
 
-From the orchestration checkout, inspect without changing files or contacting Slurm:
+Are learned gates stable across initialization, model seeds and latent dimension?
+
+## Dataset, architectures and conditions
+
+Full paired Ma-2020 SHARE-seq, fixed cell order and fixed graph.
+
+GATED-GLUE.
+
+16 dimensions 16…4096 × gates .25/.50/.75/.95 × model seeds 0–2 = 192. A=144 (12 lower dimensions), B=48 (1536/2048/3072/4096); lam_keep=0.
+
+## Implementation and configuration
+
+| Stage | Source |
+|---|---|
+| Training | [evaluation/shareseq_gate_stability/experiment.py](../../../evaluation/shareseq_gate_stability/experiment.py) |
+| Configuration / manifest | [experiments/shareseq/gate_stability/config.json](config.json) |
+| Preprocessing | Not applicable / no entry point identified |
+| Evaluation | [evaluation/shareseq_gate_stability/analyze.py](../../../evaluation/shareseq_gate_stability/analyze.py) |
+| Plotting / reporting | [evaluation/shareseq_gate_stability/analyze.py](../../../evaluation/shareseq_gate_stability/analyze.py) |
+| Canonical architecture bindings | `implementations/README.md` (external, planned, or unresolved) |
+
+## Preserved design and freeze records
+
+- [evaluation/shareseq_gate_stability/manifests/all_runs.csv](../../../evaluation/shareseq_gate_stability/manifests/all_runs.csv)
+- [evaluation/shareseq_gate_stability/manifests/array_A.csv](../../../evaluation/shareseq_gate_stability/manifests/array_A.csv)
+- [evaluation/shareseq_gate_stability/manifests/array_B.csv](../../../evaluation/shareseq_gate_stability/manifests/array_B.csv)
+- [evaluation/shareseq_gate_stability/manifests/edges.csv](../../../evaluation/shareseq_gate_stability/manifests/edges.csv)
+- [evaluation/shareseq_gate_stability/preflight.json](../../../evaluation/shareseq_gate_stability/preflight.json)
+
+## Commands and execution boundary
+
+From the repository root, inspect the catalog and this experiment without training or scheduler calls:
 
 ```bash
-python3 -B experiments/launch.py share_gate_stability --dry-run --workspace experiments/workspace.example.json
+python3 -B experiments/launch.py --list
+python3 -B experiments/launch.py share_gate_stability --dry-run
 ```
 
-`config.json` holds fixed settings and explicit resources; `manifest.csv`, when present,
-maps zero-based array indices directly to configurations. It contains 0 rows.
-Use `--task N` to inspect an individual command. Seeds are distinct model and cell-subset fields;
-the latter remains traceable through `source_row` and input-directory identity.
-Use `--phase train` or `--phase evaluate` to select a phase. `all` uses `afterok` dependencies.
-Only `--submit` contacts Slurm; an exclusive external submission record prevents a second dispatch.
-Existing or partial output directories are never overwritten. Preparation, model fitting and metric
-code are the preserved entrypoints, selected explicitly by architecture.
+The default workspace is deliberately a placeholder. `environments/workspace.integration.example.json` (external, planned, or unresolved) binds the three canonical sources explicitly after its paths are replaced in an external copy. A printed historical/frozen plan is not an executable relocation adapter. Do not invoke archived wrappers against active runs.
 
-Status at audit/cleanup review: **A:109/144 finalized +35 pending; B:29/48 finalized +19 pending (one already trained); final analysis pending**. Manifest status columns in historical designs are
-provenance, not live scheduler state. The clean command path has lightweight validation only;
-no expensive training or end-to-end GPU reproduction was run during cleanup.
+**launch_blocker:** Frozen source hashes and absolute output paths bind the 192-run design to the preserved cluster workspace. Relocation requires a separately validated provenance adapter; do not rerun prepare over the frozen manifest.
 
-Launch blocker: Frozen source hashes and absolute output paths bind the 192-run design to the preserved cluster workspace. Relocation requires a separately validated provenance adapter; do not rerun prepare over the frozen manifest.
+## Artifacts and metrics
 
-Evaluation blocker/limit: Metric entrypoints unchanged; no large-data recomputation during cleanup.
+/project/6001426/paa40/GlUE_Exp/GLUE_GATED/evaluation/shareseq_gate_stability/dim_<d>/gateinit_<p>/seed_<s>/; analysis destination supplied to analyze.py.
 
-## Implementation and provenance
+Directed edge-aligned gate-threshold sets and pairwise Jaccard across seeds/dimensions/initializations; exact thresholds, empty-set convention and aggregation are in analyze.py.
 
-* Training: `evaluation/shareseq_gate_stability/experiment.py run A|B TASK`
-* Evaluation/analysis: `evaluation/shareseq_gate_stability/analyze.py`
-* Owner: `gated`, preservation `GATED_SHARE_GATE_STABILITY` at `becf8f758f6d6869511e5d18732ce1f055a3cf03`.
-* Historical submission files: `evaluation/shareseq_gate_stability/submit.sh`, `evaluation/shareseq_gate_stability/slurm/array_{a,b}.sbatch`
-* Immutable source configuration: `evaluation/shareseq_gate_stability/manifests/{all_runs,array_A,array_B,edges}.csv`, `evaluation/shareseq_gate_stability/preflight.json`
+`results/README.md` (external, planned, or unresolved) lists external outputs and included compact evidence. No numerical result was changed.
 
-A:12 dimensions16–1024 x gates .25,.50,.75,.95 x seeds0–2=144. B:1536,2048,3072,4096 x same gates/seeds=48. Manifest row task_id is contiguous within A or B. Resources A4CPU/32G/3h30; B4CPU/48G/4h template, historically overridden to12h or18h. Retain exact original manifests/edge IDs/preflight. Analysis thresholds .25,.50,.75; all192 completion markers required. This catalog entry intentionally cannot submit into active paths.
+## Reproduction status and limitations
 
-Configure the Python environment, architecture checkout paths, input-prefix bindings,
-partitions and a fresh external output directory in a copy of `workspace.example.json`.
-Prepared inputs and original output directories are read-only dependencies. This launcher
-does not download data or rerun preprocessing implicitly. Follow the preserved preparation
-scripts and source fingerprints in the root reproducibility guide before a fresh replication.
+192 planned conditions; 139 retained checkpoint paths and matching Python-version/job provenance in the dated audits. Aggregate analysis incomplete; frozen portability blocked.
+
+experiment.py imports full_dimension.py through sibling GLUE; preflight hashes bind source, environment, cell order, graph and edge-identity table. analyze.py requires all 192 COMPLETED.json records and exact edge alignment.
+
+
+
+Historical paths, fingerprints and scientific configurations are retained. Frozen originals remain tied to their original workspace. Environment reconstruction, checkpoint compatibility and GPU convergence/numerical equivalence are unverified. Exact thesis section/figure correspondence requires the manuscript; no chapter or figure number is assigned here.
